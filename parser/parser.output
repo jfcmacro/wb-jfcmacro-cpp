@@ -1,0 +1,200 @@
+Estado 13 conflictos: 2 desplazamiento(s)/reducción(ones)
+
+
+Gramática
+
+    0 $accept: prompt $end
+
+    1 prompt: exp '\n'
+    2       | prompt exp '\n'
+    3       | error '\n'
+
+    4 exp: exp '+' exp
+    5    | exp '*' exp
+    6    | IDENT
+    7    | NUMBER
+    8    | IDENT '=' exp
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+'\n' (10) 1 2 3
+'*' (42) 5
+'+' (43) 4
+'=' (61) 8
+error (256) 3
+IDENT (258) 6 8
+NUMBER (259) 7
+
+
+No terminales con las reglas donde aparecen
+
+$accept (9)
+    en la izquierda: 0
+prompt (10)
+    en la izquierda: 1 2 3, en la derecha: 0 2
+exp (11)
+    en la izquierda: 4 5 6 7 8, en la derecha: 1 2 4 5 8
+
+
+estado 0
+
+    0 $accept: . prompt $end
+
+    error   desplazar e ir al estado 1
+    IDENT   desplazar e ir al estado 2
+    NUMBER  desplazar e ir al estado 3
+
+    prompt  ir al estado 4
+    exp     ir al estado 5
+
+
+estado 1
+
+    3 prompt: error . '\n'
+
+    '\n'  desplazar e ir al estado 6
+
+
+estado 2
+
+    6 exp: IDENT .
+    8    | IDENT . '=' exp
+
+    '='  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 6 (exp)
+
+
+estado 3
+
+    7 exp: NUMBER .
+
+    $default  reduce usando la regla 7 (exp)
+
+
+estado 4
+
+    0 $accept: prompt . $end
+    2 prompt: prompt . exp '\n'
+
+    $end    desplazar e ir al estado 8
+    IDENT   desplazar e ir al estado 2
+    NUMBER  desplazar e ir al estado 3
+
+    exp  ir al estado 9
+
+
+estado 5
+
+    1 prompt: exp . '\n'
+    4 exp: exp . '+' exp
+    5    | exp . '*' exp
+
+    '+'   desplazar e ir al estado 10
+    '*'   desplazar e ir al estado 11
+    '\n'  desplazar e ir al estado 12
+
+
+estado 6
+
+    3 prompt: error '\n' .
+
+    $default  reduce usando la regla 3 (prompt)
+
+
+estado 7
+
+    8 exp: IDENT '=' . exp
+
+    IDENT   desplazar e ir al estado 2
+    NUMBER  desplazar e ir al estado 3
+
+    exp  ir al estado 13
+
+
+estado 8
+
+    0 $accept: prompt $end .
+
+    $default  aceptar
+
+
+estado 9
+
+    2 prompt: prompt exp . '\n'
+    4 exp: exp . '+' exp
+    5    | exp . '*' exp
+
+    '+'   desplazar e ir al estado 10
+    '*'   desplazar e ir al estado 11
+    '\n'  desplazar e ir al estado 14
+
+
+estado 10
+
+    4 exp: exp '+' . exp
+
+    IDENT   desplazar e ir al estado 2
+    NUMBER  desplazar e ir al estado 3
+
+    exp  ir al estado 15
+
+
+estado 11
+
+    5 exp: exp '*' . exp
+
+    IDENT   desplazar e ir al estado 2
+    NUMBER  desplazar e ir al estado 3
+
+    exp  ir al estado 16
+
+
+estado 12
+
+    1 prompt: exp '\n' .
+
+    $default  reduce usando la regla 1 (prompt)
+
+
+estado 13
+
+    4 exp: exp . '+' exp
+    5    | exp . '*' exp
+    8    | IDENT '=' exp .
+
+    '+'  desplazar e ir al estado 10
+    '*'  desplazar e ir al estado 11
+
+    '+'       [reduce usando la regla 8 (exp)]
+    '*'       [reduce usando la regla 8 (exp)]
+    $default  reduce usando la regla 8 (exp)
+
+
+estado 14
+
+    2 prompt: prompt exp '\n' .
+
+    $default  reduce usando la regla 2 (prompt)
+
+
+estado 15
+
+    4 exp: exp . '+' exp
+    4    | exp '+' exp .
+    5    | exp . '*' exp
+
+    '*'  desplazar e ir al estado 11
+
+    $default  reduce usando la regla 4 (exp)
+
+
+estado 16
+
+    4 exp: exp . '+' exp
+    5    | exp . '*' exp
+    5    | exp '*' exp .
+
+    $default  reduce usando la regla 5 (exp)

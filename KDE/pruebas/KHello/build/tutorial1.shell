@@ -1,0 +1,4 @@
+#!/bin/sh
+# created by cmake, don't edit, changes will be lost
+
+LD_LIBRARY_PATH=/home/fcardona/programas/c++/KDE/pruebas/KHello/build/lib/./:/usr/local/lib:/usr/lib/kde4/devel:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH} "/home/fcardona/programas/c++/KDE/pruebas/KHello/build/tutorial1" "$@"

@@ -1,0 +1,24 @@
+//Main.C
+
+#include <iostream>
+#include "Generador.h"
+
+int
+main(int argc, char* argv[]) {
+
+  char c_default = 'a';
+
+  if (argc == 2) {
+    c_default = argv[1][0];
+  }
+
+  Generador g(c_default);
+
+  cout << g << endl;
+
+  for (;;) {
+    g.incrementar();
+    cout << g << endl;
+  }
+  return 0;
+}

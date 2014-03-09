@@ -1,0 +1,9 @@
+#include <iostream>
+
+int
+main() {
+
+	short x = 0;
+
+	cout << hex << ~(~x >> 1) << endl
+}

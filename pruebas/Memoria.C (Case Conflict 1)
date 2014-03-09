@@ -1,0 +1,16 @@
+#include <iostream>
+#include <string.h>
+
+void
+setName(char *A) {
+  char *name = new char(::strlen(A));
+  delete name;
+}
+
+int
+main() {
+
+  char *a = "prueba";
+
+  setName(a);
+}

@@ -1,0 +1,11 @@
+<!ELEMENT Maquina (AlfabetoEntrada, AlfabetoSalida, Estados, FuncionesEstado, FuncionesSalida)>
+<!ELEMENT AlfabetoEntrada (Simbolo*)>
+<!ELEMENT AlfabetoSalida (Simbolo*)>
+<!ELEMENT Estados (Estado*)>
+<!ELEMENT FuncionesEstado (FuncionEstado*)>
+<!ELEMENT FuncionesSalida (FuncionSalida*)>
+<!ELEMENT Simbolo (#PCDATA)>
+<!ELEMENT Estado (#PCDATA)>
+<!ELEMENT FuncionEstado (Simbolo, Estado, Estado)>
+<!ELEMENT FuncionSalida (Simbolo, Estado, Simbolo)>
+<!ATTLIST Maquina EstadoInicial CDATA #REQUIRED>

@@ -1,0 +1,69 @@
+// Generador.C
+#include "Generador.h"
+
+#define TAMANO 1024*5
+
+using namespace std;
+
+Generador::Generador(char cInicial) {
+  
+  buffer = new char[TAMANO];
+  length = TAMANO;
+  for (int i = 0; i < TAMANO ; i+=2) {
+    buffer[i] = cInicial;
+    buffer[i+1] = 'A';
+  }
+}
+
+Generador::Generador() {
+  length = 0;
+}
+
+void
+Generador::incrementar() {
+  for (int i = 1; i < length; i+=2) {
+    buffer[i] = (buffer[i] >= 'Z' ? 'A' : buffer[i] + 1);
+  }
+}
+
+bool
+Generador::verificar(int& pos) {
+ 
+  char c1 = buffer[0];
+  char c2 = buffer[1];
+
+  for (int i = 0; i < length; i+=2) {
+    if (!(c1 == buffer[i] || c2 == buffer[i+1])) {
+      pos = i;
+      return false;
+    }
+  }
+  return true;
+}
+
+ostream&
+operator<< (ostream &out, Generador &g) {
+
+  if (g.length > 0) {
+    out.write(g.buffer, g.length);
+  }
+  return out;
+}
+
+istream&
+operator>>(istream &sin, Generador &g) {
+
+  if (g.length > 0) 
+    delete[] g.buffer;
+
+  g.buffer = new char[TAMANO];
+  g.length = TAMANO;
+
+  sin.read(g.buffer, TAMANO);
+
+  if (sin.gcount() < TAMANO) 
+    cerr << "Hay un problema, esta leyendo menos de " 
+	 << TAMANO << endl;
+  return sin;
+}
+  
