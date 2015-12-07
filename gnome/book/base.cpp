@@ -2,7 +2,7 @@
  * fichero: base.C
  * url: https://developer.gnome.org/gtkmm-tutorial/stable/sec-basics-simple-example.html.es
  *
- * compile: $ g++ base.C -o base `pkg-config gtkmm-3.0 --cflags --libs`
+ * compile: $ g++ base.cpp -o base `pkg-config gtkmm-3.0 --cflags --libs`
  * execute: $ ./base
  */
 
