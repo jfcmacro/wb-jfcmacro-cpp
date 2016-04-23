@@ -44,6 +44,9 @@ main(int argc, const char *argv[]) {
     dup2(tuberia1[1], 1);
     dup2(tuberia2[0], 0);
 
+    close(tuberia1[1]);
+    close(tuberia2[0]);
+    
     do {
       cerr << number << endl;
       cout << number;

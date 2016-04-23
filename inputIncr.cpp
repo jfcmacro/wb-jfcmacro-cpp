@@ -27,6 +27,7 @@ main(int argc, char *argv[]) {
     number += incrValue;
     
     std::cout << number;
+    std::cerr << number;
   }
 
   return 0;
