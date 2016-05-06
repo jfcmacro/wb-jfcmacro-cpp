@@ -24,10 +24,9 @@ main(int argc, char *argv[]) {
 
   while (std::cin >> number) {
 
-    number += incrValue;
+    number += incrValu;e
     
-    std::cout << number;
-    std::cerr << number;
+    std::cout << number << std::endl;
   }
 
   return 0;
