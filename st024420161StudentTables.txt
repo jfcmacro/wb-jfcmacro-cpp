@@ -1,0 +1,50 @@
+Mateo Agudelo Toro en la mesa: Bloque 18 305 Linea 2 2
+Cristian Manuel Bedoya Vargas en la mesa: Bloque 18 305 Linea 5 2
+Edwin Felipe Bedoya Vargas en la mesa: Bloque 18 305 Linea 3 3
+Veronica Betancur Mejia en la mesa: Bloque 18 305 Linea 2 3
+Juan Pablo Calad Henao en la mesa: Bloque 18 305 Linea 4 5
+Luis Felipe Cardona Ramirez en la mesa: Bloque 18 305 Linea 5 3
+Carlos Arturo Cepeda Coley en la mesa: Bloque 18 310 Linea 4 4
+Julio César Franco Ardila en la mesa: Bloque 18 305 Linea 1 3
+Ricardo Jaramillo Velasquez en la mesa: Bloque 18 305 Linea 1 5
+Luis Miguel Marín Loaiza en la mesa: Bloque 18 310 Linea 4 5
+Federico Martinez Posada en la mesa: Bloque 18 305 Linea 3 2
+Julian Andres Mesa Pareja en la mesa: Bloque 18 305 Linea 3 1
+Ricardo Ocampo Castro en la mesa: Bloque 18 310 Linea 2 5
+Andres Felipe Ortega Montoya en la mesa: Bloque 18 310 Linea 2 2
+Catalina Patiño Forero en la mesa: Bloque 18 305 Linea 4 3
+Juan Diego Saldarriaga Betancur en la mesa: Bloque 18 305 Linea 1 4
+Esteban Sierra Munera en la mesa: Bloque 18 310 Linea 2 4
+Hamilton Tobón Mosquera en la mesa: Bloque 18 305 Linea 2 1
+Juan Felipe Velez Suaza en la mesa: Bloque 18 310 Linea 3 3
+Santiago Baena Rivera en la mesa: Bloque 18 305 Linea 1 1
+David Alejandro Benitez Cuevas en la mesa: Bloque 18 310 Linea 2 1
+Christian Castaño Ramirez en la mesa: Bloque 18 305 Linea 5 5
+Diego Antonio Fonseca Guzman en la mesa: Bloque 18 310 Linea 2 3
+Juan Esteban Fonseca Palacio en la mesa: Bloque 18 310 Linea 4 3
+Mateo Gaviria Velez en la mesa: Bloque 18 305 Linea 4 4
+Sebastian Gómez Puerta en la mesa: Bloque 18 310 Linea 4 1
+Luis Andres Ladino Velez en la mesa: Bloque 18 310 Linea 1 2
+Diego Fernando Martinez Osorio en la mesa: Bloque 18 305 Linea 4 2
+Jose Alberto Mejia Osorio en la mesa: Bloque 18 310 Linea 3 4
+Santiago Mendoza Montoya en la mesa: Bloque 18 305 Linea 2 5
+Sebastián Ortiz Serna en la mesa: Bloque 18 310 Linea 3 1
+Sebastian Ramirez Lopez en la mesa: Bloque 18 310 Linea 4 2
+Juan Diego Restrepo Alvaréz en la mesa: Bloque 18 310 Linea 3 2
+John Jairo Riascos Ruano en la mesa: Bloque 18 305 Linea 5 4
+Richar Alexander Rivera Correa en la mesa: Bloque 18 310 Linea 1 1
+Juan Pablo Rodriguez Marulanda en la mesa: Bloque 18 305 Linea 4 1
+Maria Clara Sanchez Villegas en la mesa: Bloque 18 305 Linea 2 4
+Sebastian Sanderink Posada en la mesa: Bloque 18 305 Linea 3 4
+
+Assigned students: 38 38
+
+Remain tables: 45 7
+
+Bloque 18 305 Linea 1 2
+Bloque 18 305 Linea 3 5
+Bloque 18 305 Linea 5 1
+Bloque 18 310 Linea 1 3
+Bloque 18 310 Linea 1 4
+Bloque 18 310 Linea 1 5
+Bloque 18 310 Linea 3 5

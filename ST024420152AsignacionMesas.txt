@@ -1,0 +1,80 @@
+36	Juan Sebastián Gómez Graciano
+193	Juan Camilo Gomez Ruiz
+18	Crhistian Felippe Gómez Vargas
+12	Ricardo Gottheil Florez
+10	Sergio Andres Lenis Zapata
+63	Juan David Loaiza Botero
+195	Camilo Londoño Lopez
+84	Orlando Montoya Benitez
+42	Daniel Morales Londoño
+3	Ricardo Ocampo Castro
+119	Jorge Ivan Ortiz Serna
+8	Juan Fernando Ossa Vásquez
+60	Lombardo Antonio Paredes Calles
+16	Jhonatan Quiñonez Avila
+52	Juan Diego Restrepo Alvaréz
+6	Wilfer Manuel Salas Gonzalez
+30	Jose David Sanchez Castrillon
+191	Brayam Cristyam Sepulveda Vasquez
+114	Hamilton Tobón Mosquera
+61	Jonathan Stiven Zapata Castaño
+188	Alexander Acosta Jiménez
+90	Tomás Alvarez Gomez
+19	Ana María Bedoya Hernández
+197	Josue Daniel Bustamante Serrano
+102	Smith Alexis Carvajal Orozco
+196	Juan Carlos Estrada Alvarez
+33	Geralin Stefania Fernandez Bedoya
+31	Jorge Andrés Gutiérrez Arroyave
+54	Mateo Hincapié Zapata
+39	Juan Pablo Londoño Botina
+186	Christian Londoño Cañas
+67	Jhoany Londoño Toro
+91	Julian Andres Mesa Pareja
+88	Juan Andrés Osorio Escobar
+192	Sebastian Sanderink Posada
+85	Luisa Fernanda Sarmiento Acosta
+111	Marcos David Sierra Gallego
+4	Esteban Silva Chaparro
+198	Carlos Eduardo Zuluaga Pulgarin
+93	Craig David Cartagena Castaño
+28	Alejandro Cordoba Boder
+184	Camilo Cordoba Mora
+57	Nicolas Escobar Gallego
+109	Efrain Gonzalez Arias
+46	Mauricio Hoyos Ardila
+108	Daniel Hoyos Ospina
+45	Mayerli Andrea López Galeano
+24	Laura Mejía Vásquez
+27	Carlos Daniel Montoya Hurtado
+22	Edwin Montoya Jaramillo
+58	Juan Daniel Morales Arias
+76	Dillan Alexis Muñetón Avendaño
+37	Sebastián Ortiz Serna
+66	Diego Alejandro Pérez Gutiérrez
+105	Pablo Quijano Jaramillo
+81	Valentín Quintero Castrillón
+48	William David Ramirez Gomez
+97	Daniel Rendon Montaño
+103	Daniel Restrepo Aristizabal
+194	Juan Fernando Rincon Cardeño
+21	Esteban Salazar Montoya
+190	Diego Salazar Noreña
+9	Daniela Serna Escobar
+51	Mateo Alexander Zabala Gutierrez
+55	Yorman Andres Aguirre Martinez
+106	Juan Pablo Alcaraz Florez
+69	Julián David Arango López
+100	Alvaro Arregocés Guerra
+49	Santiago Baena Rivera
+34	Valentina Contreras Rivera
+185	David Alejandro Gómez Muñoz
+82	Sebastian Gómez Puerta
+96	Juan Camilo Henao Salazar
+75	Mónica Liliana Hernández Porras
+118	Elig Giovanny Mosquera Mosquera
+40	Jose Jaime Ramirez Mejia
+117	Daniela Marcela Zapata Osorno
+187	Juan Diego Zuluaga Gallo
+Total estudiantes: 78 78
+Total mesas: 90 12
