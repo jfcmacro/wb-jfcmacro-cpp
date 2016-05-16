@@ -1,5 +1,5 @@
 
-all:: creartuberias02 inputIncr creartuberias03 inputIncr03
+all:: creartuberias02 inputIncr creartuberias03 inputIncr03 creartuberias04 inputIncr04
 
 CXXFLAGS=-std=c++11
 
@@ -13,6 +13,12 @@ creartuberias03: creartuberias03.o
 	$(CXX) -o $@ $<
 
 inputIncr03: inputIncr03.o
+	$(CXX) -o $@ $<
+
+creartuberias04: creartuberias04.o
+	$(CXX) -o $@ $<
+
+inputIncr04: inputIncr04.o
 	$(CXX) -o $@ $<
 
 clean:

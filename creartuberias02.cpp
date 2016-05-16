@@ -48,7 +48,8 @@ main(int argc, const char *argv[]) {
     
     do {
       std::cerr << "creartuberias02 numero enviado: " << number << std::endl;
-      std::cout << number << std::endl;
+      std::cout << number; // << std::endl;
+      std::cout.flush();
     } while (std::cin >> number);
   }
 
