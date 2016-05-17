@@ -39,7 +39,7 @@ main(int argc, const char* argv[]) {
       case 6:
 	cout << item;
 	string st(item);
-	cout << "|" << "244s" << st.substr(0, st.find("@") - 1);
+	cout << "|" << "244s" << st.substr(0, st.find("@"));
       }
       ++i;
     }

@@ -26,7 +26,10 @@ const string REPOSDIR = ::getenv("REPOSDIR") ?
   : "st0244-2016-1-031";
 const string TIMESTAMP = ::getenv("TIMESTAMP") ?
   ::getenv("TIMESTAMP")
-  : "{\"2016-05-17 17:00\"}";
+  : "{2016-05-17T17:00}";
+const string USERNAME = ::getenv("SVNUSERNAME") ?
+  ::getenv("SVNUSERNAME")
+  : "fcardona";
 
 static void usage(const char* progname) {
   cerr << "Usage: " << progname << " <fichero>" << endl;
@@ -102,9 +105,10 @@ main(int argc, const char* argv[]) {
 	   it != codEst.end();
 	   ++it) {
 
+	string allname("https://svn.riouxsvn.com/");
+	allname += (it->second).obtenerRepo();
+
 	if (fork() == 0) { /* child */
-	  string allname("https://svn.riouxsvn.com/");
-	  allname += (it->second).obtenerRepo();
 	  
 	  execlp("svn", "svn", "co",
 		 allname.c_str(),
@@ -112,7 +116,7 @@ main(int argc, const char* argv[]) {
 		 "--revision",
 		 TIMESTAMP.c_str(),
 		 "--username",
-		 "fcardona",
+		 USERNAME.c_str(),
 		 NULL);
 	  
 	  cerr << "This cannot happen here" << endl;
@@ -127,7 +131,26 @@ main(int argc, const char* argv[]) {
 	    cerr << "Problemas procesando a "
 		 << (it->second).obtenerNombre()
 		 << " status: " << WEXITSTATUS(status)
+		 << endl
+		 << "url: " << allname
+		 << " dir: " << (it->second).obtenerEmail()
 		 << endl;
+	    
+	    string svnFile("./");
+	    svnFile += (it->second).obtenerEmail() + "/.svn";
+	    if (rmdir(svnFile.c_str()) != 0) {
+	      cerr << "Dir: " << svnFile
+		   << " no pudo ser removido"
+		   << endl;
+	    }
+	    else {
+	      string svnDir("./");
+	      svnDir += (it->second).obtenerEmail();
+	      if (rmdir(svnFile.c_str()) != 0) {
+		cerr << "Dir: " << svnDir
+		     << " no pudo ser removido" << endl;
+	      }
+	    }
 	  }
 	}
       }
