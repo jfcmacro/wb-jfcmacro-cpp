@@ -1,20 +1,32 @@
+/*
+ * fichero: traerRepositorios.cpp
+ */
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <time.h>
+#include <unistd.h>
+#include <errno.h>
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cstdlib>
-#include <time.h>
 #include <map>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <errno.h>
 #include "estudiante.h"
+
 using namespace std;
 
-const string WORKDIR("/home/fcardona/tmp/");
-const string REPOSDIR("st0244-2016-1-031");
+const string WORKDIR = ::getenv("WORKDIR") ?
+  ::getenv("WORKDIR")
+  : "/home/fcardona/tmp/";
+const string REPOSDIR = ::getenv("REPOSDIR") ?
+  ::getenv("REPOSDIR")
+  : "st0244-2016-1-031";
+const string TIMESTAMP = ::getenv("TIMESTAMP") ?
+  ::getenv("TIMESTAMP")
+  : "{\"2016-05-17 17:00\"}";
 
 static void usage(const char* progname) {
   cerr << "Usage: " << progname << " <fichero>" << endl;
@@ -72,19 +84,7 @@ main(int argc, const char* argv[]) {
     nEst++;
   }
 
-  // chdir();
-
-  // for (map<string,Estudiante>::iterator it = codEst.begin();
-  //      it != codEst.end();
-  //      ++it) {
-  //   cout << "Codigo: " << it->first
-  // 	 << " Nombre: " << (it->second).obtenerNombre()
-  // 	 << " Reponame: " << (it->second).obtenerRepo()
-  // 	 << endl;
-  // }
-
   if (chdir(WORKDIR.c_str()) == 0) {
-
     struct stat buffer;
 
     if (stat(REPOSDIR.c_str(),&buffer) != 0) {
@@ -97,26 +97,36 @@ main(int argc, const char* argv[]) {
     }
 
     if (chdir(REPOSDIR.c_str()) == 0) {
+      
       for (map<string,Estudiante>::iterator it = codEst.begin();
 	   it != codEst.end();
 	   ++it) {
-	// cout << "Codigo: " << it->first
-	//      << " Nombre: " << (it->second).obtenerNombre()
-	//      << " Reponame: " << (it->second).obtenerRepo()
-	//      << endl;
+
 	if (fork() == 0) { /* child */
 	  string allname("https://svn.riouxsvn.com/");
 	  allname += (it->second).obtenerRepo();
-	  execlp("svn", "co", allname.c_str(), (it->second).obtenerEmail(),
+	  
+	  execlp("svn", "svn", "co",
+		 allname.c_str(),
+		 (it->second).obtenerEmail().c_str(),
+		 "--revision",
+		 TIMESTAMP.c_str(),
+		 "--username",
+		 "fcardona",
 		 NULL);
-	  cerr << "This cannot happend here" << endl;
+	  
+	  cerr << "This cannot happen here" << endl;
 	  exit(20);
 	}
+	
 	int status;
 	wait(&status);
+	
 	if (WIFEXITED(status)) {
 	  if (WEXITSTATUS(status) != 0) {
-	    cerr << "Problemas procesando a " << (it->second).obtenerNombre()
+	    cerr << "Problemas procesando a "
+		 << (it->second).obtenerNombre()
+		 << " status: " << WEXITSTATUS(status)
 		 << endl;
 	  }
 	}
