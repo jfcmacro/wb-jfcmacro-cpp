@@ -90,10 +90,10 @@ int
 main(int argc, char **argv) {
 
   int c;
-  int digit_optind = 0;
+  // int digit_optind = 0;
   
   while(1) {
-    int this_option_optind = optind ? optind : 1;
+    // int this_option_optind = optind ? optind : 1;
     int option_index = 0;
     
     static struct option long_options[] = {
@@ -210,12 +210,12 @@ main(int argc, char **argv) {
 	  
 	  int nArgs = 4;
 
-	  if (options.timestamp.size() > 0) nArgs += 2;
-	  if (options.username.size() > 0) nArgs += 2;
+	  if (!options.timestamp.empty()) nArgs += 2;
+	  if (!options.username.empty()) nArgs += 2;
 
 	  nArgs++;
 	  
-	  char **args = new char*[nArgs+1];
+	  char **args = new char*[nArgs];
 
 	  args[0] = new char[svnName.size() + 1];
 	  ::strcpy(args[0],svnName.c_str());
@@ -226,25 +226,36 @@ main(int argc, char **argv) {
 	  args[3] = new char[(it->second).obtenerEmail().size()];
 	  ::strcpy(args[3],(it->second).obtenerEmail().c_str());
 	   
-	  int oai = 5;
+	  int oai = 4;
 
-	  if (options.timestamp.size() > 0) {
+	  if (!options.timestamp.empty()) {
 
 	    args[oai] = new char[svnOptRevision.size() + 1];
-	    ::strcpy(args[oai++],svnOptRevision.c_str());
+	    ::strcpy(args[oai],svnOptRevision.c_str());
+	    ++oai;
 	    args[oai] = new char[options.timestamp.size() + 1];
-	    ::strcpy(args[oai++],options.timestamp.c_str());
+	    ::strcpy(args[oai],options.timestamp.c_str());
+	    ++oai;
 	  }
 
-	  if (options.username.size() > 0) {
+	  if (!options.username.empty()) {
 
 	    args[oai] = new char[svnOptUsername.size() + 1];
-	    ::strcpy(args[oai++],svnOptUsername.c_str());
-	    args[oai] = new char[svnOptUsername.size() + 1];
-	    ::strcpy(args[oai++],options.username.c_str());
+	    ::strcpy(args[oai],svnOptUsername.c_str());
+	    ++oai;
+	    args[oai] = new char[options.username.size() + 1];
+	    ::strcpy(args[oai],options.username.c_str());
+	    ++oai;
 	  }
 
 	  args[oai] = NULL;
+
+	  cout << "exec: ";
+
+	  for (int i = 0; i < oai; ++i) {
+	    cout << args[i] << " ";
+	  }
+	  cout << endl;
 
 	  execvp(args[0], args);
 	  
@@ -252,7 +263,8 @@ main(int argc, char **argv) {
 	       << " " << strerror(errno) << endl;
 	  exit(20);
 	}
-	
+
+	/* Father */
 	int status;
 	wait(&status);
 	
