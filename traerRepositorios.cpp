@@ -1,150 +1,47 @@
 /*
- * fichero: traerRepositorios.cpp
+ * fichero: getRepo.cpp
  */
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <dirent.h>
-#include <time.h>
+// #include <sys/types.h>
+// #include <sys/stat.h>
+// #include <sys/wait.h>
+// #include <dirent.h>
+// #include <time.
 #include <unistd.h>
 #include <errno.h>
-#include <getopt.h>
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cstdlib>
 #include <cstring>
 #include <map>
+#include "gradeprocess.h"
 #include "estudiante.h"
 
 using namespace std;
 
-const string WORKDIR = ::getenv("WORKDIR") ?
-  ::getenv("WORKDIR")
-  : "/home/fcardona/tmp/";
-const string REPOSDIR = ::getenv("REPOSDIR") ?
-  ::getenv("REPOSDIR")
-  : "";
-const string TIMESTAMP = ::getenv("TIMESTAMP") ?
-  ::getenv("TIMESTAMP")
-  : "";
-const string USERNAME = ::getenv("SVNUSERNAME") ?
-  ::getenv("SVNUSERNAME")
-  : "fcardona";
-
-struct Options {
-  string workdir;
-  string reposdir;
-  string timestamp;
-  string username;
-  bool resumen;
-  Options(string& workdir, string& reposdir, string& timestamp,
-	  string& username) :
-    workdir(workdir), reposdir(reposdir),
-    timestamp(timestamp), username(username),
-    resumen(false) { }
-  Options() :
-    workdir(WORKDIR), reposdir(REPOSDIR),
-    timestamp(TIMESTAMP), username(USERNAME),
-    resumen(false) { }
-} options;
-
-int remove_directory(const char *path);
-
 static void usage(const char* progname) {
-  cerr << "Usage: " << progname
-       << " [--workdir[=]arg] [--reposdir[=]arg] [--timestamp[=]arg] [--username[=]arg] "
-       << " [--resumen] <file>" << endl;
+  cerr << "Usage: " << progname << endl
+       << "[--workdir[=]arg]" << endl
+       << "[--reposdir[=]arg]" << endl
+       << "[--timestamp[=]arg]" << endl
+       << "[--username[=]arg]" << endl
+       << "[--stdlist[=]stdcode[,stdcode]..." << endl
+       << "[--resumen] <file>" << endl;
   exit(1);
 }
 
-void partirLinea(const string& linea, string& codigo,
-		 string& nombre, string& email,
-		 string& reponame) {
-
-  int sep1 = linea.find("|");
-  int sep2 = linea.find("|",sep1+1);
-  int sep3 = linea.find("|",sep2+1);
-  
-  codigo = linea.substr(0,sep1-1);
-  nombre = linea.substr(sep1+1, sep2 - (sep1 + 1) );
-  email = linea.substr(sep2 + 1, sep3 - (sep2 + 1));
-  reponame = linea.substr(sep3 +1);
-}
-
-void partirEmail(const string& url, string &email, string host) {
-  
-  int sep1 = url.find('@');
-  email = url.substr(0, sep1-1);
-  host = url.substr(sep1+1);
-}
-
-void createAndCopy(const string& src, char **address) {
-  *address = new char[src.size() + 1];
-  ::strcpy(*address,src.c_str());
-}
+void studentProcess(const string& stdId, const Estudiante& stdInfo,
+		    const Options& options);
 
 int
 main(int argc, char **argv) {
 
-  int c;
-  // int digit_optind = 0;
+  int iniFich;
+  Options options;
+
+  iniFich = procesarOptiones(options, argc, argv);
   
-  while(1) {
-    // int this_option_optind = optind ? optind : 1;
-    int option_index = 0;
-    
-    static struct option long_options[] = {
-      {"workdir",   required_argument, 0, 0},
-      {"reposdir",  required_argument, 0, 0},
-      {"timestamp", required_argument, 0, 0},
-      {"username",  required_argument, 0, 0},
-      {"resumen",   no_argument,       0, 0},
-      {0,           0,                 0, 0}
-    };
-
-    c = getopt_long(argc, argv, "",
-		    long_options, &option_index);
-    if (c == -1)
-      break;
-    
-    switch (c) {
-    case 0:
-      switch (option_index) {
-      case 0:
-	options.workdir = optarg;
-	break;
-
-      case 1:
-	options.reposdir = optarg;
-	break;
-
-      case 2:
-	options.timestamp = optarg;
-	break;
-
-      case 3:
-	options.username = optarg;
-	break;
-
-      case 4:
-	options.resumen = true;
-	break;
-      }
-      break;
-      
-    case '?':
-      break;
-      
-    default:
-      printf("?? getopt returned character code 0%o ??\n", c);
-      break;
-    }
-  }
-
-  if (optind == argc) {
+  if (iniFich == argc) {
     usage(argv[0]);
   }
 
@@ -156,28 +53,12 @@ main(int argc, char **argv) {
 	 << "filename: " << argv[optind] << endl;
   }
    
-  ifstream ifest(argv[optind]);
-
-  if (!ifest) {
+  map <string,Estudiante> codEst;
+  
+  if (!obtenerEstudiantes(codEst, argv[optind])) {
     cerr << "student file input" << argv[optind] << endl;
     return 1;
-  }
-
-  const int MAXBUFFER = 256;
-  char buffer[MAXBUFFER];
-  map <string,Estudiante> codEst;
-  int nEst = 0;
-  
-  while (ifest.getline(buffer, MAXBUFFER)) {
-    string nombre;
-    string codigo;
-    string email;
-    string reponame;
-    partirLinea(buffer,codigo,nombre,email,reponame);
-    Estudiante e(nombre,codigo,email,reponame);
-    codEst[codigo] = e;
-    nEst++;
-  }
+  }    
 
   if (chdir(options.workdir.c_str()) == 0) {
     struct stat buffer;
@@ -193,98 +74,29 @@ main(int argc, char **argv) {
     }
 
     if (chdir(options.reposdir.c_str()) == 0) {
-      
-      for (map<string,Estudiante>::iterator it = codEst.begin();
-	   it != codEst.end();
-	   ++it) {
 
-	string allname("https://svn.riouxsvn.com/");
-	allname += (it->second).obtenerRepo();
-
-	if (fork() == 0) { /* child */
-
-	  string svnName("svn");
-	  string svnCmd("co");
-	  string svnOptRevision("--revision");
-	  string svnOptUsername("--username");
-	  
-	  int nArgs = 4;
-
-	  if (!options.timestamp.empty()) nArgs += 2;
-	  if (!options.username.empty()) nArgs += 2;
-
-	  nArgs++;
-	  
-	  char **args = new char*[nArgs];
-
-	  args[0] = new char[svnName.size() + 1];
-	  ::strcpy(args[0],svnName.c_str());
-	  args[1] = new char[svnCmd.size() + 1];
-	  ::strcpy(args[1],svnCmd.c_str());
-	  args[2] = new char[allname.size() + 1];
-	  ::strcpy(args[2],allname.c_str());
-	  args[3] = new char[(it->second).obtenerEmail().size()];
-	  ::strcpy(args[3],(it->second).obtenerEmail().c_str());
-	   
-	  int oai = 4;
-
-	  if (!options.timestamp.empty()) {
-
-	    args[oai] = new char[svnOptRevision.size() + 1];
-	    ::strcpy(args[oai],svnOptRevision.c_str());
-	    ++oai;
-	    args[oai] = new char[options.timestamp.size() + 1];
-	    ::strcpy(args[oai],options.timestamp.c_str());
-	    ++oai;
-	  }
-
-	  if (!options.username.empty()) {
-
-	    args[oai] = new char[svnOptUsername.size() + 1];
-	    ::strcpy(args[oai],svnOptUsername.c_str());
-	    ++oai;
-	    args[oai] = new char[options.username.size() + 1];
-	    ::strcpy(args[oai],options.username.c_str());
-	    ++oai;
-	  }
-
-	  args[oai] = NULL;
-
-	  cout << "exec: ";
-
-	  for (int i = 0; i < oai; ++i) {
-	    cout << args[i] << " ";
-	  }
-	  cout << endl;
-
-	  execvp(args[0], args);
-	  
-	  cerr << "This cannot happen here because: " << errno
-	       << " " << strerror(errno) << endl;
-	  exit(20);
-	}
-
-	/* Father */
-	int status;
-	wait(&status);
+      if (options.stdlst.empty()) {
 	
-	if (WIFEXITED(status)) {
-	  if (WEXITSTATUS(status) != 0) {
-	    cerr << "Problemas procesando a "
-		 << (it->second).obtenerNombre()
-		 << " status: " << WEXITSTATUS(status)
-		 << endl
-		 << "url: " << allname
-		 << " dir: " << (it->second).obtenerEmail()
-		 << endl;
-	    
-	    string svnFile("./");
-	    svnFile += (it->second).obtenerEmail();
-	    if (remove_directory(svnFile.c_str()) != 0) {
-	      cerr << "Dir: " << svnFile
-		   << " no pudo ser removido"
-		   << endl;
-	    }
+	for (map<string,Estudiante>::iterator it = codEst.begin();
+	     it != codEst.end();
+	     ++it) {
+	  
+	  studentProcess(it->first, it->second, options);
+	}
+      }
+      else {
+	
+	for (vector<string>::iterator it = options.stdlst.begin();
+	     it != options.stdlst.end();
+	     ++it) {
+	  
+	  map<string,Estudiante>::iterator it2 = codEst.find(*it);
+
+	  if (it2 != codEst.end()) {
+	    studentProcess(it2->first, it2->second, options);
+	  }
+	  else {
+	    cerr << "student id doesn't exists " << *it << endl;
 	  }
 	}
       }
@@ -299,89 +111,86 @@ main(int argc, char **argv) {
   return 0;
 }
 
-// This was taken from
-// url: http://stackoverflow.com/questions/2256945/removing-a-non-empty-directory-programmatically-in-c-or-c
-int remove_directory(const char *path)
-{
-  DIR *d = opendir(path);
-  size_t path_len = strlen(path);
-  int r = -1;
+void studentProcess(const string& stdId,
+		    const Estudiante& stdInfo,
+		    const Options& options) {
 
-  if (d)
-    {
-      struct dirent *p;
+  string allname("https://svn.riouxsvn.com/");
+  allname += stdInfo.obtenerRepo();
 
-      r = 0;
+  if (fork() == 0) { /* child */
 
-      while (!r && (p=readdir(d)))
-	{
-	  int r2 = -1;
-	  char *buf;
-	  size_t len;
+    string svnName("svn");
+    string svnCmd("co");
+    string svnOptRevision("--revision");
+    string svnOptUsername("--username");
+	  
+    int nArgs = 4;
 
-	  /* Skip the names "." and ".." as we don't want to recurse on them. */
-	  if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, ".."))
-	    {
-	      continue;
-	    }
+    if (options.timestamp.size() > 0) nArgs += 2;
+    if (options.username.size() > 0) nArgs += 2;
 
-	  len = path_len + strlen(p->d_name) + 2;
-	  buf = new char[len];
+    nArgs++;
+	  
+    char **args = new char*[nArgs];
 
-	  if (buf)
-	    {
-	      struct stat statbuf;
+    args[0] = new char[svnName.size() + 1];
+    ::strcpy(args[0],svnName.c_str());
+    args[1] = new char[svnCmd.size() + 1];
+    ::strcpy(args[1],svnCmd.c_str());
+    args[2] = new char[allname.size() + 1];
+    ::strcpy(args[2],allname.c_str());
+    args[3] = new char[stdInfo.obtenerEmail().size()];
+    ::strcpy(args[3],stdInfo.obtenerEmail().c_str());
+	   
+    int oai = 4;
 
-	      snprintf(buf, len, "%s/%s", path, p->d_name);
+    if (options.timestamp.size() > 0) {
 
-	      if (!stat(buf, &statbuf))
-		{
-		  if (S_ISDIR(statbuf.st_mode))
-		    {
-		      r2 = remove_directory(buf);
-		    }
-		  else
-		    {
-		      r2 = unlink(buf);
-		    }
-		}
-
-	      free(buf);
-	    }
-
-	  r = r2;
-	}
-
-      closedir(d);
+      args[oai] = new char[svnOptRevision.size() + 1];
+      ::strcpy(args[oai++],svnOptRevision.c_str());
+      args[oai] = new char[options.timestamp.size() + 1];
+      ::strcpy(args[oai++],options.timestamp.c_str());
     }
 
-  if (!r)
-    {
-      r = rmdir(path);
+    if (options.username.size() > 0) {
+
+      args[oai] = new char[svnOptUsername.size() + 1];
+      ::strcpy(args[oai++],svnOptUsername.c_str());
+      args[oai] = new char[svnOptUsername.size() + 1];
+      ::strcpy(args[oai++],options.username.c_str());
     }
 
-  return r;
-}
+    args[oai] = NULL;
 
-bool fileExists(const char *path) {
-
-  struct stat buffer;
-
-  if (stat(path,&buffer) != 0) {
-    return false;
+    execvp(args[0], args);
+	  
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(20);
   }
-  
-  return S_ISREG(buffer.st_mode) ? true : false;
-}
-
-
-bool isDir(const char *path) {
-
-  struct stat buffer;
-
-  if (stat(path,&buffer) != 0) {
-    return false;
-  }
-  
-  return S_ISDIR(buffer.st_mode) ? true : false;
+	
+  int status;
+  wait(&status);
+	
+  if (WIFEXITED(status)) {
+    if (WEXITSTATUS(status) != 0) {
+      cerr << "Problemas procesando a"
+	   << " codigo: " << stdId 
+	   << " nombre: "<< stdInfo.obtenerNombre()
+	   << " status: " << WEXITSTATUS(status)
+	   << endl
+	   << "url: " << allname
+	   << " dir: " << stdInfo.obtenerEmail()
+	   << endl;
+	    
+      string svnFile("./");
+      svnFile += stdInfo.obtenerEmail();
+      if (remove_directory(svnFile.c_str()) != 0) {
+	cerr << "Dir: " << svnFile
+	     << " no pudo ser removido"
+	     << endl;
+      }
+    }
+  } 
 }
