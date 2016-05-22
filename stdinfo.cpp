@@ -1,4 +1,4 @@
-#include "estudiante.h"
+#include "stdinfo.h"
 
 Estudiante::Estudiante()
   : nombre(), codigo(),

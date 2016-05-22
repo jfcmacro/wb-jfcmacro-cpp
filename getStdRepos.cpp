@@ -1,5 +1,5 @@
 /*
- * fichero: getRepo.cpp
+ * fichero: getStdRepos.cpp
  */
 // #include <sys/types.h>
 // #include <sys/stat.h>
@@ -15,7 +15,7 @@
 #include <cstring>
 #include <map>
 #include "gradeprocess.h"
-#include "estudiante.h"
+#include "stdinfo.h"
 
 using namespace std;
 
