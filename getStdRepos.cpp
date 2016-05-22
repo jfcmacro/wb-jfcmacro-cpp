@@ -25,7 +25,7 @@ static void usage(const char* progname) {
        << "[--reposdir[=]arg]" << endl
        << "[--timestamp[=]arg]" << endl
        << "[--username[=]arg]" << endl
-       << "[--stdlist[=]stdcode[,stdcode]..." << endl
+       << "[--stdlst[=]stdcode[,stdcode]..." << endl
        << "[--resumen] <file>" << endl;
   exit(1);
 }
