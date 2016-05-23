@@ -25,6 +25,16 @@ struct Options {
   Options();
 };
 
+struct Options2 {
+  string workdir;
+  string reposdir;
+  string username;
+  vector<string> stdlst;
+  bool resumen;
+  Options2(string& workdir, string& reposdir, string& username);
+  Options2();
+};
+
   
 int remove_directory(const char *path);
 
@@ -40,3 +50,5 @@ bool obtenerEstudiantes(map <string,Estudiante>& codEst,
 			const char* estudiantesfichero);
 
 int procesarOptiones(Options& options, int argc, char **argv);
+
+int parseOptions2(Options2& options, int argc, char **argv);

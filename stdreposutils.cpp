@@ -1,4 +1,4 @@
-#include "gradeprocess.h"
+#include "stdreposutils.h"
 #include <cstring>
 #include <fstream>
 #include <getopt.h>
@@ -79,6 +79,16 @@ Options::Options(string& workdir, string& reposdir, string& timestamp,
 Options::Options() :
     workdir(WORKDIR), reposdir(REPOSDIR),
     timestamp(TIMESTAMP), username(USERNAME),
+    resumen(false) { }
+
+Options2::Options2(string& workdir, string& reposdir,
+		   string& username) :
+    workdir(workdir), reposdir(reposdir),
+    username(username), resumen(false) { }
+
+Options2::Options2() :
+    workdir(WORKDIR), reposdir(REPOSDIR),
+    username(USERNAME),
     resumen(false) { }
 
 // This was taken from
@@ -188,6 +198,75 @@ int procesarOptiones(Options& options, int argc, char **argv) {
 	break;
 
       case 4:
+	{
+	  char *buffer = new char[::strlen(optarg)+1];
+	  ::strcpy(buffer,optarg);
+	  char *token = ::strtok(buffer, ",");
+	  
+	  while (token) {
+	    string stdId(token);
+	    options.stdlst.push_back(stdId);
+	    token = ::strtok(NULL,",");
+	  }
+	  delete[] buffer;
+	}
+
+      case 5:
+	options.resumen = true;
+	break;
+      }
+      break;
+      
+    case '?':
+      break;
+      
+    default:
+      printf("?? getopt returned character code 0%o ??\n", c);
+      break;
+    }
+  }
+
+  return optind;
+}
+
+int parseOptions2(Options2& options, int argc, char **argv) {
+  int c;
+  // int digit_optind = 0;
+  
+  while(1) {
+    // int this_option_optind = optind ? optind : 1;
+    int option_index = 0;
+    
+    static struct option long_options[] = {
+      {"workdir",   required_argument, 0, 0},
+      {"reposdir",  required_argument, 0, 0},
+      {"username",  required_argument, 0, 0},
+      {"stdlst",    required_argument, 0, 0},
+      {"resumen",   no_argument,       0, 0},
+      {0,           0,                 0, 0}
+    };
+
+    c = getopt_long(argc, argv, "",
+		    long_options, &option_index);
+    if (c == -1)
+      break;
+    
+    switch (c) {
+    case 0:
+      switch (option_index) {
+      case 0:
+	options.workdir = optarg;
+	break;
+
+      case 1:
+	options.reposdir = optarg;
+	break;
+
+      case 2:
+	options.username = optarg;
+	break;
+
+      case 3:
 	{
 	  char *buffer = new char[::strlen(optarg)+1];
 	  ::strcpy(buffer,optarg);

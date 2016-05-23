@@ -1,11 +1,6 @@
 /*
  * fichero: getStdRepos.cpp
  */
-// #include <sys/types.h>
-// #include <sys/stat.h>
-// #include <sys/wait.h>
-// #include <dirent.h>
-// #include <time.
 #include <unistd.h>
 #include <errno.h>
 #include <fstream>
@@ -14,7 +9,7 @@
 #include <string>
 #include <cstring>
 #include <map>
-#include "gradeprocess.h"
+#include "stdreposutils.h"
 #include "stdinfo.h"
 
 using namespace std;
@@ -27,7 +22,7 @@ static void usage(const char* progname) {
        << "[--username[=]arg]" << endl
        << "[--stdlst[=]stdcode[,stdcode]..." << endl
        << "[--resumen] <file>" << endl;
-  exit(1);
+  ::exit(1);
 }
 
 void studentProcess(const string& stdId, const Estudiante& stdInfo,
@@ -49,8 +44,15 @@ main(int argc, char **argv) {
     cout << "--workdir: " << options.workdir << endl
 	 << "--reposdir: " << options.reposdir << endl
 	 << "--timestamp: " << options.timestamp << endl
-	 << "--username: " << options.username << endl
-	 << "filename: " << argv[optind] << endl;
+	 << "--stdlst: " << endl;
+    for (vector<string>::iterator it = options.stdlst.begin();
+	 it != options.stdlst.end();
+	 ++it) {
+      cout << *it << ",";
+    }
+    cout  << endl
+	  << "--username: " << options.username << endl
+	  << "filename: " << argv[optind] << endl;
   }
    
   map <string,Estudiante> codEst;
