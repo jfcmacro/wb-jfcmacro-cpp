@@ -63,25 +63,25 @@ struct EvalUnit {
     elemsToEval(elemsToEval) { }
 };
 
-TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones", "diff -");
-TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones", "diff -");
-TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones", "diff -");
-TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones", "diff -");
-TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones", "diff -");
+TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones", "diff");
+TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones", "diff");
+TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones", "diff");
+TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones", "diff");
+TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones", "diff");
 TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
 				 testFracciones04, testFracciones05 };
-TestForElem testFracciones201("test_fracciones01.in", "test_fracciones01.out", "./fracciones2", "diff -");
-TestForElem testFracciones202("test_fracciones02.in", "test_fracciones02.out", "./fracciones2", "diff -");
-TestForElem testFracciones203("test_fracciones03.in", "test_fracciones03.out", "./fracciones2", "diff -");
-TestForElem testFracciones204("test_fracciones04.in", "test_fracciones04.out", "./fracciones2", "diff -");
-TestForElem testFracciones205("test_fracciones05.in", "test_fracciones05.out", "./fracciones2", "diff -");
+TestForElem testFracciones201("test_fracciones01.in", "test_fracciones01.out", "./fracciones2", "diff");
+TestForElem testFracciones202("test_fracciones02.in", "test_fracciones02.out", "./fracciones2", "diff");
+TestForElem testFracciones203("test_fracciones03.in", "test_fracciones03.out", "./fracciones2", "diff");
+TestForElem testFracciones204("test_fracciones04.in", "test_fracciones04.out", "./fracciones2", "diff");
+TestForElem testFracciones205("test_fracciones05.in", "test_fracciones05.out", "./fracciones2", "diff");
 TestForElem testFracciones2[] = { testFracciones201, testFracciones202, testFracciones203,
 				 testFracciones204, testFracciones205 }; 
-TestForElem testBanco01("test_banco01.in", "test_banco01.out", "./banco", "diff -");
-TestForElem testBanco02("test_banco02.in", "test_banco02.out", "./banco", "diff -");
-TestForElem testBanco03("test_banco03.in", "test_banco03.out", "./banco", "diff -");
-TestForElem testBanco04("test_banco04.in", "test_banco04.out", "./banco", "diff -");
-TestForElem testBanco05("test_banco05.in", "test_banco05.out", "./banco", "diff -");
+TestForElem testBanco01("test_banco01.in", "test_banco01.out", "./banco", "diff");
+TestForElem testBanco02("test_banco02.in", "test_banco02.out", "./banco", "diff");
+TestForElem testBanco03("test_banco03.in", "test_banco03.out", "./banco", "diff");
+TestForElem testBanco04("test_banco04.in", "test_banco04.out", "./banco", "diff");
+TestForElem testBanco05("test_banco05.in", "test_banco05.out", "./banco", "diff");
 TestForElem testBanco[] = { testBanco01, testBanco02, testBanco03, testBanco04,
 			    testBanco05 };
 
@@ -217,8 +217,8 @@ int launchProcess(const string& cmd, vector<string> args, const string& msgError
     for (unsigned int j = 0; j < args.size(); ++i,++j) {
       cmdArgs[i] = createCopyChar(args[j]);
     }
-
-    cout << "cmd: " << 
+    cmdArgs[i] = NULL;
+    
     execvp(cmdArgs[0], cmdArgs);
 
     cerr << "This cannot happen here because: " << errno
@@ -250,7 +250,12 @@ int launchTwoProcessIn1(const string& inFile,
 
   ::pipe(pipeCmd1Cmd2);
 
-  if (fork() == 0) { /* First Child */
+  pid_t pidChild1;
+
+  cout << "cmd1: " << cmd1 << endl;
+  cout << "cmd2: " << cmd2 << endl;
+
+  if ((pidChild1 = fork()) == 0) { /* First Child */
     
     char **cmdArgs = new char*[args1.size()+2];
 
@@ -261,26 +266,33 @@ int launchTwoProcessIn1(const string& inFile,
       cmdArgs[i] = createCopyChar(args1[j]);
     }
 
+    cmdArgs[i] = NULL;
+
     int fd;
 
     if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+      cerr << "File: " << inFile << " cannot be opened "
+	   << " because " << errno << endl;
       exit(21);
     }
    
-    dup2(fd, STDIN_FILENO);
-    close(fd);
-    dup2(pipeCmd1Cmd2[1], STDOUT_FILENO);
-    close(pipeCmd1Cmd2[1]);
-    close(pipeCmd1Cmd2[0]);
+    ::dup2(fd, STDIN_FILENO);
+    ::dup2(pipeCmd1Cmd2[1], STDOUT_FILENO);
     
-    execvp(cmdArgs[0], cmdArgs);
+    ::close(fd);
+    ::close(pipeCmd1Cmd2[0]);
+    ::close(pipeCmd1Cmd2[1]);
+    
+    ::execv(cmdArgs[0], cmdArgs);
 
     cerr << "This cannot happen here because: " << errno
 	 << " " << strerror(errno) << endl;
-    exit(20);
+    exit(30);
   }
 
-  if (fork() == 0) { /* Child 2*/
+  pid_t pidChild2;
+
+  if ((pidChild2 = fork()) == 0) { /* Child 2*/
      char **cmdArgs = new char*[args2.size()+2];
 
     cmdArgs[0] = createCopyChar(cmd2);
@@ -290,29 +302,43 @@ int launchTwoProcessIn1(const string& inFile,
       
       cmdArgs[i] = createCopyChar(args2[j]);
     }
+    cmdArgs[i] = NULL;
 
-    dup2(pipeCmd1Cmd2[0], STDIN_FILENO);
-    close(pipeCmd1Cmd2[0]);
-    close(pipeCmd1Cmd2[1]);
+    ::dup2(pipeCmd1Cmd2[0], STDIN_FILENO);
+    
+    ::close(pipeCmd1Cmd2[0]);
+    ::close(pipeCmd1Cmd2[1]);
     
     execvp(cmdArgs[0], cmdArgs);
 
     cerr << "This cannot happen here because: " << errno
 	 << " " << strerror(errno) << endl;
-    exit(20);
+    exit(40);
   }
 
-  int status;
-  wait(&status);
+  int statChild1;
+  waitpid(pidChild1, &statChild1, 0);
 	
-  if (WIFEXITED(status)) {
-    if (WEXITSTATUS(status) != 0) {
+  if (WIFEXITED(statChild1)) {
+    if (WEXITSTATUS(statChild1) != 0) {
       cerr << msgError
-	   << " status: " << WEXITSTATUS(status)
+	   << " status child 1: " << WEXITSTATUS(statChild1)
 	   << endl;
-      return WEXITSTATUS(status);
     }
-    return 0;
+  }
+
+  int statChild2;
+
+  waitpid(pidChild2, &statChild2, 0);
+
+  if (WIFEXITED(statChild2)) {
+    if (WEXITSTATUS(statChild2) != 0) {
+      cerr << msgError
+	   << " status child 2: " << WEXITSTATUS(statChild2)
+	   << endl;
+      return WEXITSTATUS(statChild2);
+    }
+    return WEXITSTATUS(statChild2);
   }
   return -1;
 }
@@ -500,6 +526,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
       // Preparing arguments for commands: 
       args.clear();
+      
       vector<string> args2;
       args2.push_back("-");
       args2.push_back(outFile);
