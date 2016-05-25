@@ -241,10 +241,10 @@ int launchProcess(const string& cmd, vector<string> args, const string& msgError
   return -1;
 }
 
-int launchTwoProcessIn1(const string& inFile,
-			const string& cmd1, vector<string> args1,
-			const string& cmd2, vector<string> args2,
-			const string& msgError) {
+int launchTwoProcessInFile(const string& inFile,
+			   const string& cmd1, vector<string> args1,
+			   const string& cmd2, vector<string> args2,
+			   const string& msgError) {
   
   int pipeCmd1Cmd2[2];
 
@@ -252,9 +252,20 @@ int launchTwoProcessIn1(const string& inFile,
 
   pid_t pidChild1;
 
-  cout << "cmd1: " << cmd1 << endl;
-  cout << "cmd2: " << cmd2 << endl;
-
+  cout << "cmd1: " << cmd1 << " ";
+  for (unsigned int i = 0; i < args1.size(); ++i) {
+    cout << args1[i];
+    if (i + 1 == args1.size())  cout << " ";
+  }
+  cout << endl;
+  
+  cout << "cmd2: " << cmd2 << " ";
+  for (unsigned int i = 0; i < args2.size(); ++i) {
+    cout << args2[i];
+    if (i + 1 != args2.size())  cout << " ";
+  }
+  cout << endl;
+  
   if ((pidChild1 = fork()) == 0) { /* First Child */
     
     char **cmdArgs = new char*[args1.size()+2];
@@ -318,6 +329,8 @@ int launchTwoProcessIn1(const string& inFile,
 
   int statChild1;
   waitpid(pidChild1, &statChild1, 0);
+
+  cout << "child1 end status: " << statChild1 <<  endl;
 	
   if (WIFEXITED(statChild1)) {
     if (WEXITSTATUS(statChild1) != 0) {
@@ -330,6 +343,8 @@ int launchTwoProcessIn1(const string& inFile,
   int statChild2;
 
   waitpid(pidChild2, &statChild2, 0);
+
+  cout << "child2 end status: " << statChild2 << endl;
 
   if (WIFEXITED(statChild2)) {
     if (WEXITSTATUS(statChild2) != 0) {
@@ -533,12 +548,12 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       int retCmdDiff;
       string msgCmdDiff("Error message");
       
-      if ((retCmdDiff = launchTwoProcessIn1(inFile,
-					    evalUnit.elemsToEval[i].tests[k].cmdToTest,
-					    args,
-					    evalUnit.elemsToEval[i].tests[k].cmdToDiff,
-					    args2,
-					    msgCmdDiff)) != 0) {
+      if ((retCmdDiff = launchTwoProcessInFile(inFile,
+					       evalUnit.elemsToEval[i].tests[k].cmdToTest,
+					       args,
+					       evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+					       args2,
+					       msgCmdDiff)) != 0) {
 	switch(retCmdDiff) {
 	case 1:
 	  cout << "There are difference between expected output and obtained ouput"
