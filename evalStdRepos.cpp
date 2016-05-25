@@ -1,6 +1,9 @@
 /*
  * fichero: evalStdRepos.cpp
  */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 #include <fstream>
@@ -33,8 +36,6 @@ struct TestForElem {
 	      string cmdToTest, string cmdToDiff) :
     inFile(inFile), outFile(outFile),
     cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
-  // TestForElem() :
-  //   inFile(), outFile(), cmdToTest(), cmdToDiff() { }
 };
 
 struct ElemToEval {
@@ -51,13 +52,14 @@ struct ElemToEval {
 };
 
 struct EvalUnit {
+  string evalUnit;
   string name;
   string workdir;
   int nElemsToEval;
   ElemToEval *elemsToEval;
-  EvalUnit(string name, string workdir,
+  EvalUnit(string evalUnit, string name, string workdir,
 	   int nElemsToEval, ElemToEval* elemsToEval) :
-    name(name), workdir(workdir), nElemsToEval(nElemsToEval),
+    evalUnit(evalUnit), name(name), workdir(workdir), nElemsToEval(nElemsToEval),
     elemsToEval(elemsToEval) { }
 };
 
@@ -88,14 +90,16 @@ ElemToEval fracciones2("2", "fracciones2", 0.35f, "make", 5, testFracciones2);
 ElemToEval banco("3", "banco", 0.30f, "make", 5, testBanco);
 ElemToEval elements[] = { fracciones, fracciones2, banco };
 
-EvalUnit evalUnitMidTerm02("Parcial02b",
+EvalUnit evalUnitMidTerm02("parciales",
+			   "parcial2b",
 			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial02/ST0244-2016-1-031-032-Programas-Parcial-02-b",
-			   3, elements);
+			   3,
+			   elements);
 
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 		 const Options2& options, EvalUnit& evalUnit);
 
-int lauchProcess(const string& cmd, vector<string> args);
+int launchProcess(const string& cmd, vector<string> args, const string& msgError);
 
 int
 main(int argc, char **argv) {
@@ -131,7 +135,9 @@ main(int argc, char **argv) {
   if (!obtenerEstudiantes(codEst, argv[optind])) {
     cerr << "student file input" << argv[optind] << endl;
     return 1;
-  }    
+  }
+
+  cout << "Student loaded: " << codEst.size() << endl;
 
   if (chdir(options.workdir.c_str()) == 0) {
     struct stat buffer;
@@ -154,6 +160,9 @@ main(int argc, char **argv) {
 	     ++it) {
 	  
 	  evalStdRepo(it->first, it->second, options, evalUnitMidTerm02);
+	  
+	  chdir(options.workdir.c_str());
+	  chdir(options.reposdir.c_str());
 	}
       }
       else {
@@ -161,11 +170,15 @@ main(int argc, char **argv) {
 	for (vector<string>::iterator it = options.stdlst.begin();
 	     it != options.stdlst.end();
 	     ++it) {
-	  
+
+	  cout << "Searching for: " << *it << endl;
 	  map<string,Estudiante>::iterator it2 = codEst.find(*it);
 
 	  if (it2 != codEst.end()) {
+	    
 	    evalStdRepo(it2->first, it2->second, options, evalUnitMidTerm02);
+	    chdir(options.workdir.c_str());
+	    chdir(options.reposdir.c_str());
 	  }
 	  else {
 	    cerr << "student id " << *it
@@ -177,6 +190,7 @@ main(int argc, char **argv) {
     }
   }
   else {
+    
     cerr << "workdir: " << options.workdir << " doesn't exist "
 	 << " errno: " << errno << endl;
     exit(1);
@@ -191,7 +205,7 @@ char* createCopyChar(const string& arg) {
   return ret;
 }
 
-int lauchProcess(const string& cmd, vector<string> args, const string& msgError) {
+int launchProcess(const string& cmd, vector<string> args, const string& msgError) {
 
   if (fork() == 0) {
     
@@ -200,10 +214,11 @@ int lauchProcess(const string& cmd, vector<string> args, const string& msgError)
     cmdArgs[0] = createCopyChar(cmd);
 
     unsigned int i = 1;
-    for (; i < args.size(); ++i) {
-      cmdArgs[i] = createCopyChar(args[i]);
+    for (unsigned int j = 0; j < args.size(); ++i,++j) {
+      cmdArgs[i] = createCopyChar(args[j]);
     }
 
+    cout << "cmd: " << 
     execvp(cmdArgs[0], cmdArgs);
 
     cerr << "This cannot happen here because: " << errno
@@ -226,8 +241,262 @@ int lauchProcess(const string& cmd, vector<string> args, const string& msgError)
   return -1;
 }
 
+int launchTwoProcessIn1(const string& inFile,
+			const string& cmd1, vector<string> args1,
+			const string& cmd2, vector<string> args2,
+			const string& msgError) {
+  
+  int pipeCmd1Cmd2[2];
+
+  ::pipe(pipeCmd1Cmd2);
+
+  if (fork() == 0) { /* First Child */
+    
+    char **cmdArgs = new char*[args1.size()+2];
+
+    cmdArgs[0] = createCopyChar(cmd1);
+
+    unsigned int i = 1;
+    for (unsigned int j = 0; j < args1.size(); ++i,++j) {
+      cmdArgs[i] = createCopyChar(args1[j]);
+    }
+
+    int fd;
+
+    if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+      exit(21);
+    }
+   
+    dup2(fd, STDIN_FILENO);
+    close(fd);
+    dup2(pipeCmd1Cmd2[1], STDOUT_FILENO);
+    close(pipeCmd1Cmd2[1]);
+    close(pipeCmd1Cmd2[0]);
+    
+    execvp(cmdArgs[0], cmdArgs);
+
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(20);
+  }
+
+  if (fork() == 0) { /* Child 2*/
+     char **cmdArgs = new char*[args2.size()+2];
+
+    cmdArgs[0] = createCopyChar(cmd2);
+
+    unsigned int i = 1;
+    for (unsigned int j = 0; j < args2.size(); ++i,++j) {
+      
+      cmdArgs[i] = createCopyChar(args2[j]);
+    }
+
+    dup2(pipeCmd1Cmd2[0], STDIN_FILENO);
+    close(pipeCmd1Cmd2[0]);
+    close(pipeCmd1Cmd2[1]);
+    
+    execvp(cmdArgs[0], cmdArgs);
+
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(20);
+  }
+
+  int status;
+  wait(&status);
+	
+  if (WIFEXITED(status)) {
+    if (WEXITSTATUS(status) != 0) {
+      cerr << msgError
+	   << " status: " << WEXITSTATUS(status)
+	   << endl;
+      return WEXITSTATUS(status);
+    }
+    return 0;
+  }
+  return -1;
+}
+
+bool existsFile(const string& file) {
+  struct stat statBuffer;
+
+  if (stat(file.c_str(), &statBuffer) != 0) {
+    return false;
+  }
+
+  return S_ISREG(statBuffer.st_mode);
+}
+
+bool existsLocalFile(const string &file) {
+  string localfile("./");
+
+  localfile += file;
+
+  return existsFile(localfile);
+}
+
+bool existsDir(const string& dir) {
+  struct stat statBuffer;
+
+  if (stat(dir.c_str(), &statBuffer) != 0) {
+    return false;
+  }
+
+  return S_ISDIR(statBuffer.st_mode);
+}
+
+bool existsLocalDir(const string& dir) {
+  string localdir("./");
+
+  localdir += dir;
+
+  return existsDir(localdir);
+}
+
+int chDirStr(const string& dir) {
+  
+  return chdir(dir.c_str());
+}
+
+int chLocalDirStr(const string& dir) {
+  
+  string localdir("./");
+
+  localdir += dir;
+
+  return chDirStr(localdir);
+}
+
+
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 		 const Options2& options, EvalUnit& evalUnit) {
   
-   
+  if (!existsLocalDir(stdInfo.obtenerEmail())) {
+
+    cerr << "Student: " << stdInfo.obtenerNombre() << endl
+	 << " current directory: " << ::get_current_dir_name()
+	 << " directory doesn't exist: " << stdInfo.obtenerEmail() << endl;
+    return;
+  }
+
+  chdir(stdInfo.obtenerEmail().c_str());
+
+  if (!existsLocalDir(evalUnit.evalUnit)) {
+    cerr << "Student: " << stdInfo.obtenerNombre() << endl
+	 << " directory doesn't exist: " << evalUnit.evalUnit << endl;
+    return;
+  }
+
+  chLocalDirStr(evalUnit.evalUnit);
+
+  if (!existsLocalDir(evalUnit.name)) {
+    cerr << "Student: " << stdInfo.obtenerNombre() << endl
+	 << " directory doesn't exist: " << evalUnit.evalUnit << endl;
+    return;
+  }
+
+  chLocalDirStr(evalUnit.name);
+
+  cout << "Student: " << stdInfo.obtenerNombre() << endl
+       << "Current directory: " << ::get_current_dir_name() << endl;
+
+  for (int i = 0; i < evalUnit.nElemsToEval; ++i) {
+
+    // Moviendo al directorio del parcial
+    if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
+
+      cerr << "Student: " << stdInfo.obtenerNombre() << endl
+	   << " evaluating..." << endl
+	   << " directory doesn't exist: " 
+	   << evalUnit.elemsToEval[i].name.c_str() << endl
+	   << " current directory: " << ::get_current_dir_name()
+	   << endl;
+      
+      break;
+    }
+
+    cout << "Preparing cleaning compiling " << endl;
+    
+    vector<string> args;
+    args.push_back("clean");
+    string msg("compiling was not possible");
+    
+    if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
+
+      cerr << "Process cannot be cleaned" << endl;
+      string up("..");
+      chDirStr(up);
+      break;
+    }
+
+    // make all
+    cout << "Preparing compiling " << endl;
+    
+    args.clear();
+    args.push_back("all");
+    
+    if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
+      
+      string up("..");
+      chDirStr(up);
+      break;
+    }
+
+    // preparing for copy test files
+    string dirTest(evalUnit.workdir);
+
+    dirTest += "/" + evalUnit.elemsToEval[i].name + "/";
+
+    for (int k = 0; k < evalUnit.elemsToEval[i].nTests; ++k) {
+
+      string inFile = evalUnit.elemsToEval[i].tests[k].inFile;
+      string outFile = evalUnit.elemsToEval[i].tests[k].outFile;
+      string srcInFile(dirTest);
+      srcInFile += inFile;
+      string srcOutFile(dirTest);
+      srcOutFile += outFile;
+      
+      if (!existsFile(srcInFile) || !existsFile(srcOutFile)) {
+	cerr << "SrcInFile: " << srcInFile << endl
+	     << "SrcOutFile: " << srcOutFile << endl;
+	continue;
+      }
+      
+      ifstream srcIn(srcInFile.c_str());
+      ofstream dstIn(inFile.c_str());
+
+      dstIn << srcIn.rdbuf();
+
+      srcIn.close();
+      dstIn.close();
+      
+      ifstream srcOut(srcOutFile.c_str());
+      ofstream dstOut(outFile.c_str());
+	
+      dstOut << srcOut.rdbuf();
+
+      srcOut.close();
+      dstOut.close();
+
+      // string svnCmd("svn");
+      // string svnErrMsg("Svn could add: ")
+      // args.clear();
+      // args.push_back("add");
+      // args.push_back(inFile);
+      // args.push_back(outFile);
+      // svnErrMsg += inFile + " " + outFile;
+      
+      // if (launchProcess(svnCmd, args, svnErrMsg) != 0) {
+      // 	cerr << "error: svn add " << inFile
+      // 	     << " " << outFile << endl;
+      // }
+
+      // Ready to check 
+    }
+
+    string up("..");
+    chDirStr(up);
+  }
+  
+  return;
 }
