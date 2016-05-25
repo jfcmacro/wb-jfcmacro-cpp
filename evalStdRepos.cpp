@@ -400,6 +400,8 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
   cout << "Student: " << stdInfo.obtenerNombre() << endl
        << "Current directory: " << ::get_current_dir_name() << endl;
 
+  float totalStudent = 0.0f;
+  
   for (int i = 0; i < evalUnit.nElemsToEval; ++i) {
 
     // Moviendo al directorio del parcial
@@ -442,9 +444,12 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       break;
     }
 
+    // Compute units
+    float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].nTests;
+    float totalElemToEval = 0.0f;
+
     // preparing for copy test files
     string dirTest(evalUnit.workdir);
-
     dirTest += "/" + evalUnit.elemsToEval[i].name + "/";
 
     for (int k = 0; k < evalUnit.elemsToEval[i].nTests; ++k) {
@@ -461,7 +466,8 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 	     << "SrcOutFile: " << srcOutFile << endl;
 	continue;
       }
-      
+
+      // copy inFile
       ifstream srcIn(srcInFile.c_str());
       ofstream dstIn(inFile.c_str());
 
@@ -469,7 +475,8 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
       srcIn.close();
       dstIn.close();
-      
+
+      // copy outFile
       ifstream srcOut(srcOutFile.c_str());
       ofstream dstOut(outFile.c_str());
 	
@@ -491,12 +498,45 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       // 	     << " " << outFile << endl;
       // }
 
-      // Ready to check 
+      // Preparing arguments for commands: 
+      args.clear();
+      vector<string> args2;
+      args2.push_back("-");
+      args2.push_back(outFile);
+      int retCmdDiff;
+      string msgCmdDiff("Error message");
+      
+      if ((retCmdDiff = launchTwoProcessIn1(inFile,
+					    evalUnit.elemsToEval[i].tests[k].cmdToTest,
+					    args,
+					    evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+					    args2,
+					    msgCmdDiff)) != 0) {
+	switch(retCmdDiff) {
+	case 1:
+	  cout << "There are difference between expected output and obtained ouput"
+	       << endl;
+	  break;
+	default:
+	  cout << "Another kind of error: " << retCmdDiff << endl;
+	  break;
+	}
+      }
+      else {
+	cout << "Test passed" << endl;
+	totalElemToEval += unitElemToEval;
+      }
     }
 
+    totalStudent += totalElemToEval;
+
+    cout << "Element Evalued: " << totalElemToEval << endl;
     string up("..");
     chDirStr(up);
   }
+
+  cout << "Student: " << stdInfo.obtenerNombre()
+       << " grade: " << totalStudent << endl;
   
   return;
 }
