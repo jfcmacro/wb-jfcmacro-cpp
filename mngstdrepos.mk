@@ -1,4 +1,4 @@
-all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos
+all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos evalStdRepos3
 
 CXXFLAGS=-Wall
 
@@ -21,6 +21,10 @@ evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o
 
 evalStdRepos.o: evalStdRepos.cpp stdreposutils.h stdinfo.h
 
+evalStdRepos3: evalStdRepos3.o stdreposutils.o stdinfo.o
+	$(CXX) -o $@ $^
+
+evalStdRepos3.o: evalStdRepos3.cpp stdreposutils.h stdinfo.h
 clean:
 	rm -f getStdRepos.o eafitCVSInfo2StdInfo.o stdinfo.o stdreposutils.o
 	rm -f traerRepositorio eafitCVSInfo2StdInfo

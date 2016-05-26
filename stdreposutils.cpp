@@ -11,7 +11,7 @@ void partirLinea(const string& linea, string& codigo,
   int sep2 = linea.find("|",sep1+1);
   int sep3 = linea.find("|",sep2+1);
   
-  codigo = linea.substr(0,sep1-1);
+  codigo = linea.substr(0,sep1);
   nombre = linea.substr(sep1+1, sep2 - (sep1 + 1) );
   email = linea.substr(sep2 + 1, sep3 - (sep2 + 1));
   reponame = linea.substr(sep3 +1);
