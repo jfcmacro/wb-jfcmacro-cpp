@@ -29,42 +29,6 @@ static void usage(const char* progname) {
   ::exit(1);
 }
 
-struct TestForElem {
-  string inFile;
-  string outFile;
-  string cmdToTest;
-  string cmdToDiff;
-  TestForElem(string inFile, string outFile,
-	      string cmdToTest, string cmdToDiff) :
-    inFile(inFile), outFile(outFile),
-    cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
-};
-
-struct ElemToEval {
-  string id;
-  string name;
-  float value;
-  string compileCmd;
-  string srcfile;
-  int nTests;
-  TestForElem *tests;
-  ElemToEval(string id, string name, float value,
-	     string compileCmd, string srcfile, int nTests, TestForElem* tests) :
-    id(id), name(name), value(value), compileCmd(compileCmd), srcfile(srcfile), nTests(nTests),
-    tests(tests) { }
-};
-
-struct EvalUnit {
-  string evalUnit;
-  string name;
-  string workdir;
-  int nElemsToEval;
-  ElemToEval *elemsToEval;
-  EvalUnit(string evalUnit, string name, string workdir,
-	   int nElemsToEval, ElemToEval* elemsToEval) :
-    evalUnit(evalUnit), name(name), workdir(workdir), nElemsToEval(nElemsToEval),
-    elemsToEval(elemsToEval) { }
-};
 
 TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones", "diff");
 TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones", "diff");
@@ -88,9 +52,9 @@ TestForElem testBanco05("test_banco05.in", "test_banco05.out", "./banco", "diff"
 TestForElem testBanco[] = { testBanco01, testBanco02, testBanco03, testBanco04,
 			    testBanco05 };
 
-ElemToEval fracciones("1", "fracciones", 0.35f, "make", "fracciones.cpp", 5, testFracciones);
-ElemToEval fracciones2("2", "fracciones2", 0.35f, "make", "fraccion.cpp", 5, testFracciones2);
-ElemToEval banco("3", "banco", 0.30f, "make", "cuentas.cpp", 5, testBanco);
+ElemToEval fracciones("1", "fracciones", 0.35f, "make", 5, testFracciones);
+ElemToEval fracciones2("2", "fracciones2", 0.35f, "make", 5, testFracciones2);
+ElemToEval banco("3", "banco", 0.30f, "make", 5, testBanco);
 ElemToEval elements[] = { fracciones, fracciones2, banco };
 
 EvalUnit evalUnitMidTerm02("parciales",
@@ -114,7 +78,19 @@ main(int argc, char **argv) {
   int iniFich;
   Options2 options;
 
+  // set srcfiles
+  evalUnitMidTerm02.elemsToEval[0].srcfile.push_back("fracciones.cpp");
+  evalUnitMidTerm02.elemsToEval[1].srcfile.push_back("fraccion.cpp");
+  evalUnitMidTerm02.elemsToEval[2].srcfile.push_back("cuentas.cpp");
   iniFich = parseOptions2(options, argc, argv);
+
+  EvalUnit* ret = processEvalUnitFile("evalUnitMidTerm02.yml");
+
+  cout << "id: " << ret->evalUnit << endl;
+  cout << "name: " << ret->name << endl;
+  cout << "directory: " << ret->workdir << endl;
+
+  return 0;
   
   if (iniFich == argc) {
     
@@ -493,14 +469,21 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
       string cmdVi("vi");
       vector<string> argsVi;
-      argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
+      // argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
       string msgVi("Algo esta mal");
 
-      cout << "Estudiante: " << stdInfo.obtenerNombre()
-	   << " fichero: " << evalUnit.elemsToEval[i].srcfile << endl
-	   << "<presione cualquier tecla>" << endl;
-      cin.get();
-      launchProcess(cmdVi, argsVi, msgVi);
+      for (unsigned int nsrcf = 0; nsrcf < evalUnit.elemsToEval[i].srcfile.size(); ++nsrcf) {
+	argsVi.push_back(evalUnit.elemsToEval[i].srcfile[nsrcf]);
+	
+	cout << "Estudiante: " << stdInfo.obtenerNombre()
+	     << " fichero: " << evalUnit.elemsToEval[i].srcfile[nsrcf] << endl
+	     << "<presione cualquier tecla>" << endl;
+	cin.get();
+	
+	launchProcess(cmdVi, argsVi, msgVi);
+ 	argsVi.clear();
+	cout << "Ready for the next file" << endl;
+      }
       string up("..");
       chDirStr(up);
       break;
@@ -596,16 +579,23 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     totalStudent += totalElemToEval;
 
     if (anyTestFailed) {
+      
       string cmdVi("vi");
       vector<string> argsVi;
-      argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
       string msgVi("Algo esta mal");
+      
+      for (unsigned int nsrcf = 0; nsrcf < evalUnit.elemsToEval[i].srcfile.size(); ++nsrcf) {
+	argsVi.push_back(evalUnit.elemsToEval[i].srcfile[nsrcf]);
 
-      cout << "Estudiante: " << stdInfo.obtenerNombre()
-	   << " fichero: " << evalUnit.elemsToEval[i].srcfile << endl
-	   << "<presione cualquier tecla>" << endl;
-      cin.get();
-      launchProcess(cmdVi, argsVi, msgVi);
+	cout << "Estudiante: " << stdInfo.obtenerNombre()
+	     << " fichero: " << evalUnit.elemsToEval[i].srcfile[nsrcf] << endl
+	     << "<presione cualquier tecla>" << endl;
+	cin.get();
+	
+	launchProcess(cmdVi, argsVi, msgVi);
+	argsVi.clear();
+	cout << "Ready for the next file" << endl;
+      }
     }
     
     cout << "Element Evalued: " << totalElemToEval << endl;

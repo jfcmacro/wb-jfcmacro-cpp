@@ -3,6 +3,24 @@
 #include <fstream>
 #include <getopt.h>
 
+TestForElem::TestForElem() :
+  inFile(""), outFile(""),
+  cmdToTest(""), cmdToDiff("") { }			     
+
+TestForElem::TestForElem(string inFile, string outFile,
+			 string cmdToTest, string cmdToDiff) :
+  inFile(inFile), outFile(outFile),
+  cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
+
+ElemToEval::ElemToEval() :
+  id(""), name(""), value(""),
+  compileCmd(compileCmd), srcfile(), tests() { }
+
+ElemToEval::ElemToEval(string id, string name, float value,
+		       string compileCmd) :
+  id(id), name(name), value(value),
+  compileCmd(compileCmd), srcfile(), tests() { }
+
 void partirLinea(const string& linea, string& codigo,
 		 string& nombre, string& email,
 		 string& reponame) {
@@ -297,3 +315,134 @@ int parseOptions2(Options2& options, int argc, char **argv) {
 
   return optind;
 }
+
+class EvalUnitEventHandler : public YAML::EventHandler {
+public:
+  EvalUnitEventHandler() : currentMap(0), currentSeq(0),
+			   key(""), value(""), setKey(false)
+  {
+    evalUnit = new EvalUnit();
+  }
+			   
+  ~EvalUnitEventHandler() {
+  }
+  
+  void OnDocumentStart(const YAML::Mark& mark) {
+    cout << "This documents start on: " << mark.pos
+	 << " line: " << mark.line
+	 << " col: " << mark.column
+	 << endl;
+  }
+  
+  void OnDocumentEnd() {
+    cout << "This documents ends" << endl;
+  }
+  
+  void OnNull(const YAML::Mark& mark, YAML::anchor_t anchor) {
+    cout << "Null where" << mark.pos
+	 << " line: " << mark.line
+	 << " col: " << mark.column
+	 << endl;
+  }
+  
+  void OnAlias(const YAML::Mark& mark, YAML::anchor_t anchor) {
+    cout << "On alias2" << mark.pos
+	 << " line: " <<  mark.line
+	 << " col: " <<  mark.column
+	 << endl;
+  }
+  
+  void OnScalar(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor, const string& value) {
+    switch (currentMap) {
+    case 1:
+      if (!setKey) {
+	if (tag == "id" or
+	    tag == "name" or
+	    tag == "directory" or
+	    tag == "elements") {
+	  
+	  key = tag;
+	  setKey = true;
+	}
+      }
+      else {
+	if (key == "id") {
+	}
+      }
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    }
+    // cout << "scalar: " << mark.pos
+    // 	 << " line: " << mark.line
+    // 	 << " col: " << mark.column
+    // 	 << " tag: " << tag
+    // 	 << " value: " << value
+    // 	 << endl;
+  }
+  void OnSequenceStart(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor) {
+    cout << "Sequence start: "
+	 << mark.pos
+	 << " line: " << mark.line
+	 << " col: " << mark.column
+	 << " tag: " << tag
+	 << endl;
+  }
+  void OnSequenceEnd() {
+    cout << "Sequence ends: " << endl;
+  }
+  void OnMapStart(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor) {
+    cout << "Map start: " << mark.pos
+	 << " line: " << mark.line
+	 << " col: " << mark.column
+	 << " tag: " << tag
+	 << endl;
+    currentMap++;
+  }
+  void OnMapEnd() {
+    cout << "MapEnd" << endl;
+    currentMap--;
+  }
+  EvalUnit* getEvalUnit();
+private:
+  EvalUnit* evalUnit;
+  int currentMap;
+  int currentSeq;
+  string key;
+  string value;
+  bool setKey;
+};
+
+EvalUnit*
+processEvalUnitFile(const char* filename) {
+
+  ifstream infile(filename);
+
+  if (!infile) {
+    
+    cerr << "Error yaml file: " << filename << endl;
+    return NULL;
+  } 
+
+  YAML::Parser parse(infile);
+  EvalUnitEventHandler evalUnitEventHandler;
+  
+  if (parse.HandleNextDocument(evalUnitEventHandler)) {
+    cout << "Ok" << endl;
+  }
+  else {
+    cout << "Bad" << endl;
+  }
+
+  EvalUnit* ret = new EvalUnit();
+
+  // parse.PrintTokens(cout);
+  // ret->evalUnit = evalUnit["id"].as<string>();
+  // ret->name     = evalUnit["name"].as<string>();
+  // ret->workdir  = evalUnit["directory"].as<string>();
+
+  return ret;
+}
+

@@ -9,6 +9,10 @@
 #include <map>
 #include <vector>
 #include <unistd.h>
+#include <yaml-cpp03/yaml.h>
+#include <yaml-cpp03/eventhandler.h>
+#include <yaml-cpp03/mark.h>
+#include <yaml-cpp03/anchor.h>
 #include "stdinfo.h"
 
 using namespace std;
@@ -35,7 +39,44 @@ struct Options2 {
   Options2();
 };
 
-  
+struct TestForElem {
+  string inFile;
+  string outFile;
+  string cmdToTest;
+  string cmdToDiff;
+  TestForElem();
+  TestForElem(string inFile, string outFile,
+	      string cmdToTest, string cmdToDiff);
+};
+
+struct ElemToEval {
+  string id;
+  string name;
+  float value;
+  string compileCmd;
+  vector<string> srcfile;
+  /* int nTests; */
+  /* TestForElem *tests; */
+  vector<TestForElem> tests;
+  ElemToEval();
+  ElemToEval(string id, string name, float value,
+	     string compileCmd);
+};
+
+struct EvalUnit {
+  string evalUnit;
+  string name;
+  string workdir;
+  int nElemsToEval;
+  ElemToEval *elemsToEval;
+  EvalUnit(string evalUnit, string name, string workdir,
+	   int nElemsToEval, ElemToEval* elemsToEval) :
+    evalUnit(evalUnit), name(name), workdir(workdir), nElemsToEval(nElemsToEval),
+    elemsToEval(elemsToEval) { }
+  EvalUnit() :
+    evalUnit(""), name(""), workdir(""), nElemsToEval(0), elemsToEval(NULL) { }
+};
+
 int remove_directory(const char *path);
 
 void partirLinea(const string& linea, string& codigo,
@@ -52,3 +93,5 @@ bool obtenerEstudiantes(map <string,Estudiante>& codEst,
 int procesarOptiones(Options& options, int argc, char **argv);
 
 int parseOptions2(Options2& options, int argc, char **argv);
+
+EvalUnit* processEvalUnitFile(const char* filename);

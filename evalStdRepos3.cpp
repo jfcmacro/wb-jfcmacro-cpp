@@ -1,5 +1,8 @@
 /*
- * fichero: evalStdRepos.cpp
+ * fichero: evalStdRepos3.cpp
+ * 
+ * This version works with scripting languages
+ *
  */
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,74 +32,62 @@ static void usage(const char* progname) {
   ::exit(1);
 }
 
-struct TestForElem {
-  string inFile;
-  string outFile;
-  string cmdToTest;
-  string cmdToDiff;
-  TestForElem(string inFile, string outFile,
-	      string cmdToTest, string cmdToDiff) :
-    inFile(inFile), outFile(outFile),
-    cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
-};
 
-struct ElemToEval {
-  string id;
-  string name;
-  float value;
-  string compileCmd;
-  string srcfile;
-  int nTests;
-  TestForElem *tests;
-  ElemToEval(string id, string name, float value,
-	     string compileCmd, string srcfile, int nTests, TestForElem* tests) :
-    id(id), name(name), value(value), compileCmd(compileCmd), srcfile(srcfile), nTests(nTests),
-    tests(tests) { }
-};
-
-struct EvalUnit {
-  string evalUnit;
-  string name;
-  string workdir;
-  int nElemsToEval;
-  ElemToEval *elemsToEval;
-  EvalUnit(string evalUnit, string name, string workdir,
-	   int nElemsToEval, ElemToEval* elemsToEval) :
-    evalUnit(evalUnit), name(name), workdir(workdir), nElemsToEval(nElemsToEval),
-    elemsToEval(elemsToEval) { }
-};
-
-TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones", "diff");
-TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones", "diff");
-TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones", "diff");
-TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones", "diff");
-TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones", "diff");
+TestForElem testComparc01("test_comparc01.in", "test_comparc01.out", "./comparc.rb", "diff");
+TestForElem testComparc02("test_comparc02.in", "test_comparc02.out", "./comparc.rb", "diff");
+TestForElem testComparc03("test_comparc03.in", "test_comparc03.out", "./comparc.rb", "diff");
+TestForElem testComparc04("test_comparc04.in", "test_comparc04.out", "./comparc.rb", "diff");
+TestForElem testComparc05("test_comparc05.in", "test_comparc05.out", "./comparc.rb", "diff");
+TestForElem testComparc[] = { testComparc01, testComparc02, testComparc03,
+			      testComparc04, testComparc05 };
+TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones.rb", "diff");
+TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones.rb", "diff");
+TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones.rb", "diff");
+TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones.rb", "diff");
+TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones.rb", "diff");
 TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
 				 testFracciones04, testFracciones05 };
-TestForElem testFracciones201("test_fracciones01.in", "test_fracciones01.out", "./fracciones2", "diff");
-TestForElem testFracciones202("test_fracciones02.in", "test_fracciones02.out", "./fracciones2", "diff");
-TestForElem testFracciones203("test_fracciones03.in", "test_fracciones03.out", "./fracciones2", "diff");
-TestForElem testFracciones204("test_fracciones04.in", "test_fracciones04.out", "./fracciones2", "diff");
-TestForElem testFracciones205("test_fracciones05.in", "test_fracciones05.out", "./fracciones2", "diff");
-TestForElem testFracciones2[] = { testFracciones201, testFracciones202, testFracciones203,
-				 testFracciones204, testFracciones205 }; 
-TestForElem testBanco01("test_banco01.in", "test_banco01.out", "./banco", "diff");
-TestForElem testBanco02("test_banco02.in", "test_banco02.out", "./banco", "diff");
-TestForElem testBanco03("test_banco03.in", "test_banco03.out", "./banco", "diff");
-TestForElem testBanco04("test_banco04.in", "test_banco04.out", "./banco", "diff");
-TestForElem testBanco05("test_banco05.in", "test_banco05.out", "./banco", "diff");
-TestForElem testBanco[] = { testBanco01, testBanco02, testBanco03, testBanco04,
-			    testBanco05 };
+TestForElem testReppor01("test_reppor01.in", "test_reppor01.out", "./reppor.rb", "diff");
+TestForElem testReppor02("test_reppor02.in", "test_reppor02.out", "./reppor.rb", "diff");
+TestForElem testReppor03("test_reppor03.in", "test_reppor03.out", "./reppor.rb", "diff");
+TestForElem testReppor04("test_reppor04.in", "test_reppor04.out", "./reppor.rb", "diff");
+TestForElem testReppor05("test_reppor05.in", "test_reppor05.out", "./reppor.rb", "diff");
+TestForElem testReppor[] = { testReppor01, testReppor02, testReppor03, testReppor04,
+			     testReppor05 };
 
-ElemToEval fracciones("1", "fracciones", 0.35f, "make", "fracciones.cpp", 5, testFracciones);
-ElemToEval fracciones2("2", "fracciones2", 0.35f, "make", "fraccion.cpp", 5, testFracciones2);
-ElemToEval banco("3", "banco", 0.30f, "make", "cuentas.cpp", 5, testBanco);
-ElemToEval elements[] = { fracciones, fracciones2, banco };
+TestForElem testControlPerillas01("test_controlPerilla01.in",
+				  "test_controlPerilla01.out",
+				  "./controlPerillas.rb",
+				  "diff");
+TestForElem testControlPerillas02("test_controlPerilla02.in",
+				  "test_controlPerilla02.out",
+				  "./controlPerillas.rb",
+				  "diff");
+TestForElem testControlPerillas03("test_controlPerilla03.in",
+				  "test_controlPerilla03.out",
+				  "./controlPerillas.rb", "diff");
+TestForElem testControlPerillas04("test_controlPerilla04.in",
+				  "test_controlPerilla04.out",
+				  "./controlPerillas.rb",
+				  "diff");
+TestForElem testControlPerillas05("test_controlPerilla05.in",
+				  "test_controlPerilla05.out",
+				  "./controlPerillas.rb",
+				  "diff");
+TestForElem testControlPerillas[] = { testControlPerillas01, testControlPerillas02,
+				      testControlPerillas03, testControlPerillas04,
+				      testControlPerillas05 };
 
-EvalUnit evalUnitMidTerm02("parciales",
-			   "parcial2b",
-			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial02/ST0244-2016-1-031-032-Programas-Parcial-02-b",
-			   3,
+ElemToEval comparc("1", "comparc", 0.35f, "", 5, testComparc);
+ElemToEval reppor("2", "reppor", 0.35f, "", 5, testReppor);
+ElemToEval fracciones("3", "fracciones", 0.35f, "", 5, testFracciones);
+ElemToEval perillas("4", "perillas", 0.25f, "", 5, testControlPerillas);
+ElemToEval elements[] = { comparc, reppor, fracciones, perillas };
+
+EvalUnit evalUnitMidTerm03("parciales",
+			   "parcial03",
+			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial03/ST0244-2016-1-031-032-Programas-Parcial-03",
+			   4,
 			   elements);
 
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
@@ -114,6 +105,13 @@ main(int argc, char **argv) {
   int iniFich;
   Options2 options;
 
+  // set srcfiles
+  evalUnitMidTerm03.elemsToEval[0].srcfile.push_back("comparc.rb");
+  evalUnitMidTerm03.elemsToEval[1].srcfile.push_back("reppor.rb");
+  evalUnitMidTerm03.elemsToEval[2].srcfile.push_back("fracciones.rb");
+  evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perilla10.rb");
+  evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perilla10Enganche.rb");
+  evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perillaLavadora.rb");
   iniFich = parseOptions2(options, argc, argv);
   
   if (iniFich == argc) {
@@ -166,7 +164,7 @@ main(int argc, char **argv) {
 	     it != codEst.end();
 	     ++it) {
 	  
-	  evalStdRepo(it->first, it->second, options, evalUnitMidTerm02);
+	  evalStdRepo(it->first, it->second, options, evalUnitMidTerm03);
 	  
 	  chdir(options.workdir.c_str());
 	  chdir(options.reposdir.c_str());
@@ -183,7 +181,7 @@ main(int argc, char **argv) {
 
 	  if (it2 != codEst.end()) {
 	    
-	    evalStdRepo(it2->first, it2->second, options, evalUnitMidTerm02);
+	    evalStdRepo(it2->first, it2->second, options, evalUnitMidTerm03);
 	    chdir(options.workdir.c_str());
 	    chdir(options.reposdir.c_str());
 	  }
@@ -469,42 +467,42 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       break;
     }
 
-    cout << "Preparing cleaning compiling " << endl;
+    // cout << "Preparing cleaning compiling " << endl;
     
     vector<string> args;
-    args.push_back("clean");
-    string msg("compiling was not possible");
+    // args.push_back("clean");
+    // string msg("compiling was not possible");
     
-    if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
+    // if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
 
-      cerr << "Process cannot be cleaned" << endl;
-      string up("..");
-      chDirStr(up);
-      break;
-    }
+    //   cerr << "Process cannot be cleaned" << endl;
+    //   string up("..");
+    //   chDirStr(up);
+    //   break;
+    // }
 
-    // make all
-    cout << "Preparing compiling " << endl;
+    // // make all
+    // cout << "Preparing compiling " << endl;
     
-    args.clear();
-    args.push_back("all");
+    // args.clear();
+    // args.push_back("all");
     
-    if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
+    // if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
 
-      string cmdVi("vi");
-      vector<string> argsVi;
-      argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
-      string msgVi("Algo esta mal");
+    //   string cmdVi("vi");
+    //   vector<string> argsVi;
+    //   argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
+    //   string msgVi("Algo esta mal");
 
-      cout << "Estudiante: " << stdInfo.obtenerNombre()
-	   << " fichero: " << evalUnit.elemsToEval[i].srcfile << endl
-	   << "<presione cualquier tecla>" << endl;
-      cin.get();
-      launchProcess(cmdVi, argsVi, msgVi);
-      string up("..");
-      chDirStr(up);
-      break;
-    }
+    //   cout << "Estudiante: " << stdInfo.obtenerNombre()
+    // 	   << " fichero: " << evalUnit.elemsToEval[i].srcfile << endl
+    // 	   << "<presione cualquier tecla>" << endl;
+    //   cin.get();
+    //   launchProcess(cmdVi, argsVi, msgVi);
+    //   string up("..");
+    //   chDirStr(up);
+    //   break;
+    // }
 
     // Compute units
     float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].nTests;
@@ -596,16 +594,23 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     totalStudent += totalElemToEval;
 
     if (anyTestFailed) {
+      
       string cmdVi("vi");
       vector<string> argsVi;
-      argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
       string msgVi("Algo esta mal");
+      
+      for (unsigned int nsrcf = 0; nsrcf < evalUnit.elemsToEval[i].srcfile.size(); ++nsrcf) {
+	argsVi.push_back(evalUnit.elemsToEval[i].srcfile[nsrcf]);
 
-      cout << "Estudiante: " << stdInfo.obtenerNombre()
-	   << " fichero: " << evalUnit.elemsToEval[i].srcfile << endl
-	   << "<presione cualquier tecla>" << endl;
-      cin.get();
-      launchProcess(cmdVi, argsVi, msgVi);
+	cout << "Estudiante: " << stdInfo.obtenerNombre()
+	     << " fichero: " << evalUnit.elemsToEval[i].srcfile[nsrcf] << endl
+	     << "<presione cualquier tecla>" << endl;
+	cin.get();
+	
+	launchProcess(cmdVi, argsVi, msgVi);
+	argsVi.clear();
+	cout << "Ready for the next file" << endl;
+      }
     }
     
     cout << "Element Evalued: " << totalElemToEval << endl;
@@ -614,7 +619,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
   }
 
   cout << "Student: " << stdInfo.obtenerNombre()
-       << " grade: " << 5 * totalStudent << endl;
+       << " grade: " << totalStudent << endl;
   cout << "<Presione cualquier tecla para continuar>";
   cout.flush();
   cin.get();
