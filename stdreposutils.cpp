@@ -22,10 +22,12 @@ ElemToEval::ElemToEval(string id, string name, float value,
   compileCmd(compileCmd), srcfile(), tests() { }
 
 EvalUnit::EvalUnit() :
-  evalUnit(), name(), workdir(), elemsToEval() { } 
+  evalUnit(), name(), workdir(),
+  elemsToEval() { } 
 
 EvalUnit::EvalUnit(string evalUnit, string name, string workdir) : 
-  evalUnit(evalUnit), name(name), workdir(workdir), elemsToEval() { }
+  evalUnit(evalUnit), name(name),
+  workdir(workdir), elemsToEval() { }
 
 void partirLinea(const string& linea, string& codigo,
 		 string& nombre, string& email,
@@ -106,14 +108,16 @@ Options::Options() :
     resumen(false) { }
 
 Options2::Options2(string& workdir, string& reposdir,
-		   string& username) :
-    workdir(workdir), reposdir(reposdir),
-    username(username), resumen(false) { }
+		   string& username, string& evalUnitFile)
+  :
+  workdir(workdir), reposdir(reposdir),
+  username(username), evalUnitFile(evalUnitFile),
+  resumen(false) { }
 
 Options2::Options2() :
     workdir(WORKDIR), reposdir(REPOSDIR),
-    username(USERNAME),
-    resumen(false) { }
+    username(USERNAME), evalUnitFile(),
+    resumen(false) { } 
 
 // This was taken from
 // url: http://stackoverflow.com/questions/2256945/removing-a-non-empty-directory-programmatically-in-c-or-c
@@ -262,12 +266,13 @@ int parseOptions2(Options2& options, int argc, char **argv) {
     int option_index = 0;
     
     static struct option long_options[] = {
-      {"workdir",   required_argument, 0, 0},
-      {"reposdir",  required_argument, 0, 0},
-      {"username",  required_argument, 0, 0},
-      {"stdlst",    required_argument, 0, 0},
-      {"resumen",   no_argument,       0, 0},
-      {0,           0,                 0, 0}
+      {"workdir",      required_argument, 0, 0},
+      {"reposdir",     required_argument, 0, 0},
+      {"username",     required_argument, 0, 0},
+      {"evalunitfile", required_argument, 0, 0},
+      {"stdlst",       required_argument, 0, 0},
+      {"resumen",      no_argument,       0, 0},
+      {0,              0,                 0, 0}
     };
 
     c = getopt_long(argc, argv, "",
@@ -289,8 +294,12 @@ int parseOptions2(Options2& options, int argc, char **argv) {
       case 2:
 	options.username = optarg;
 	break;
-
+	
       case 3:
+	options.evalUnitFile = optarg;
+	break;
+
+      case 4:
 	{
 	  char *buffer = new char[::strlen(optarg)+1];
 	  ::strcpy(buffer,optarg);
@@ -303,6 +312,7 @@ int parseOptions2(Options2& options, int argc, char **argv) {
 	  }
 	  delete[] buffer;
 	}
+	break;
 
       case 5:
 	options.resumen = true;
@@ -324,114 +334,246 @@ int parseOptions2(Options2& options, int argc, char **argv) {
 
 class EvalUnitEventHandler : public YAML::EventHandler {
 public:
-  EvalUnitEventHandler() : currentMap(0), currentSeq(0),
-			   key(""), value(""), setKey(false)
-  {
-    evalUnit = new EvalUnit();
+  EvalUnitEventHandler() : testForElem(0),
+			   elemToEval(0),
+			   evalUnit(),
+			   currentMap(0),
+			   currentSeq(0),
+			   key(),
+			   // value(),
+			   setKey(false) {
+    testForElem = new TestForElem();
+    elemToEval = new ElemToEval();
   }
 			   
-  ~EvalUnitEventHandler() {
-  }
+  ~EvalUnitEventHandler() { }
   
   void OnDocumentStart(const YAML::Mark& mark) {
-    cout << "This documents start on: " << mark.pos
-	 << " line: " << mark.line
-	 << " col: " << mark.column
-	 << endl;
+    // cout << "This documents start on: " << mark.pos
+    // 	 << " line: " << mark.line
+    // 	 << " col: " << mark.column
+    // 	 << endl;
   }
   
   void OnDocumentEnd() {
-    cout << "This documents ends" << endl;
+    // cout << "This documents ends" << endl;
   }
   
   void OnNull(const YAML::Mark& mark, YAML::anchor_t anchor) {
-    cout << "Null where" << mark.pos
-	 << " line: " << mark.line
-	 << " col: " << mark.column
-	 << endl;
+    // cout << "Null where" << mark.pos
+    // 	 << " line: " << mark.line
+    // 	 << " col: " << mark.column
+    // 	 << endl;
   }
   
   void OnAlias(const YAML::Mark& mark, YAML::anchor_t anchor) {
-    cout << "On alias2" << mark.pos
-	 << " line: " <<  mark.line
-	 << " col: " <<  mark.column
-	 << endl;
+    // cout << "On alias2" << mark.pos
+    // 	 << " line: " <<  mark.line
+    // 	 << " col: " <<  mark.column
+    // 	 << endl;
   }
   
   void OnScalar(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor, const string& value) {
+    
     switch (currentMap) {
     case 1:
       if (!setKey) {
-	if (tag == "id" or
-	    tag == "name" or
-	    tag == "directory" or
-	    tag == "elements") {
+	if (value == "id" or
+	    value == "name" or
+	    value == "directory") {
 	  
-	  key = tag;
+	  key = value;
 	  setKey = true;
+	}
+	else if (value == "elements") { // Next event is start sequence
+	}
+	else {
+	  cerr << "key doesnt' found: " << value << endl;
 	}
       }
       else {
 	if (key == "id") {
+	  
+	  evalUnit.evalUnit = value;
+	  setKey = false;
 	}
+	else if (key == "name") {
+	  
+	  evalUnit.name = value;
+	  setKey = false;
+	}
+	else if (key == "directory") {
+	  
+	  evalUnit.workdir = value;
+	  setKey = false;
+	}
+	
+	setKey = false;
+	key = "";
       }
       break;
     case 2:
+      if (!setKey) {
+	if (value == "id" or
+	    value == "name" or
+	    value == "value" or
+	    value == "compile") {
+	  key = value;
+	  setKey = true;
+	}
+	else if (value == "srcfile") { // Next event is start sequence
+	  key = value;
+	  setKey = true;
+	}
+	else if (value == "test") { // Next event is start sequence
+	}
+	else {
+	  cerr << "Unknow key " << value << " " << currentMap << endl;
+	}
+      }
+      else {
+	if (key == "id") {
+	  
+	  elemToEval->id = value;
+	  setKey = false;
+	}
+	else if (key == "name") {
+	  
+	  elemToEval->name = value;
+	  setKey = false;
+	}
+	else if (key == "value") {
+	  
+	  istringstream iss(value);
+	  iss >> elemToEval->value;
+	  setKey = false;
+	}
+	else if (key == "srcfile") {
+	  
+	  elemToEval->srcfile.push_back(value);
+	  // setKey = false;
+	}
+	else if (key == "compile") {
+	  
+	  elemToEval->compileCmd = value;
+	  setKey = false;
+	}
+	else {
+	  setKey = false;
+	}
+      }
       break;
     case 3:
+      if (!setKey) {
+	
+	if (value == "infile" or
+	    value == "outfile" or
+	    value == "command" or
+	    value == "diff") {
+	  
+	  key = value;
+	  setKey = true;
+	}
+	else {
+	  cerr << "Unknown key: " << value << endl;
+	}
+      }
+      else {
+	if (key == "infile") {
+	  
+	  testForElem->inFile = value;
+	  setKey = false;
+	}
+	else if (key == "outfile") {
+	  
+	  testForElem->outFile = value;
+	  setKey = false;
+	}
+	else if (key == "command") {
+	  
+	  testForElem->cmdToTest = value;
+	  setKey = false;
+	}
+	else if (key == "diff") {
+	  
+	  testForElem->cmdToDiff = value;
+	  setKey = false;
+	}
+	else {
+	  
+	  setKey = false;
+	  key = "";
+	}
+      }
+      
       break;
     }
-    // cout << "scalar: " << mark.pos
-    // 	 << " line: " << mark.line
-    // 	 << " col: " << mark.column
-    // 	 << " tag: " << tag
-    // 	 << " value: " << value
-    // 	 << endl;
   }
+  
   void OnSequenceStart(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor) {
-    cout << "Sequence start: "
-	 << mark.pos
-	 << " line: " << mark.line
-	 << " col: " << mark.column
-	 << " tag: " << tag
-	 << endl;
+
   }
+  
   void OnSequenceEnd() {
-    cout << "Sequence ends: " << endl;
+    setKey = false;
   }
+  
   void OnMapStart(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor) {
-    cout << "Map start: " << mark.pos
-	 << " line: " << mark.line
-	 << " col: " << mark.column
-	 << " tag: " << tag
-	 << endl;
+    
     currentMap++;
   }
+  
   void OnMapEnd() {
-    cout << "MapEnd" << endl;
+
+    switch(currentMap) {
+    case 1:
+      
+      break;
+    case 2:
+      
+      evalUnit.elemsToEval.push_back(*elemToEval);
+      elemToEval = new ElemToEval();
+      break;
+    case 3:
+      
+      elemToEval->tests.push_back(*testForElem);
+      testForElem = new TestForElem();
+      
+      break;
+    }
+    
     currentMap--;
   }
-  EvalUnit* getEvalUnit();
+  
+  EvalUnit& getEvalUnit() {
+    EvalUnit* p = new EvalUnit(evalUnit);
+    return *p;
+  }
+  
 private:
-  EvalUnit* evalUnit;
+  TestForElem *testForElem;
+  ElemToEval *elemToEval;
+  EvalUnit evalUnit;
   int currentMap;
   int currentSeq;
   string key;
-  string value;
+  // string value;
   bool setKey;
+  enum { NO_SEQ, SEQ_ELEMTOEVAL, SEQ_TESTFORELEM } currSeq;
 };
-
-EvalUnit*
+    
+EvalUnit&
 processEvalUnitFile(const char* filename) {
 
   ifstream infile(filename);
 
-  if (!infile) {
+  // TODO: Find another way to manage this possible error
+  // if (!infile) {
     
-    cerr << "Error yaml file: " << filename << endl;
-    return NULL;
-  } 
-
+  //   cerr << "Error yaml file: " << filename << endl;
+    
+  // }
+  
   YAML::Parser parse(infile);
   EvalUnitEventHandler evalUnitEventHandler;
   
@@ -441,14 +583,42 @@ processEvalUnitFile(const char* filename) {
   else {
     cout << "Bad" << endl;
   }
-
-  EvalUnit* ret = new EvalUnit();
-
+  
+  
+  
   // parse.PrintTokens(cout);
   // ret->evalUnit = evalUnit["id"].as<string>();
   // ret->name     = evalUnit["name"].as<string>();
   // ret->workdir  = evalUnit["directory"].as<string>();
-
-  return ret;
+  
+  return evalUnitEventHandler.getEvalUnit();
 }
+ 
+void
+printEvalUnit(const EvalUnit& evalUnit, ostream& output) {
 
+  output << "EvalUnit: " << evalUnit.evalUnit << endl
+	 << "name: " << evalUnit.name << endl
+	 << "workdir: " << evalUnit.workdir << endl
+	 << "elements to eval: " << endl;
+  for (unsigned i = 0; i < evalUnit.elemsToEval.size(); ++i) {
+    output << "id: " << evalUnit.elemsToEval[i].id << endl
+	   << "name: " << evalUnit.elemsToEval[i].name << endl
+	   << "value: " << evalUnit.elemsToEval[i].value << endl
+	   << "compileCmd: " << evalUnit.elemsToEval[i].compileCmd << endl
+	   << "srcfiles: ";
+    for (unsigned j = 0; j < evalUnit.elemsToEval[i].srcfile.size(); ++j) {
+      output << evalUnit.elemsToEval[i].srcfile[j];
+      if (j + 1 != evalUnit.elemsToEval[i].srcfile.size())
+	output << ", ";
+    }
+    output << endl << "tests:" << endl;
+    for (unsigned j = 0; j < evalUnit.elemsToEval[i].tests.size(); ++j) {
+      output << "inFile:" << evalUnit.elemsToEval[i].tests[j].inFile
+	     << " outFile: " << evalUnit.elemsToEval[i].tests[j].outFile
+	     << " cmdToTest: " << evalUnit.elemsToEval[i].tests[j].cmdToTest
+	     << " cmdToDiff: " << evalUnit.elemsToEval[i].tests[j].cmdToDiff
+	     << endl;
+    }
+  }
+}

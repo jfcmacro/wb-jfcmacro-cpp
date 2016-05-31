@@ -33,9 +33,10 @@ struct Options2 {
   string workdir;
   string reposdir;
   string username;
+  string evalUnitFile;
   vector<string> stdlst;
   bool resumen;
-  Options2(string& workdir, string& reposdir, string& username);
+  Options2(string& workdir, string& reposdir, string& username, string& evalUnitFile);
   Options2();
 };
 
@@ -55,8 +56,6 @@ struct ElemToEval {
   float value;
   string compileCmd;
   vector<string> srcfile;
-  /* int nTests; */
-  /* TestForElem *tests; */
   vector<TestForElem> tests;
   ElemToEval();
   ElemToEval(string id, string name, float value,
@@ -92,4 +91,6 @@ int procesarOptiones(Options& options, int argc, char **argv);
 
 int parseOptions2(Options2& options, int argc, char **argv);
 
-EvalUnit* processEvalUnitFile(const char* filename);
+EvalUnit& processEvalUnitFile(const char* filename);
+
+void printEvalUnit(const EvalUnit& evalUnit, ostream& output);
