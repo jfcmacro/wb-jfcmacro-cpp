@@ -4,8 +4,8 @@
 #include <getopt.h>
 
 TestForElem::TestForElem() :
-  inFile(""), outFile(""),
-  cmdToTest(""), cmdToDiff("") { }			     
+  inFile(), outFile(),
+  cmdToTest(), cmdToDiff() { }			     
 
 TestForElem::TestForElem(string inFile, string outFile,
 			 string cmdToTest, string cmdToDiff) :
@@ -13,13 +13,19 @@ TestForElem::TestForElem(string inFile, string outFile,
   cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
 
 ElemToEval::ElemToEval() :
-  id(""), name(""), value(""),
-  compileCmd(compileCmd), srcfile(), tests() { }
+  id(), name(), value(),
+  compileCmd(), srcfile(), tests() { }
 
 ElemToEval::ElemToEval(string id, string name, float value,
 		       string compileCmd) :
   id(id), name(name), value(value),
   compileCmd(compileCmd), srcfile(), tests() { }
+
+EvalUnit::EvalUnit() :
+  evalUnit(), name(), workdir(), elemsToEval() { } 
+
+EvalUnit::EvalUnit(string evalUnit, string name, string workdir) : 
+  evalUnit(evalUnit), name(name), workdir(workdir), elemsToEval() { }
 
 void partirLinea(const string& linea, string& codigo,
 		 string& nombre, string& email,

@@ -29,39 +29,38 @@ static void usage(const char* progname) {
   ::exit(1);
 }
 
-
 TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones", "diff");
 TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones", "diff");
 TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones", "diff");
 TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones", "diff");
 TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones", "diff");
-TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
-				 testFracciones04, testFracciones05 };
+// TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
+// 				 testFracciones04, testFracciones05 };
 TestForElem testFracciones201("test_fracciones01.in", "test_fracciones01.out", "./fracciones2", "diff");
 TestForElem testFracciones202("test_fracciones02.in", "test_fracciones02.out", "./fracciones2", "diff");
 TestForElem testFracciones203("test_fracciones03.in", "test_fracciones03.out", "./fracciones2", "diff");
 TestForElem testFracciones204("test_fracciones04.in", "test_fracciones04.out", "./fracciones2", "diff");
 TestForElem testFracciones205("test_fracciones05.in", "test_fracciones05.out", "./fracciones2", "diff");
-TestForElem testFracciones2[] = { testFracciones201, testFracciones202, testFracciones203,
-				 testFracciones204, testFracciones205 }; 
+// TestForElem testFracciones2[] = { testFracciones201, testFracciones202, testFracciones203,
+// 				 testFracciones204, testFracciones205 }; 
 TestForElem testBanco01("test_banco01.in", "test_banco01.out", "./banco", "diff");
 TestForElem testBanco02("test_banco02.in", "test_banco02.out", "./banco", "diff");
 TestForElem testBanco03("test_banco03.in", "test_banco03.out", "./banco", "diff");
 TestForElem testBanco04("test_banco04.in", "test_banco04.out", "./banco", "diff");
 TestForElem testBanco05("test_banco05.in", "test_banco05.out", "./banco", "diff");
-TestForElem testBanco[] = { testBanco01, testBanco02, testBanco03, testBanco04,
-			    testBanco05 };
+// TestForElem testBanco[] = { testBanco01, testBanco02, testBanco03, testBanco04,
+// 			    testBanco05 };
 
-ElemToEval fracciones("1", "fracciones", 0.35f, "make", 5, testFracciones);
-ElemToEval fracciones2("2", "fracciones2", 0.35f, "make", 5, testFracciones2);
-ElemToEval banco("3", "banco", 0.30f, "make", 5, testBanco);
-ElemToEval elements[] = { fracciones, fracciones2, banco };
+ElemToEval fracciones("1", "fracciones", 0.35f, "make"); // , 5, testFracciones);
+ElemToEval fracciones2("2", "fracciones2", 0.35f, "make"); // , 5, testFracciones2);
+ElemToEval banco("3", "banco", 0.30f, "make"); // 5 , testBanco);
+// ElemToEval elements[] = { fracciones, fracciones2, banco };
 
 EvalUnit evalUnitMidTerm02("parciales",
 			   "parcial2b",
-			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial02/ST0244-2016-1-031-032-Programas-Parcial-02-b",
-			   3,
-			   elements);
+			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial02/ST0244-2016-1-031-032-Programas-Parcial-02-b");  // ,
+			   // 3,
+			   // elements);
 
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 		 const Options2& options, EvalUnit& evalUnit);
@@ -78,19 +77,40 @@ main(int argc, char **argv) {
   int iniFich;
   Options2 options;
 
-  // set srcfiles
+  // Setting elemsToEval
+  evalUnitMidTerm02.elemsToEval.push_back(fracciones);
+  evalUnitMidTerm02.elemsToEval.push_back(fracciones2);
+  evalUnitMidTerm02.elemsToEval.push_back(banco);
+  // Setting srcfiles
   evalUnitMidTerm02.elemsToEval[0].srcfile.push_back("fracciones.cpp");
   evalUnitMidTerm02.elemsToEval[1].srcfile.push_back("fraccion.cpp");
   evalUnitMidTerm02.elemsToEval[2].srcfile.push_back("cuentas.cpp");
+  // Setting tests
+  evalUnitMidTerm02.elemsToEval[0].tests.push_back(testFracciones01);
+  evalUnitMidTerm02.elemsToEval[0].tests.push_back(testFracciones02);
+  evalUnitMidTerm02.elemsToEval[0].tests.push_back(testFracciones03);
+  evalUnitMidTerm02.elemsToEval[0].tests.push_back(testFracciones04);
+  evalUnitMidTerm02.elemsToEval[0].tests.push_back(testFracciones05);
+  evalUnitMidTerm02.elemsToEval[1].tests.push_back(testFracciones201);
+  evalUnitMidTerm02.elemsToEval[1].tests.push_back(testFracciones202);
+  evalUnitMidTerm02.elemsToEval[1].tests.push_back(testFracciones203);
+  evalUnitMidTerm02.elemsToEval[1].tests.push_back(testFracciones204);
+  evalUnitMidTerm02.elemsToEval[1].tests.push_back(testFracciones205);
+  evalUnitMidTerm02.elemsToEval[2].tests.push_back(testBanco01);
+  evalUnitMidTerm02.elemsToEval[2].tests.push_back(testBanco02);
+  evalUnitMidTerm02.elemsToEval[2].tests.push_back(testBanco03);
+  evalUnitMidTerm02.elemsToEval[2].tests.push_back(testBanco04);
+  evalUnitMidTerm02.elemsToEval[2].tests.push_back(testBanco05);
+  
   iniFich = parseOptions2(options, argc, argv);
 
-  EvalUnit* ret = processEvalUnitFile("evalUnitMidTerm02.yml");
+  // EvalUnit* ret = processEvalUnitFile("evalUnitMidTerm02.yml");
 
-  cout << "id: " << ret->evalUnit << endl;
-  cout << "name: " << ret->name << endl;
-  cout << "directory: " << ret->workdir << endl;
+  // cout << "id: " << ret->evalUnit << endl;
+  // cout << "name: " << ret->name << endl;
+  // cout << "directory: " << ret->workdir << endl;
 
-  return 0;
+  // return 0;
   
   if (iniFich == argc) {
     
@@ -430,7 +450,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
   float totalStudent = 0.0f;
   
-  for (int i = 0; i < evalUnit.nElemsToEval; ++i) {
+  for (unsigned int i = 0; i < evalUnit.elemsToEval.size(); ++i) {
 
     // Moviendo al directorio del parcial
     if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
@@ -490,7 +510,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     }
 
     // Compute units
-    float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].nTests;
+    float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].tests.size();
     float totalElemToEval = 0.0f;
 
     // preparing for copy test files
@@ -498,7 +518,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     string dirTest(evalUnit.workdir);
     dirTest += "/" + evalUnit.elemsToEval[i].name + "/";
 
-    for (int k = 0; k < evalUnit.elemsToEval[i].nTests; ++k) {
+    for (unsigned int k = 0; k < evalUnit.elemsToEval[i].tests.size(); ++k) {
 
       string inFile = evalUnit.elemsToEval[i].tests[k].inFile;
       string outFile = evalUnit.elemsToEval[i].tests[k].outFile;

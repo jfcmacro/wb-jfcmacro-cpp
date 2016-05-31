@@ -67,14 +67,12 @@ struct EvalUnit {
   string evalUnit;
   string name;
   string workdir;
-  int nElemsToEval;
-  ElemToEval *elemsToEval;
-  EvalUnit(string evalUnit, string name, string workdir,
-	   int nElemsToEval, ElemToEval* elemsToEval) :
-    evalUnit(evalUnit), name(name), workdir(workdir), nElemsToEval(nElemsToEval),
-    elemsToEval(elemsToEval) { }
-  EvalUnit() :
-    evalUnit(""), name(""), workdir(""), nElemsToEval(0), elemsToEval(NULL) { }
+  /* int nElemsToEval; */
+  /* ElemToEval *elemsToEval; */
+  vector<ElemToEval> elemsToEval;
+  EvalUnit();
+  EvalUnit(string evalUnit, string name, string workdir);
+
 };
 
 int remove_directory(const char *path);

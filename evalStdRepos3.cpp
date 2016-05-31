@@ -32,28 +32,27 @@ static void usage(const char* progname) {
   ::exit(1);
 }
 
-
 TestForElem testComparc01("test_comparc01.in", "test_comparc01.out", "./comparc.rb", "diff");
 TestForElem testComparc02("test_comparc02.in", "test_comparc02.out", "./comparc.rb", "diff");
 TestForElem testComparc03("test_comparc03.in", "test_comparc03.out", "./comparc.rb", "diff");
 TestForElem testComparc04("test_comparc04.in", "test_comparc04.out", "./comparc.rb", "diff");
 TestForElem testComparc05("test_comparc05.in", "test_comparc05.out", "./comparc.rb", "diff");
-TestForElem testComparc[] = { testComparc01, testComparc02, testComparc03,
-			      testComparc04, testComparc05 };
+// TestForElem testComparc[] = { testComparc01, testComparc02, testComparc03,
+// 			      testComparc04, testComparc05 };
 TestForElem testFracciones01("test_fracciones01.in", "test_fracciones01.out", "./fracciones.rb", "diff");
 TestForElem testFracciones02("test_fracciones02.in", "test_fracciones02.out", "./fracciones.rb", "diff");
 TestForElem testFracciones03("test_fracciones03.in", "test_fracciones03.out", "./fracciones.rb", "diff");
 TestForElem testFracciones04("test_fracciones04.in", "test_fracciones04.out", "./fracciones.rb", "diff");
 TestForElem testFracciones05("test_fracciones05.in", "test_fracciones05.out", "./fracciones.rb", "diff");
-TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
-				 testFracciones04, testFracciones05 };
+// TestForElem testFracciones[] = { testFracciones01, testFracciones02, testFracciones03,
+// 				 testFracciones04, testFracciones05 };
 TestForElem testReppor01("test_reppor01.in", "test_reppor01.out", "./reppor.rb", "diff");
 TestForElem testReppor02("test_reppor02.in", "test_reppor02.out", "./reppor.rb", "diff");
 TestForElem testReppor03("test_reppor03.in", "test_reppor03.out", "./reppor.rb", "diff");
 TestForElem testReppor04("test_reppor04.in", "test_reppor04.out", "./reppor.rb", "diff");
 TestForElem testReppor05("test_reppor05.in", "test_reppor05.out", "./reppor.rb", "diff");
-TestForElem testReppor[] = { testReppor01, testReppor02, testReppor03, testReppor04,
-			     testReppor05 };
+// TestForElem testReppor[] = { testReppor01, testReppor02, testReppor03, testReppor04,
+// 			     testReppor05 };
 
 TestForElem testControlPerillas01("test_controlPerilla01.in",
 				  "test_controlPerilla01.out",
@@ -74,21 +73,21 @@ TestForElem testControlPerillas05("test_controlPerilla05.in",
 				  "test_controlPerilla05.out",
 				  "./controlPerillas.rb",
 				  "diff");
-TestForElem testControlPerillas[] = { testControlPerillas01, testControlPerillas02,
-				      testControlPerillas03, testControlPerillas04,
-				      testControlPerillas05 };
+// TestForElem testControlPerillas[] = { testControlPerillas01, testControlPerillas02,
+// 				      testControlPerillas03, testControlPerillas04,
+// 				      testControlPerillas05 };
 
-ElemToEval comparc("1", "comparc", 0.35f, "", 5, testComparc);
-ElemToEval reppor("2", "reppor", 0.35f, "", 5, testReppor);
-ElemToEval fracciones("3", "fracciones", 0.35f, "", 5, testFracciones);
-ElemToEval perillas("4", "perillas", 0.25f, "", 5, testControlPerillas);
-ElemToEval elements[] = { comparc, reppor, fracciones, perillas };
+ElemToEval comparc("1", "comparc", 0.35f, ""); // , 5, testComparc);
+ElemToEval reppor("2", "reppor", 0.35f, ""); // , 5, testReppor);
+ElemToEval fracciones("3", "fracciones", 0.35f, ""); //, 5, testFracciones);
+ElemToEval perillas("4", "perillas", 0.25f, ""); // , 5, testControlPerillas);
+// ElemToEval elements[] = { comparc, reppor, fracciones, perillas };
 
 EvalUnit evalUnitMidTerm03("parciales",
 			   "parcial03",
-			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial03/ST0244-2016-1-031-032-Programas-Parcial-03",
-			   4,
-			   elements);
+			   "/home/fcardona/Workbench/eafit-st0244/parciales/parcial03/ST0244-2016-1-031-032-Programas-Parcial-03"); // ,
+			   // 4,
+			   // elements);
 
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 		 const Options2& options, EvalUnit& evalUnit);
@@ -105,13 +104,40 @@ main(int argc, char **argv) {
   int iniFich;
   Options2 options;
 
-  // set srcfiles
+  // Settings elemsToEval
+  evalUnitMidTerm03.elemsToEval.push_back(comparc);
+  evalUnitMidTerm03.elemsToEval.push_back(reppor);
+  evalUnitMidTerm03.elemsToEval.push_back(fracciones);
+  evalUnitMidTerm03.elemsToEval.push_back(perillas);
+  // Setting srcfiles
   evalUnitMidTerm03.elemsToEval[0].srcfile.push_back("comparc.rb");
   evalUnitMidTerm03.elemsToEval[1].srcfile.push_back("reppor.rb");
   evalUnitMidTerm03.elemsToEval[2].srcfile.push_back("fracciones.rb");
   evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perilla10.rb");
   evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perilla10Enganche.rb");
   evalUnitMidTerm03.elemsToEval[3].srcfile.push_back("perillaLavadora.rb");
+  // Settting tests
+  evalUnitMidTerm03.elemsToEval[0].tests.push_back(testComparc01);
+  evalUnitMidTerm03.elemsToEval[0].tests.push_back(testComparc02);
+  evalUnitMidTerm03.elemsToEval[0].tests.push_back(testComparc03);
+  evalUnitMidTerm03.elemsToEval[0].tests.push_back(testComparc04);
+  evalUnitMidTerm03.elemsToEval[0].tests.push_back(testComparc05);
+  evalUnitMidTerm03.elemsToEval[1].tests.push_back(testFracciones01);
+  evalUnitMidTerm03.elemsToEval[1].tests.push_back(testFracciones02);
+  evalUnitMidTerm03.elemsToEval[1].tests.push_back(testFracciones03);
+  evalUnitMidTerm03.elemsToEval[1].tests.push_back(testFracciones04);
+  evalUnitMidTerm03.elemsToEval[1].tests.push_back(testFracciones05);
+  evalUnitMidTerm03.elemsToEval[2].tests.push_back(testReppor01);
+  evalUnitMidTerm03.elemsToEval[2].tests.push_back(testReppor02);
+  evalUnitMidTerm03.elemsToEval[2].tests.push_back(testReppor03);
+  evalUnitMidTerm03.elemsToEval[2].tests.push_back(testReppor04);
+  evalUnitMidTerm03.elemsToEval[2].tests.push_back(testReppor05);
+  evalUnitMidTerm03.elemsToEval[3].tests.push_back(testControlPerillas01);
+  evalUnitMidTerm03.elemsToEval[3].tests.push_back(testControlPerillas02);
+  evalUnitMidTerm03.elemsToEval[3].tests.push_back(testControlPerillas03);
+  evalUnitMidTerm03.elemsToEval[3].tests.push_back(testControlPerillas04);
+  evalUnitMidTerm03.elemsToEval[3].tests.push_back(testControlPerillas05);
+  
   iniFich = parseOptions2(options, argc, argv);
   
   if (iniFich == argc) {
@@ -452,7 +478,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
   float totalStudent = 0.0f;
   
-  for (int i = 0; i < evalUnit.nElemsToEval; ++i) {
+  for (unsigned int i = 0; i < evalUnit.elemsToEval.size(); ++i) {
 
     // Moviendo al directorio del parcial
     if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
@@ -505,7 +531,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     // }
 
     // Compute units
-    float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].nTests;
+    float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].tests.size();
     float totalElemToEval = 0.0f;
 
     // preparing for copy test files
@@ -513,7 +539,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
     string dirTest(evalUnit.workdir);
     dirTest += "/" + evalUnit.elemsToEval[i].name + "/";
 
-    for (int k = 0; k < evalUnit.elemsToEval[i].nTests; ++k) {
+    for (unsigned int k = 0; k < evalUnit.elemsToEval[i].tests.size(); ++k) {
 
       string inFile = evalUnit.elemsToEval[i].tests[k].inFile;
       string outFile = evalUnit.elemsToEval[i].tests[k].outFile;
