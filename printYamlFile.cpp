@@ -73,18 +73,13 @@ public:
     cout << "MapEnd" << endl;
   }
 private:
-  // EvalUnit* evalUnit;
-  // int currentMap;
-  // int currentSeq;
-  // string key;
-  // string value;
-  // bool setKey;
 };
 
 static void usage(const char* progname) {
   cerr << "Usage: " << progname << " <yamlfile>" << endl;
   ::_exit(1);
 }
+
 int
 main(int argc, char *argv[]) {
 

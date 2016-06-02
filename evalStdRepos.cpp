@@ -1,5 +1,12 @@
 /*
  * fichero: evalStdRepos.cpp
+ * 
+ * created: 2016-05-10
+ *
+ * programmer: Juan Francisco Cardona McCormick
+ *
+ * History of modifications:
+ * 2016-06-01 - Start of modifications:
  */
 #include <sys/types.h>
 #include <sys/stat.h>

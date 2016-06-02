@@ -1,3 +1,8 @@
+/*
+ * file: stdreposutils.h
+ *
+ * purpose: 
+ */
 #pragma once
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -40,11 +45,26 @@ struct Options2 {
   Options2();
 };
 
+/*
+ * TestForElem 
+ *
+ * Description: This structure describes three posibles programas to test
+ * First: Traditional
+ * cmdToTest [args] ... < inFile | cmdToDiff - outFile
+ * Second: Infile
+ * cmdToTest [args] ... inFile | cmdToDiff - outFile
+ * Third:
+ * cmdToTest [args] ... inFile
+ * cmdToTest2 tmpOutFile | cmdToDif - outFile
+ */
 struct TestForElem {
   string inFile;
   string outFile;
+  bool   redirect;
   string cmdToTest;
   string cmdToDiff;
+  string cmdToTest2;
+  vector<string> args;
   TestForElem();
   TestForElem(string inFile, string outFile,
 	      string cmdToTest, string cmdToDiff);
@@ -66,8 +86,6 @@ struct EvalUnit {
   string evalUnit;
   string name;
   string workdir;
-  /* int nElemsToEval; */
-  /* ElemToEval *elemsToEval; */
   vector<ElemToEval> elemsToEval;
   EvalUnit();
   EvalUnit(string evalUnit, string name, string workdir);

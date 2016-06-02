@@ -4,13 +4,13 @@
 #include <getopt.h>
 
 TestForElem::TestForElem() :
-  inFile(), outFile(),
-  cmdToTest(), cmdToDiff() { }			     
+  inFile(), outFile(), redirect(true),
+  cmdToTest(), cmdToDiff(), cmdToTest2(), args() { }			     
 
 TestForElem::TestForElem(string inFile, string outFile,
 			 string cmdToTest, string cmdToDiff) :
-  inFile(inFile), outFile(outFile),
-  cmdToTest(cmdToTest), cmdToDiff(cmdToDiff) { }
+  inFile(inFile), outFile(outFile), redirect(true),
+  cmdToTest(cmdToTest), cmdToDiff(cmdToDiff), cmdToTest2(), args() { }
 
 ElemToEval::ElemToEval() :
   id(), name(), value(),
@@ -417,15 +417,12 @@ public:
 	if (value == "id" or
 	    value == "name" or
 	    value == "value" or
-	    value == "compile") {
+	    value == "compile" or
+	    value == "srcfile") {
 	  key = value;
 	  setKey = true;
 	}
-	else if (value == "srcfile") { // Next event is start sequence
-	  key = value;
-	  setKey = true;
-	}
-	else if (value == "test") { // Next event is start sequence
+	else if (value == "test") { 
 	}
 	else {
 	  cerr << "Unknow key " << value << " " << currentMap << endl;
@@ -469,7 +466,9 @@ public:
 	if (value == "infile" or
 	    value == "outfile" or
 	    value == "command" or
-	    value == "diff") {
+	    value == "diff" or
+	    value == "command2" or
+	    value == "redirect") {
 	  
 	  key = value;
 	  setKey = true;
@@ -498,6 +497,18 @@ public:
 	  
 	  testForElem->cmdToDiff = value;
 	  setKey = false;
+	}
+	else if (key == "command2") {
+	  testForElem->cmdToTest2 = value;
+	  setKey = false;
+	}
+	else if (key == "redirect") {
+	  
+	  testForElem->redirect = value == "true" ? true : false;
+	}
+	else if (key == "args") {
+
+	  testForElem->args.push_back(value);
 	}
 	else {
 	  
