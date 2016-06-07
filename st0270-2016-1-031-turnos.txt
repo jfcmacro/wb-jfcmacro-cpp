@@ -1,0 +1,63 @@
+Repo: 270scruizgo1
+Students: 
+First and second id: 201410010010 name: Carlos Daniel Ruiz Gómez            email: cruizgo1@eafit.edu.co
+Repos: 14
+Repo: ant
+Students: 
+First and second id: 201510141010 name: Jonathan Stiven Zapata Castaño      email: jzapat80@eafit.edu.co
+Repos: 14
+Repo: compilators
+Students: 
+First id: 201510076010 name: Juan David Loaiza Botero            email: jloaiz16@eafit.edu.co
+Second:  id: 201510112010 name: Christian Londoño Cañas             email: clondo46@eafit.edu.co
+Repos: 14
+Repo: darthmvn
+Students: 
+First and second id: 201510013010 name: Daniel Restrepo Aristizabal         email: drestr84@eafit.edu.co
+Repos: 14
+Repo: hidra2
+Students: 
+First id: 201510085010 name: Efrain Gonzalez Arias               email: egonza21@eafit.edu.co
+Second:  id: 201510133010 name: Jose David Sanchez Castrillon       email: jsanch81@eafit.edu.co
+Repos: 14
+Repo: juanyloscaidos
+Students: 
+First id: 201510048010 name: Juan Fernando Ossa Vásquez          email: jossava@eafit.edu.co
+Second:  id: 201510093010 name: Marcos David Sierra Gallego         email: msierr37@eafit.edu.co
+Repos: 14
+Repo: just5
+Students: 
+First id: 201510026010 name: Juan Camilo Henao Salazar           email: jhenaos@eafit.edu.co
+Second:  id: 201517503010 name: Esteban Salazar Montoya             email: esalaza7@eafit.edu.co
+Repos: 14
+Repo: merrecompilador
+Students: 
+First id: 201510120010 name: Edwin Montoya Jaramillo             email: emonto15@eafit.edu.co
+Second:  id: 201510032010 name: Daniel Hoyos Ospina                 email: dhoyoso@eafit.edu.co
+Repos: 14
+Repo: obeymachine
+Students: 
+First id: 201510058010 name: Dillan Alexis Muñetón Avendaño      email: dmuneto1@eafit.edu.co
+Second:  id: 201510015010 name: Pablo Quijano Jaramillo             email: pquijano@eafit.edu.co
+Repos: 14
+Repo: sistemac
+Students: 
+First and second id: 201329000010 name: David Sanchez Uribe                 email: dsanche3@eafit.edu.co
+Repos: 14
+Repo: sistemacontrol
+Students: 
+First and second id: 201427507010 name: David Alejandro Gómez Muñoz         email: dgomez14@eafit.edu.co
+Repos: 14
+Repo: thelonelyparser
+Students: 
+First and second id: 201420003101 name: Lombardo Antonio Paredes Calles     email: lparedes@eafit.edu.co
+Repos: 14
+Repo: vamo_a_compilar
+Students: 
+First and second id: 201510145010 name: Daniel Rendon Montaño               email: drendon9@eafit.edu.co
+Repos: 14
+Repo: withouterrors
+Students: 
+First id: 201510146010 name: Mauricio Hoyos Ardila               email: mhoyosa2@eafit.edu.co
+Second:  id: 201510006010 name: Daniela Serna Escobar               email: dsernae@eafit.edu.co
+Repos: 14

@@ -1,0 +1,60 @@
+Repo: 270sfnavarro
+Students: 
+First and second id: 201320002010 name: Felipe Navarro Salazar              email: fnavarro@eafit.edu.co
+Repos: 13
+Repo: 270sjramir68
+Students: 
+First and second id: 201117503010 name: Jose Jaime Ramirez Mejia            email: jramir68@eafit.edu.co
+Repos: 13
+Repo: calypso
+Students: 
+First and second id: 201010011010 name: Andres Arango Cardona               email: aarang34@eafit.edu.co
+Repos: 13
+Repo: compileitor
+Students: 
+First id: 201510036010 name: Laura Mejía Vásquez                 email: lmejiav6@eafit.edu.co
+Second:  id: 201519101010 name: Juan Daniel Morales Arias           email: jmoral33@eafit.edu.co
+Repos: 13
+Repo: compisladores
+Students: 
+First id: 201417506010 name: Orlando Montoya Benitez             email: omontoy3@eafit.edu.co
+Second:  id: 201510039010 name: Alejandro Cordoba Boder             email: acordob5@eafit.edu.co
+Repos: 13
+Repo: friendzone
+Students: 
+First id: 201410018010 name: Eder Camilo Muñoz Florez            email: cmunozf@eafit.edu.co
+Second:  id: 201210005010 name: Alejandro Taborda Diaz              email: atabord4@eafit.edu.co
+Repos: 13
+Repo: hidrad
+Students: 
+First and second id: 201510124010 name: Diego Salazar Noreña                email: dsalaz26@eafit.edu.co
+Repos: 13
+Repo: jujucompiler
+Students: 
+First id: 201510046010 name: Juan Pablo Alcaraz Florez           email: jalcara1@eafit.edu.co
+Second:  id: 201510102010 name: Julian David Arango Lopez           email: jarangol@eafit.edu.co
+Repos: 13
+Repo: los_berrysethis
+Students: 
+First id: 201510014010 name: Craig David Cartagena Castaño       email: ccartag4@eafit.edu.co
+Second:  id: 201510070010 name: Ana María Bedoya Hernández          email: abedoy19@eafit.edu.co
+Repos: 13
+Repo: loscompis
+Students: 
+First id: 201510041010 name: Juan Pablo Londoño Botina           email: jlondo96@eafit.edu.co
+Second:  id: 201510110010 name: Jhonatan Quiñonez Avila             email: jquinon1@eafit.edu.co
+Repos: 13
+Repo: moonlight
+Students: 
+First id: 201420008010 name: Andrés Gómez Vásquez                email: agomezv3@eafit.edu.co
+Second:  id: 201420009010 name: Santiago Ignacio Vanegas Pérez      email: svaneg11@eafit.edu.co
+Repos: 13
+Repo: scontroller
+Students: 
+First and second id: 201510018010 name: Camilo Cordoba Mora                 email: ccordob7@eafit.edu.co
+Repos: 13
+Repo: vamosporel5
+Students: 
+First id: 201410023010 name: David Alejandro Goméz Cifuentes     email: dgomezc6@eafit.edu.co
+Second:  id: 201410014010 name: Natalia Jaramillo Restrepo          email: njaram15@eafit.edu.co
+Repos: 13
