@@ -1,4 +1,4 @@
-all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile
+all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile printEvalUnit
 
 CXXFLAGS=-Wall
 
@@ -21,10 +21,10 @@ evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o
 
 evalStdRepos.o: evalStdRepos.cpp stdreposutils.h stdinfo.h
 
-# evalStdRepos3: evalStdRepos3.o stdreposutils.o stdinfo.o
-# 	$(CXX) -o $@ $^ -lyaml-cpp03
+printEvalUnit: printEvalUnit.o stdreposutils.o stdinfo.o
+	$(CXX) -o $@ $^ -lyaml-cpp03
 
-# evalStdRepos3.o: evalStdRepos3.cpp stdreposutils.h stdinfo.h
+printEvalUnit.o: printEvalUnit.cpp stdreposutils.h
 
 printYamlFile: printYamlFile.o
 	$(CXX) -o $@ $^ -lyaml-cpp03 
@@ -33,3 +33,4 @@ printYamlFile.o: printYamlFile.cpp
 clean:
 	rm -f getStdRepos.o eafitCVSInfo2StdInfo.o stdinfo.o stdreposutils.o evalStdRepos.o printYamlFile.o
 	rm -f traerRepositorio eafitCVSInfo2StdInfo evalStdRepos evalStdRepos3 printYamlFile
+	rm -f printEvalUnit

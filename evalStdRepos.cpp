@@ -6,7 +6,7 @@
  * programmer: Juan Francisco Cardona McCormick
  *
  * History of modifications:
- * 2016-06-01 - Start of modifications:
+ * 2016-06-01 - Start of modifications.
  */
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,6 +43,15 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
 int launchProcess(const string& cmd, vector<string> args, const string& msgError);
 
+int launchProcessInFile(const string& inFile,
+			const string& cmd, vector<string> args,
+			const string& msgError);
+
+int launchTwoProcess(const string& inFile,
+		     const string& cmd1, vector<string> args1,
+		     const string& cmd2, vector<string> args2,
+		     const string& msgError);
+
 int launchTwoProcessInFile(const string& inFile,
 			   const string& cmd1, vector<string> args1,
 			   const string& cmd2, vector<string> args2,
@@ -65,25 +74,24 @@ main(int argc, char **argv) {
     cerr << "EvalUnitFile is empty" << endl;
     _exit(1);
   }
-  
-  // cout << "eval unit file: " << options.evalUnitFile << endl;
-  
+    
   EvalUnit& evalUnit = processEvalUnitFile(options.evalUnitFile.c_str());
-
-  printEvalUnit(evalUnit, cout);
-  ::_exit(0);  
   
   if (options.resumen) {
     cout << "--workdir: " << options.workdir << endl
 	 << "--reposdir: " << options.reposdir << endl
 	 << "--stdlst: ";
+    
     for (vector<string>::iterator it = options.stdlst.begin();
 	 it != options.stdlst.end();
 	 ++it) {
+      
       cout << *it;
+      
       if ((it + 1) != options.stdlst.end())
 	cout << ',';
     }
+    
     cout  << endl
 	  << "--username: " << options.username << endl
 	  << "filename: " << argv[optind] << endl;
@@ -200,6 +208,74 @@ int launchProcess(const string& cmd, vector<string> args, const string& msgError
   return -1;
 }
 
+int launchProcessInFile(const string& inFile,
+			const string& cmd, vector<string> args,
+			const string& msgError) {
+  
+  cout << "cmd: " << cmd << " ";
+
+  for (unsigned int i = 0; i < args.size(); ++i) {
+    cout << args[i];
+    if (i + 1 == args.size())  cout << " ";
+  }
+  
+  cout << endl;
+  
+  pid_t pidChild;
+
+  if ((pidChild = fork()) == 0) { /* First Child */
+    
+    char **cmdArgs = new char*[args.size()+2];
+
+    cmdArgs[0] = createCopyChar(cmd);
+
+    unsigned int i = 1;
+    for (unsigned int j = 0; j < args.size(); ++i,++j) {
+      
+      cmdArgs[i] = createCopyChar(args[j]);
+    }
+
+    cmdArgs[i] = NULL;
+
+    int fd;
+
+    if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+      cerr << "File: " << inFile << " cannot be opened "
+	   << " because " << errno << endl;
+      exit(21);
+    }
+   
+    ::dup2(fd, STDIN_FILENO);
+    // ::dup2(pipefds[1], STDOUT_FILENO);
+    
+    ::close(fd);
+    // ::close(pipefds[0]);
+    // ::close(pipefds[1]);
+    
+    ::execv(cmdArgs[0], cmdArgs);
+
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(30);
+  }
+
+  int statChild;
+  waitpid(pidChild, &statChild, 0);
+
+  cout << "child end status: " << statChild <<  endl;
+	
+  if (WIFEXITED(statChild)) {
+    if (WEXITSTATUS(statChild) != 0) {
+      cerr << msgError
+	   << " status child: " << WEXITSTATUS(statChild)
+	   << endl;
+    }
+  }
+
+  return -1;
+}
+
+
 int launchTwoProcessInFile(const string& inFile,
 			   const string& cmd1, vector<string> args1,
 			   const string& cmd2, vector<string> args2,
@@ -251,6 +327,126 @@ int launchTwoProcessInFile(const string& inFile,
     ::dup2(pipefds[1], STDOUT_FILENO);
     
     ::close(fd);
+    ::close(pipefds[0]);
+    ::close(pipefds[1]);
+    
+    ::execv(cmdArgs[0], cmdArgs);
+
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(30);
+  }
+
+  pid_t pidChild2;
+
+  if ((pidChild2 = fork()) == 0) { /* Child 2*/
+    char **cmdArgs = new char*[args2.size()+2];
+
+    cmdArgs[0] = createCopyChar(cmd2);
+
+    unsigned int i = 1;
+    for (unsigned int j = 0; j < args2.size(); ++i,++j) {
+      
+      cmdArgs[i] = createCopyChar(args2[j]);
+    }
+    cmdArgs[i] = NULL;
+
+    ::dup2(pipefds[0], STDIN_FILENO);
+    
+    ::close(pipefds[0]);
+    ::close(pipefds[1]);
+    
+    execvp(cmdArgs[0], cmdArgs);
+
+    cerr << "This cannot happen here because: " << errno
+	 << " " << strerror(errno) << endl;
+    exit(40);
+  }
+
+  ::close(pipefds[0]);
+  ::close(pipefds[1]);
+
+  int statChild1;
+  waitpid(pidChild1, &statChild1, 0);
+
+  cout << "child1 end status: " << statChild1 <<  endl;
+	
+  if (WIFEXITED(statChild1)) {
+    if (WEXITSTATUS(statChild1) != 0) {
+      cerr << msgError
+	   << " status child 1: " << WEXITSTATUS(statChild1)
+	   << endl;
+    }
+  }
+
+  int statChild2;
+
+  waitpid(pidChild2, &statChild2, 0);
+
+  cout << "child2 end status: " << statChild2 << endl;
+
+  if (WIFEXITED(statChild2)) {
+    if (WEXITSTATUS(statChild2) != 0) {
+      cerr << msgError
+	   << " status child 2: " << WEXITSTATUS(statChild2)
+	   << endl;
+      return WEXITSTATUS(statChild2);
+    }
+    return WEXITSTATUS(statChild2);
+  }
+  return -1;
+}
+
+int launchTwoProcess(const string& cmd1, vector<string> args1,
+		     const string& cmd2, vector<string> args2,
+		     const string& msgError) {
+  
+  cout << "cmd1: " << cmd1 << " ";
+  for (unsigned int i = 0; i < args1.size(); ++i) {
+    cout << args1[i];
+    if (i + 1 == args1.size())  cout << " ";
+  }
+  cout << endl;
+  
+  cout << "cmd2: " << cmd2 << " ";
+  for (unsigned int i = 0; i < args2.size(); ++i) {
+    cout << args2[i];
+    if (i + 1 != args2.size())  cout << " ";
+  }
+  cout << endl;
+
+  int pipefds[2];
+
+  ::pipe(pipefds);
+
+  pid_t pidChild1;
+
+  if ((pidChild1 = fork()) == 0) { /* First Child */
+    
+    char **cmdArgs = new char*[args1.size()+2];
+
+    cmdArgs[0] = createCopyChar(cmd1);
+
+    unsigned int i = 1;
+    for (unsigned int j = 0; j < args1.size(); ++i,++j) {
+      
+      cmdArgs[i] = createCopyChar(args1[j]);
+    }
+
+    cmdArgs[i] = NULL;
+
+    // int fd;
+
+    // if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+    //   cerr << "File: " << inFile << " cannot be opened "
+    // 	   << " because " << errno << endl;
+    //   exit(21);
+    // }
+   
+    // ::dup2(fd, STDIN_FILENO);
+    ::dup2(pipefds[1], STDOUT_FILENO);
+    
+    // ::close(fd);
     ::close(pipefds[0]);
     ::close(pipefds[1]);
     
@@ -409,46 +605,57 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
   for (unsigned int i = 0; i < evalUnit.elemsToEval.size(); ++i) {
 
     // Moviendo al directorio del parcial
-    if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
+    // if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
 
-      cerr << "Student: " << stdInfo.obtenerNombre() << endl
-	   << " evaluating..." << endl
-	   << " directory doesn't exist: " 
-	   << evalUnit.elemsToEval[i].name.c_str() << endl
-	   << " current directory: " << ::get_current_dir_name()
-	   << endl;
+    //   cerr << "Student: " << stdInfo.obtenerNombre() << endl
+    // 	   << " evaluating..." << endl
+    // 	   << " directory doesn't exist: " 
+    // 	   << evalUnit.elemsToEval[i].name.c_str() << endl
+    // 	   << " current directory: " << ::get_current_dir_name()
+    // 	   << endl;
       
-      break;
-    }
+    //   break;
+    // }
 
     vector<string> args;
     
     if (!evalUnit.elemsToEval[i].compileCmd.empty()) {
       cout << "Preparing cleaning compiling " << endl;
-    
-      args.push_back("clean");
-      string msg("compiling was not possible");
-    
-      if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
 
-	cerr << "Process cannot be cleaned" << endl;
-	string up("..");
-	chDirStr(up);
-	break;
+      if (evalUnit.elemsToEval[i].compileCmd == "make" or
+	  evalUnit.elemsToEval[i].compileCmd == "mvn") {
+	
+	args.push_back("clean");
+	string msg("compiling was not possible");
+	
+	if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
+
+	  cerr << "Process cannot be cleaned" << endl;
+	  string up("..");
+	  chDirStr(up);
+	  break;
+	}
       }
 
       // make all
-      cout << "Preparing compiling " << endl;
+      // cout << "Preparing compiling " << endl;
     
       args.clear();
-      args.push_back("all");
+      // args.push_back("all");
+      string msg("Preparing to compile with make all");
+
+      if (evalUnit.elemsToEval[i].compileCmd == "make") {
+	args.push_back("all");
+      }
+      else if (evalUnit.elemsToEval[i].compileCmd == "mvn") {
+	args.push_back("compile");
+      }
     
       if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
 
 	string cmdVi("vi");
 	vector<string> argsVi;
 	// argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
-	string msgVi("Algo esta mal");
 
 	for (unsigned int nsrcf = 0; nsrcf < evalUnit.elemsToEval[i].srcfile.size(); ++nsrcf) {
 	  argsVi.push_back(evalUnit.elemsToEval[i].srcfile[nsrcf]);
@@ -457,16 +664,19 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 	       << " fichero: " << evalUnit.elemsToEval[i].srcfile[nsrcf] << endl
 	       << "<presione cualquier tecla>" << endl;
 	  cin.get();
+	  string msgVi("Msg vi");
 	
 	  launchProcess(cmdVi, argsVi, msgVi);
 	  argsVi.clear();
 	  cout << "Ready for the next file" << endl;
 	}
+	
 	string up("..");
 	chDirStr(up);
 	break;
       }
     }
+    
     // Compute units
     float unitElemToEval = evalUnit.elemsToEval[i].value / evalUnit.elemsToEval[i].tests.size();
     float totalElemToEval = 0.0f;
@@ -486,8 +696,8 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       srcOutFile += outFile;
       
       if (!existsFile(srcInFile) || !existsFile(srcOutFile)) {
-	cerr << "SrcInFile: " << srcInFile << endl
-	     << "SrcOutFile: " << srcOutFile << endl;
+	cerr << "[EvalStdRepos] Warning srcinfile: " << srcInFile << endl
+	     << "or srcoutfile: " << srcOutFile << " doesn't exits" << endl;
 	continue;
       }
 
@@ -509,48 +719,188 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       srcOut.close();
       dstOut.close();
 
-      // string svnCmd("svn");
-      // string svnErrMsg("Svn could add: ")
-      // args.clear();
-      // args.push_back("add");
-      // args.push_back(inFile);
-      // args.push_back(outFile);
-      // svnErrMsg += inFile + " " + outFile;
-      
-      // if (launchProcess(svnCmd, args, svnErrMsg) != 0) {
-      // 	cerr << "error: svn add " << inFile
-      // 	     << " " << outFile << endl;
-      // }
-
-      // Preparing arguments for commands: 
       args.clear();
+
+      // no redirect one comand
+      // redirect one command
+      // no redirect two command
+      // redirect one command
+
+      if (evalUnit.elemsToEval[i].tests[k].redirect and
+	  evalUnit.elemsToEval[i].tests[k].cmdToTest2.size() == 0) {
       
-      vector<string> args2;
-      args2.push_back("-");
-      args2.push_back(outFile);
-      int retCmdDiff;
-      string msgCmdDiff("Error message");
+	vector<string> args2;
+	args2.push_back("-");
+	args2.push_back(outFile);
+	int retCmdDiff;
+	string msgCmdDiff("Error message");
+
+	if (evalUnit.elemsToEval[i].tests[k].args.size() > 0) {
+	  args.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args.begin(),
+		      evalUnit.elemsToEval[i].tests[k].args.end());
+	}
       
-      if ((retCmdDiff = launchTwoProcessInFile(inFile,
-					       evalUnit.elemsToEval[i].tests[k].cmdToTest,
-					       args,
-					       evalUnit.elemsToEval[i].tests[k].cmdToDiff,
-					       args2,
-					       msgCmdDiff)) != 0) {
-	anyTestFailed = true;
-	switch(retCmdDiff) {
-	case 1:
-	  cout << "There are difference between expected output and obtained ouput"
-	       << endl;
-	  break;
-	default:
-	  cout << "Another kind of error: " << retCmdDiff << endl;
-	  break;
+	if ((retCmdDiff = launchTwoProcessInFile(inFile,
+						 evalUnit.elemsToEval[i].tests[k].cmdToTest,
+						 args,
+						 evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+						 args2,
+						 msgCmdDiff)) != 0) {
+	  anyTestFailed = true;
+	  switch(retCmdDiff) {
+	  case 1:
+	    cout << "There are difference between expected output and obtained ouput"
+		 << endl;
+	    break;
+	  default:
+	    cout << "Another kind of error: " << retCmdDiff << endl;
+	    break;
+	  }
+	}
+	else {
+	  cout << "Test passed" << endl;
+	  totalElemToEval += unitElemToEval;
 	}
       }
-      else {
-	cout << "Test passed" << endl;
-	totalElemToEval += unitElemToEval;
+      else if (evalUnit.elemsToEval[i].tests[k].redirect and
+	       evalUnit.elemsToEval[i].tests[k].cmdToTest2.size() != 0) {
+
+	if (evalUnit.elemsToEval[i].tests[k].args.size() > 0) {
+	  args.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args.begin(),
+		      evalUnit.elemsToEval[i].tests[k].args.end());
+	}
+
+	int retCmdDiff;
+	string msgCmdDiff("Error message");
+      
+	if ((launchProcessInFile(inFile,
+				 evalUnit.elemsToEval[i].tests[k].cmdToTest,
+				 args,
+				 msgCmdDiff)) != 0) {
+	  cerr << "First command failed" << endl;
+	}
+	else {
+	  vector<string> args2;
+
+	  if (evalUnit.elemsToEval[i].tests[k].args2.size() > 0) {
+	    args2.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args2.begin(),
+			 evalUnit.elemsToEval[i].tests[k].args2.end());
+	  }
+	  
+	  vector<string> args3;
+	  args3.push_back("-");
+	  args3.push_back(outFile);
+
+	  if ((retCmdDiff = launchTwoProcess(evalUnit.elemsToEval[i].tests[k].cmdToTest2,
+					     args2,
+					     evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+					     args3,
+					     msgCmdDiff)) != 0) {
+	    
+	    anyTestFailed = true;
+	    switch(retCmdDiff) {
+	    case 1:
+	      cout << "There are difference between expected output and obtained ouput"
+		   << endl;
+	      break;
+	    default:
+	      cout << "Another kind of error: " << retCmdDiff << endl;
+	      break;
+	    }
+	  }
+	  else {
+	    cout << "Test passed" << endl;
+	    totalElemToEval += unitElemToEval;
+	  }
+	}
+      }
+      else if (!evalUnit.elemsToEval[i].tests[k].redirect and
+	       evalUnit.elemsToEval[i].tests[k].cmdToTest2.size() == 0) {
+
+	args.push_back(inFile);
+	vector<string> args2;
+	args2.push_back("-");
+	args2.push_back(outFile);
+	int retCmdDiff;
+	string msgCmdDiff("Error message");
+
+	if (evalUnit.elemsToEval[i].tests[k].args.size() > 0) {
+	  args.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args.begin(),
+		      evalUnit.elemsToEval[i].tests[k].args.end());
+	}
+      
+	if ((retCmdDiff = launchTwoProcess(evalUnit.elemsToEval[i].tests[k].cmdToTest,
+					   args,
+					   evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+					   args2,
+					   msgCmdDiff)) != 0) {
+	  anyTestFailed = true;
+	  switch(retCmdDiff) {
+	  case 1:
+	    cout << "There are difference between expected output and obtained ouput"
+		 << endl;
+	    break;
+	  default:
+	    cout << "Another kind of error: " << retCmdDiff << endl;
+	    break;
+	  }
+	}
+	else {
+	  cout << "Test passed" << endl;
+	  totalElemToEval += unitElemToEval;
+	}
+      }
+      else if (!evalUnit.elemsToEval[i].tests[k].redirect and
+	       evalUnit.elemsToEval[i].tests[k].cmdToTest2.size() != 0) {
+
+	if (evalUnit.elemsToEval[i].tests[k].args.size() > 0) {
+	  args.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args.begin(),
+		      evalUnit.elemsToEval[i].tests[k].args.end());
+	}
+
+	int retCmdDiff;
+	string msgCmdDiff("Error message");
+      
+	if ((launchProcessInFile(inFile,
+				 evalUnit.elemsToEval[i].tests[k].cmdToTest,
+				 args,
+				 msgCmdDiff)) != 0) {
+	  cerr << "First command failed" << endl;
+	}
+	else {
+	  vector<string> args2;
+
+	  if (evalUnit.elemsToEval[i].tests[k].args2.size() > 0) {
+	    args2.insert(args.end(), evalUnit.elemsToEval[i].tests[k].args2.begin(),
+			 evalUnit.elemsToEval[i].tests[k].args2.end());
+	  }
+	  
+	  vector<string> args3;
+	  args3.push_back("-");
+	  args3.push_back(outFile);
+
+	  if ((retCmdDiff = launchTwoProcess(evalUnit.elemsToEval[i].tests[k].cmdToTest2,
+					     args2,
+					     evalUnit.elemsToEval[i].tests[k].cmdToDiff,
+					     args3,
+					     msgCmdDiff)) != 0) {
+	    
+	    anyTestFailed = true;
+	    switch(retCmdDiff) {
+	    case 1:
+	      cout << "There are difference between expected output and obtained ouput"
+		   << endl;
+	      break;
+	    default:
+	      cout << "Another kind of error: " << retCmdDiff << endl;
+	      break;
+	    }
+	  }
+	  else {
+	    cout << "Test passed" << endl;
+	    totalElemToEval += unitElemToEval;
+	  }
+	}
       }
     }
 

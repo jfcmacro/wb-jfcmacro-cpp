@@ -1,7 +1,14 @@
 /*
  * file: stdreposutils.h
  *
- * purpose: 
+ * created: 2016-05-10
+ *
+ * programmer: Juan Francisco Cardona McCormick
+ *
+ * purpose:
+ *
+ * History of modifications:
+ * 2016-06-01 - Start of modifications. 
  */
 #pragma once
 #include <sys/types.h>
@@ -65,6 +72,7 @@ struct TestForElem {
   string cmdToDiff;
   string cmdToTest2;
   vector<string> args;
+  vector<string> args2;
   TestForElem();
   TestForElem(string inFile, string outFile,
 	      string cmdToTest, string cmdToDiff);

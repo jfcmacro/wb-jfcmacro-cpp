@@ -1,7 +1,20 @@
+/*
+ * file: stdreposutils.cpp
+ *
+ * created: 2016-05-10
+ *
+ * programmer: Juan Francisco Cardona McCormick
+ *
+ * purpose:
+ *
+ * History of modifications:
+ * 2016-06-01 - Start of modifications. 
+ */
 #include "stdreposutils.h"
 #include <cstring>
 #include <fstream>
 #include <getopt.h>
+#include <stack>
 
 TestForElem::TestForElem() :
   inFile(), outFile(), redirect(true),
@@ -339,184 +352,196 @@ public:
 			   evalUnit(),
 			   currentMap(0),
 			   currentSeq(0),
-			   key(),
-			   // value(),
-			   setKey(false) {
+			   keys() {
     testForElem = new TestForElem();
     elemToEval = new ElemToEval();
   }
 			   
   ~EvalUnitEventHandler() { }
   
-  void OnDocumentStart(const YAML::Mark& mark) {
-    // cout << "This documents start on: " << mark.pos
-    // 	 << " line: " << mark.line
-    // 	 << " col: " << mark.column
-    // 	 << endl;
-  }
+  void OnDocumentStart(const YAML::Mark& mark) { }
   
-  void OnDocumentEnd() {
-    // cout << "This documents ends" << endl;
-  }
+  void OnDocumentEnd() { }
   
-  void OnNull(const YAML::Mark& mark, YAML::anchor_t anchor) {
-    // cout << "Null where" << mark.pos
-    // 	 << " line: " << mark.line
-    // 	 << " col: " << mark.column
-    // 	 << endl;
-  }
+  void OnNull(const YAML::Mark& mark, YAML::anchor_t anchor) { }
   
-  void OnAlias(const YAML::Mark& mark, YAML::anchor_t anchor) {
-    // cout << "On alias2" << mark.pos
-    // 	 << " line: " <<  mark.line
-    // 	 << " col: " <<  mark.column
-    // 	 << endl;
-  }
+  void OnAlias(const YAML::Mark& mark, YAML::anchor_t anchor) { }
   
-  void OnScalar(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor, const string& value) {
+  void OnScalar(const YAML::Mark& mark, const string& tag,
+		YAML::anchor_t anchor,  const string& value) {
     
     switch (currentMap) {
     case 1:
-      if (!setKey) {
-	if (value == "id" or
-	    value == "name" or
-	    value == "directory") {
+      if (keys.size() == 0) {
+	if (value == "id" or value == "name" or
+	    value == "directory" or value == "elements") {
 	  
-	  key = value;
-	  setKey = true;
-	}
-	else if (value == "elements") { // Next event is start sequence
+	  keys.push(value);
 	}
 	else {
 	  cerr << "key doesnt' found: " << value << endl;
+	  ::_exit(1);
 	}
       }
       else {
-	if (key == "id") {
+	
+	if (keys.top() == "id") {
 	  
 	  evalUnit.evalUnit = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "name") {
+	else if (keys.top() == "name") {
 	  
 	  evalUnit.name = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "directory") {
+	else if (keys.top() == "directory") {
 	  
 	  evalUnit.workdir = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	
-	setKey = false;
-	key = "";
-      }
-      break;
-    case 2:
-      if (!setKey) {
-	if (value == "id" or
-	    value == "name" or
-	    value == "value" or
-	    value == "compile" or
-	    value == "srcfile") {
-	  key = value;
-	  setKey = true;
-	}
-	else if (value == "test") { 
+	else if (keys.top() == "elements") {
 	}
 	else {
-	  cerr << "Unknow key " << value << " " << currentMap << endl;
+	  cerr << "Unknown key stored" << keys.top() << endl;
+	  ::_exit(1);
 	}
       }
-      else {
-	if (key == "id") {
+      break;
+      
+    case 2:
+      if (keys.size() == 1) {
+	if (value == "id" or value == "name" or
+	    value == "value" or value == "compile" or
+	    value == "srcfile" or value == "tests") {
+	  
+	  keys.push(value);
+	}
+	else {
+	  
+	  cerr << "Unknown key " << value << "at: "
+	       << currentMap 
+	       << "stack top: " << keys.top()
+	       << endl;
+	  ::_exit(1);
+	}
+      }
+      else if (keys.size() == 2) {
+	
+	if (keys.top() == "id") {
 	  
 	  elemToEval->id = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "name") {
+	else if (keys.top() == "name") {
 	  
 	  elemToEval->name = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "value") {
+	else if (keys.top() == "value") {
 	  
 	  istringstream iss(value);
 	  iss >> elemToEval->value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "srcfile") {
+	else if (keys.top() == "srcfile") {
 	  
 	  elemToEval->srcfile.push_back(value);
-	  // setKey = false;
 	}
-	else if (key == "compile") {
+	else if (keys.top() == "compile") {
 	  
 	  elemToEval->compileCmd = value;
-	  setKey = false;
+	  keys.pop();
+	}
+	else if (keys.top() == "tests") {
 	}
 	else {
-	  setKey = false;
+	  cerr << "Unknown key stored" << keys.top() << endl;
+	  ::_exit(1);
 	}
       }
+      else {
+	cout << "stack size() " << keys.size()
+	     << " is incompatible with map level: "
+	     << currentMap
+	     << endl;
+	::_exit(1);
+      }
       break;
+      
     case 3:
-      if (!setKey) {
+      if (keys.size() == 2) {
 	
 	if (value == "infile" or
 	    value == "outfile" or
 	    value == "command" or
 	    value == "diff" or
 	    value == "command2" or
-	    value == "redirect") {
+	    value == "redirect" or
+	    value == "args" or
+	    value == "args2") {
 	  
-	  key = value;
-	  setKey = true;
+	  keys.push(value);
 	}
 	else {
-	  cerr << "Unknown key: " << value << endl;
+	  cerr << "Unknown key " << value << "at: "
+	       << currentMap 
+	       << "stack top: " << keys.top()
+	       <<endl;
+	  ::_exit(1);
 	}
       }
-      else {
-	if (key == "infile") {
+      else if (keys.size() == 3) {
+	if (keys.top() == "infile") {
 	  
 	  testForElem->inFile = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "outfile") {
+	else if (keys.top() == "outfile") {
 	  
 	  testForElem->outFile = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "command") {
+	else if (keys.top() == "command") {
 	  
 	  testForElem->cmdToTest = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "diff") {
+	else if (keys.top() == "diff") {
 	  
 	  testForElem->cmdToDiff = value;
-	  setKey = false;
+	  keys.pop();
 	}
-	else if (key == "command2") {
-	  testForElem->cmdToTest2 = value;
-	  setKey = false;
-	}
-	else if (key == "redirect") {
+	else if (keys.top() == "command2") {
 	  
-	  testForElem->redirect = value == "true" ? true : false;
+	  testForElem->cmdToTest2 = value;
+	  keys.pop();
 	}
-	else if (key == "args") {
+	else if (keys.top() == "redirect") {
+
+	  testForElem->redirect = value == "true" ? true : false;
+	  keys.pop();
+	}
+	else if (keys.top() == "args") {
 
 	  testForElem->args.push_back(value);
 	}
-	else {
+	else if (keys.top() == "args2") {
 	  
-	  setKey = false;
-	  key = "";
+	  testForElem->args2.push_back(value);
+	}
+	else {
+	  cerr << "Unknown key stored" << keys.top() << endl;
+	  ::_exit(1);
 	}
       }
-      
+      else {
+	cout << "stack size() " << keys.size()
+	     << " is incompatible with map level: "
+	     << currentMap
+	     << endl;
+	::_exit(1);
+      }
       break;
     }
   }
@@ -526,7 +551,44 @@ public:
   }
   
   void OnSequenceEnd() {
-    setKey = false;
+    switch(currentMap) {
+    case 1:
+      if (keys.top() == "elements") {
+	keys.pop();
+      }
+      else {
+	cerr << "Unknown key stored" << keys.top() << endl;
+	::_exit(1);
+      }
+      break;
+      
+    case 2:
+      if (keys.top() == "srcfile") {
+	
+	keys.pop();
+      }
+      else if (keys.top() == "tests") {
+	
+	keys.pop();
+      }
+      else {
+	cerr << "Unknown key stored" << keys.top() << endl;
+	::_exit(1);
+      }
+      break;
+      
+    case 3:
+      if (keys.top() == "args" or
+	  keys.top() == "args2") {
+
+	keys.pop();
+      }
+      else {
+	cerr << "Unknown key stored" << keys.top() << endl;
+	::_exit(1);
+      }
+      break;
+    }
   }
   
   void OnMapStart(const YAML::Mark& mark, const string& tag, YAML::anchor_t anchor) {
@@ -540,11 +602,13 @@ public:
     case 1:
       
       break;
+      
     case 2:
       
       evalUnit.elemsToEval.push_back(*elemToEval);
       elemToEval = new ElemToEval();
       break;
+      
     case 3:
       
       elemToEval->tests.push_back(*testForElem);
@@ -567,9 +631,7 @@ private:
   EvalUnit evalUnit;
   int currentMap;
   int currentSeq;
-  string key;
-  // string value;
-  bool setKey;
+  stack<string> keys;
   enum { NO_SEQ, SEQ_ELEMTOEVAL, SEQ_TESTFORELEM } currSeq;
 };
     
@@ -589,19 +651,14 @@ processEvalUnitFile(const char* filename) {
   EvalUnitEventHandler evalUnitEventHandler;
   
   if (parse.HandleNextDocument(evalUnitEventHandler)) {
+    
     cout << "Ok" << endl;
   }
   else {
+    
     cout << "Bad" << endl;
   }
-  
-  
-  
-  // parse.PrintTokens(cout);
-  // ret->evalUnit = evalUnit["id"].as<string>();
-  // ret->name     = evalUnit["name"].as<string>();
-  // ret->workdir  = evalUnit["directory"].as<string>();
-  
+    
   return evalUnitEventHandler.getEvalUnit();
 }
  
@@ -612,24 +669,40 @@ printEvalUnit(const EvalUnit& evalUnit, ostream& output) {
 	 << "name: " << evalUnit.name << endl
 	 << "workdir: " << evalUnit.workdir << endl
 	 << "elements to eval: " << endl;
+  
   for (unsigned i = 0; i < evalUnit.elemsToEval.size(); ++i) {
+    
     output << "id: " << evalUnit.elemsToEval[i].id << endl
 	   << "name: " << evalUnit.elemsToEval[i].name << endl
 	   << "value: " << evalUnit.elemsToEval[i].value << endl
 	   << "compileCmd: " << evalUnit.elemsToEval[i].compileCmd << endl
 	   << "srcfiles: ";
+    
     for (unsigned j = 0; j < evalUnit.elemsToEval[i].srcfile.size(); ++j) {
       output << evalUnit.elemsToEval[i].srcfile[j];
       if (j + 1 != evalUnit.elemsToEval[i].srcfile.size())
 	output << ", ";
     }
+    
     output << endl << "tests:" << endl;
     for (unsigned j = 0; j < evalUnit.elemsToEval[i].tests.size(); ++j) {
-      output << "inFile:" << evalUnit.elemsToEval[i].tests[j].inFile
+      
+      output << "inFile: " << evalUnit.elemsToEval[i].tests[j].inFile
 	     << " outFile: " << evalUnit.elemsToEval[i].tests[j].outFile
+	     << " redirect: " << evalUnit.elemsToEval[i].tests[j].redirect
 	     << " cmdToTest: " << evalUnit.elemsToEval[i].tests[j].cmdToTest
 	     << " cmdToDiff: " << evalUnit.elemsToEval[i].tests[j].cmdToDiff
-	     << endl;
+	     << " cmdToTest2: " << evalUnit.elemsToEval[i].tests[j].cmdToTest2
+	     << " args: ";
+
+      for (unsigned k = 0; k < evalUnit.elemsToEval[i].tests[j].args.size(); ++k) {
+	cout << evalUnit.elemsToEval[i].tests[j].args[k];
+	if (k + 1 != evalUnit.elemsToEval[i].tests[j].args.size()) {
+	  cout << ", ";
+	}
+      }
+
+      cout << endl;
     }
   }
 }
