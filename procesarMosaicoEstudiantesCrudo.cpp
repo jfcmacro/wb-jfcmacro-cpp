@@ -15,7 +15,7 @@ main(int argc, const char* argv[]) {
     usage(argv[0]);
   }
   
-  ifstream fs(argv[1]);
+  ifstream fs(argv[1], ifstream::in);
 
   getline(fs,
 }
