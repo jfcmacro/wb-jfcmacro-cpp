@@ -1,10 +1,10 @@
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <cstdlib>
-#include <time.h>
 #include <map>
+#include <time.h>
 
 using namespace std;
 
@@ -34,11 +34,16 @@ main(int argc, const char* argv[]) {
   if (argc != 3) {
     usage(argv[0]);
   }
+
+  string mesaname(argv[2]);
+
+  mesaname = "r" + mesaname;
   
   ifstream ifest(argv[1]);
   ifstream imesas(argv[2]);
+  ofstream omesas(mesaname.c_str());
 
-  if (!ifest || !imesas) {
+  if (!ifest || !imesas || !omesas) {
     cerr << "No puedo abrir los archivos" << endl;
     return 1;
   }
@@ -66,6 +71,9 @@ main(int argc, const char* argv[]) {
     nMesas++;
   }
 
+  imesas.close();
+  ifest.close();
+  
   srand(time(NULL));
 
   for (vector<string>::iterator it = estudiantes.begin();
@@ -80,6 +88,13 @@ main(int argc, const char* argv[]) {
   
   cout << "Total mesas: " << nMesas << " "
        << mesas.size() << endl;
+
+  for (vector<string>::iterator it = mesas.begin();
+       it != mesas.end(); ++it) {
+    omesas << *it << endl;
+  }
+
+  omesas.close();
   
   return 0;
 }
