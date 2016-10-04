@@ -8,22 +8,29 @@
 using namespace std;
 
 static void usage(const char* progname) {
-  cerr << "Usage: " << progname << " <fichero>" << endl;
+  cerr << "Usage: " << progname << " [<fichero>]" << endl;
   exit(1);
 }
 
 int
 main(int argc, const char* argv[]) {
-
-  if (argc != 2) {
+  
+  if (argc > 2) {
     usage(argv[0]);
   }
-  
-  ifstream ifs(argv[1]);
 
+  istream *ifs = nullptr;
+
+  if (argc == 1) {
+    ifs = &cin;
+  }
+  else {
+    ifs = new ifstream(argv[1]);
+  }
+  
   string line;
 
-  while (getline(ifs,line)) {
+  while (getline(*ifs,line)) {
     istringstream strstrm(line);
     string item;
 

@@ -8,17 +8,19 @@ void un(string str) {
   int iv = 0;
   while (str[iv] != '*') iv++;
 
-  string out;
+  char *out = new char[str.size() + 1];
   iv++;
   int ic = 0, is = 0;
 
   while (str[ic] != '*' or str[iv] != '\0') {
     if (str[ic] == '-') {
-      out[is] = out[iv];
+      out[is] = str[iv];
       iv++; is++;
+      ic++;
     }
     else {
       if (str[ic] == '=') {
+        ic++;
 	out[is] = str[ic];
 	is++; ic++;
       }
@@ -37,9 +39,11 @@ void un(string str) {
 int
 main() {
 
-  string uno("hlm=nd*oau");
+  string uno("hlm=nd*oauo");
+  string dos("-=nt=sl-*aeea");
 
   un(uno);
+  un(dos);
 
   return 0;
 }
