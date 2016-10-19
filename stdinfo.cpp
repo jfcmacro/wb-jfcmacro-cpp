@@ -5,16 +5,16 @@ Estudiante::Estudiante()
     email(), reponame() { }
 
 Estudiante::Estudiante(string& nombre,
-		       string& codigo,
-		       string& email,
-		       string& reponame)
+                       string& codigo,
+                       string& email,
+                       string& reponame)
   : nombre(nombre),
     codigo(codigo),
     email(email),
     reponame(reponame) { }
 
 string& Estudiante::obtenerNombre() const {
-  
+
   return *(new string(nombre));
 }
 
@@ -32,6 +32,6 @@ string& Estudiante::obtenerEmail() const {
   return *(new string(email));
 }
 // void Estudiante::estRepoName() {
- 
+
 //   reponame += email.substr(0,email.find("@")-1);;
 // }

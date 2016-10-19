@@ -14,7 +14,7 @@ static void usage(const char* progname) {
 
 int
 main(int argc, const char* argv[]) {
-  
+
   if (argc > 2) {
     usage(argv[0]);
   }
@@ -27,7 +27,7 @@ main(int argc, const char* argv[]) {
   else {
     ifs = new ifstream(argv[1]);
   }
-  
+
   string line;
 
   while (getline(*ifs,line)) {
@@ -38,15 +38,15 @@ main(int argc, const char* argv[]) {
     while (getline(strstrm, item, ',')) {
       switch(i) {
       case 1:
-	cout << item << "|";
-	break;
+        cout << item << "|";
+        break;
       case 2:
-	cout << left << setw(35) << item << "|";
-	break;
+        cout << left << setw(35) << item << "|";
+        break;
       case 6:
-	cout << item;
-	string st(item);
-	cout << "|" << "270s" << st.substr(0, st.find("@"));
+        cout << item;
+        string st(item);
+        cout << "|" << "270s" << st.substr(0, st.find("@"));
       }
       ++i;
     }

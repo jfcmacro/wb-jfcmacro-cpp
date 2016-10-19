@@ -26,7 +26,7 @@ static void usage(const char* progname) {
 }
 
 void studentProcess(const string& stdId, const Estudiante& stdInfo,
-		    const Options& options);
+                    const Options& options);
 
 int
 main(int argc, char **argv) {
@@ -35,32 +35,32 @@ main(int argc, char **argv) {
   Options options;
 
   iniFich = procesarOptiones(options, argc, argv);
-  
+
   if (iniFich == argc) {
     usage(argv[0]);
   }
 
   if (options.resumen) {
     cout << "--workdir: " << options.workdir << endl
-	 << "--reposdir: " << options.reposdir << endl
-	 << "--timestamp: " << options.timestamp << endl
-	 << "--stdlst: " << endl;
+         << "--reposdir: " << options.reposdir << endl
+         << "--timestamp: " << options.timestamp << endl
+         << "--stdlst: " << endl;
     for (vector<string>::iterator it = options.stdlst.begin();
-	 it != options.stdlst.end();
-	 ++it) {
+         it != options.stdlst.end();
+         ++it) {
       cout << *it << ",";
     }
     cout  << endl
-	  << "--username: " << options.username << endl
-	  << "filename: " << argv[optind] << endl;
+          << "--username: " << options.username << endl
+          << "filename: " << argv[optind] << endl;
   }
-   
+
   map <string,Estudiante> codEst;
-  
+
   if (!obtenerEstudiantes(codEst, argv[optind])) {
     cerr << "student file input" << argv[optind] << endl;
     return 1;
-  }    
+  }
 
   if (chdir(options.workdir.c_str()) == 0) {
     struct stat buffer;
@@ -68,54 +68,54 @@ main(int argc, char **argv) {
     if (stat(options.reposdir.c_str(),&buffer) != 0) {
 
       if (mkdir(options.reposdir.c_str(), 0766) != 0) {
-	cerr << "Error: cannot create directory "
-	     << options.reposdir
-	     << errno << endl;
-	exit(1);
+        cerr << "Error: cannot create directory "
+             << options.reposdir
+             << errno << endl;
+        exit(1);
       }
     }
 
     if (chdir(options.reposdir.c_str()) == 0) {
 
       if (options.stdlst.empty()) {
-	
-	for (map<string,Estudiante>::iterator it = codEst.begin();
-	     it != codEst.end();
-	     ++it) {
-	  
-	  studentProcess(it->first, it->second, options);
-	}
+
+        for (map<string,Estudiante>::iterator it = codEst.begin();
+             it != codEst.end();
+             ++it) {
+
+          studentProcess(it->first, it->second, options);
+        }
       }
       else {
-	
-	for (vector<string>::iterator it = options.stdlst.begin();
-	     it != options.stdlst.end();
-	     ++it) {
-	  
-	  map<string,Estudiante>::iterator it2 = codEst.find(*it);
 
-	  if (it2 != codEst.end()) {
-	    studentProcess(it2->first, it2->second, options);
-	  }
-	  else {
-	    cerr << "student id doesn't exists " << *it << endl;
-	  }
-	}
+        for (vector<string>::iterator it = options.stdlst.begin();
+             it != options.stdlst.end();
+             ++it) {
+
+          map<string,Estudiante>::iterator it2 = codEst.find(*it);
+
+          if (it2 != codEst.end()) {
+            studentProcess(it2->first, it2->second, options);
+          }
+          else {
+            cerr << "student id doesn't exists " << *it << endl;
+          }
+        }
       }
     }
   }
   else {
     cerr << "workdir: " << options.workdir << " doesn't exist "
-	 << " errno: " << errno << endl;
+         << " errno: " << errno << endl;
     exit(1);
   }
-  
+
   return 0;
 }
 
 void studentProcess(const string& stdId,
-		    const Estudiante& stdInfo,
-		    const Options& options) {
+                    const Estudiante& stdInfo,
+                    const Options& options) {
 
   string allname("https://svn.riouxsvn.com/");
   allname += stdInfo.obtenerRepo();
@@ -126,14 +126,14 @@ void studentProcess(const string& stdId,
     string svnCmd("co");
     string svnOptRevision("--revision");
     string svnOptUsername("--username");
-	  
+
     int nArgs = 4;
 
     if (options.timestamp.size() > 0) nArgs += 2;
     if (options.username.size() > 0) nArgs += 2;
 
     nArgs++;
-	  
+
     char **args = new char*[nArgs];
 
     args[0] = new char[svnName.size() + 1];
@@ -144,7 +144,7 @@ void studentProcess(const string& stdId,
     ::strcpy(args[2],allname.c_str());
     args[3] = new char[stdInfo.obtenerEmail().size()];
     ::strcpy(args[3],stdInfo.obtenerEmail().c_str());
-	   
+
     int oai = 4;
 
     if (options.timestamp.size() > 0) {
@@ -166,33 +166,33 @@ void studentProcess(const string& stdId,
     args[oai] = NULL;
 
     execvp(args[0], args);
-	  
+
     cerr << "This cannot happen here because: " << errno
-	 << " " << strerror(errno) << endl;
+         << " " << strerror(errno) << endl;
     exit(20);
   }
-	
+
   int status;
   wait(&status);
-	
+
   if (WIFEXITED(status)) {
     if (WEXITSTATUS(status) != 0) {
       cerr << "Problemas procesando a"
-	   << " codigo: " << stdId 
-	   << " nombre: "<< stdInfo.obtenerNombre()
-	   << " status: " << WEXITSTATUS(status)
-	   << endl
-	   << "url: " << allname
-	   << " dir: " << stdInfo.obtenerEmail()
-	   << endl;
-	    
+           << " codigo: " << stdId
+           << " nombre: "<< stdInfo.obtenerNombre()
+           << " status: " << WEXITSTATUS(status)
+           << endl
+           << "url: " << allname
+           << " dir: " << stdInfo.obtenerEmail()
+           << endl;
+
       string svnFile("./");
       svnFile += stdInfo.obtenerEmail();
       if (remove_directory(svnFile.c_str()) != 0) {
-	cerr << "Dir: " << svnFile
-	     << " no pudo ser removido"
-	     << endl;
+        cerr << "Dir: " << svnFile
+             << " no pudo ser removido"
+             << endl;
       }
     }
-  } 
+  }
 }

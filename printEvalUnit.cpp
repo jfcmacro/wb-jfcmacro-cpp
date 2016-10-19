@@ -1,6 +1,6 @@
 /*
  * fichero: printEvalUnit.cpp
- * 
+ *
  * created: 2016-06-10
  *
  * programmer: Juan Francisco Cardona McCormick
@@ -31,6 +31,6 @@ main(int argc, char **argv) {
   EvalUnit& evalUnit = processEvalUnitFile(evalUnitFile.c_str());
 
   printEvalUnit(evalUnit, cout);
-  
+
   return 0;
 }

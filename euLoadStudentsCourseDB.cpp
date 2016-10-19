@@ -1,5 +1,7 @@
 #include <locale>
 #include <iostream>
+#include <sstream>
+#include <strstream>
 #include <iomanip>
 #include <string>
 #include <cstdlib>
@@ -7,9 +9,12 @@
 #include <sqlite3.h>
 #include <unistd.h>
 #include <time.h>
+#include <cstdlib>
+#include <mongo/client/dbclient.h>
 #include "euData.h"
 
 using namespace std;
+using namespace mongo;
 
 struct pipe_is_space : std::ctype<char> {
   pipe_is_space() : std::ctype<char>(get_table()) { }
@@ -25,6 +30,9 @@ static void usage(const char* prgname);
 
 int sqlCursorSelectCourseId(void *nada, int argc, char **argv, char **colNames);
 int sqlInsertTableValue(void* nada, int argc, char **argv, char **colNames);
+DBClientConnection& mongoDBInit(void);
+void mngDBInsert(DBClientConnection &conn, string &studentid, string &studentrepo);
+int toInt(const char* str);
 
 int
 main(int argc, char *argv[]) {
@@ -54,13 +62,17 @@ main(int argc, char *argv[]) {
 
     case 'y': {
       string strYear(optarg);
-      options.year = stoi(strYear);
+      istringstream is(strYear);
+      // options.year = stoi(strYear);
+      is >> options.year;
       break;
     }
       
     case 't': {
       string strTerm(optarg);
-      options.year = stoi(strTerm);
+      istringstream is(strTerm);
+      // options.term = stoi(strTerm);
+      is >> options.term;
       break;
     }
       
@@ -121,32 +133,46 @@ main(int argc, char *argv[]) {
   }
 
   delete[] sql;
+
   
-  while (cin >> studentid >> studentname >> studentemail >> studentrepo) {
-    cout << "id: " << studentid
-	 << " name: " << studentname
-	 << " email: " << studentemail
-	 << " repo: " << studentrepo
-	 << std::endl;
+  try {
 
-    string insertchar("insert into students values ('" +
-		      studentid + "', " +
-		      "' '" + ", '" +
-		      studentname  + "', '" +
-		      studentemail + "');");
-    sql = new char[insertchar.size() + 1];
-    strcpy(sql, insertchar.c_str());
-
-    rc = sqlite3_exec(db, sql, sqlInsertTableValue, NULL, &errmsg);
-
-    if (rc != SQLITE_OK) {
-      cerr << "Error: " << errmsg
-	   << "insertchar: " << insertchar << endl;
-      sqlite3_free(errmsg);
-      // sqlite3_close(db);
-      // exit(1);
+    DBClientConnection &conn = mongoDBInit();
+    cout << "Connected to mongodb OK" << endl;
+  
+    while (cin >> studentid >> studentname >> studentemail >> studentrepo) {
+      cout << "id: " << studentid
+           << " name: " << studentname
+           << " email: " << studentemail
+           << " repo: " << studentrepo
+           << std::endl;
+      
+      string insertchar("insert or replace into students values ('" +
+                        studentid + "', " +
+                        "' '" + ", '" +
+                        studentname  + "', '" +
+                        studentemail + "');");
+      sql = new char[insertchar.size() + 1];
+      strcpy(sql, insertchar.c_str());
+      
+      rc = sqlite3_exec(db, sql, sqlInsertTableValue, NULL, &errmsg);
+      
+      if (rc != SQLITE_OK) {
+        cerr << "Error: " << errmsg
+             << "insertchar: " << insertchar << endl;
+        sqlite3_free(errmsg);
+        // sqlite3_close(db);
+        // exit(1);
+      }
+      else {
+        mngDBInsert(conn, studentid, studentrepo);
+      }
+      delete[] sql;
+      
     }
-    delete[] sql;
+        
+  } catch (const mongo::DBException &e) {
+    cout << "caugh" << e.what() << endl;
   }
 
   sqlite3_close(db);
@@ -177,4 +203,36 @@ int
 sqlInsertTableValue(void *parameter, int argc, char **argv, char **colNames) {
 
   return 0;
+}
+
+DBClientConnection& 
+mongoDBInit(void) {
+  client::initialize();
+  DBClientConnection *conn;
+  conn = new DBClientConnection();
+  conn->connect("localhost");
+  return *conn;
+}
+
+
+void
+mngDBInsert(DBClientConnection &conn,
+            string &studentid,
+            string &studentrepo) {
+  BSONObjBuilder obj;
+
+  obj.append("StudentId", studentid);
+  obj.append("Repo", studentrepo);
+ 
+  conn.insert("following.StdRepos", obj.obj());
+}
+
+int
+toInt(const char *str) {
+
+  sstrstring sss(str);
+  int ret;
+  sss >> ret;
+
+  return ret;
 }

@@ -8,7 +8,7 @@
  * purpose:
  *
  * History of modifications:
- * 2016-06-01 - Start of modifications. 
+ * 2016-06-01 - Start of modifications.
  */
 #pragma once
 #include <sys/types.h>
@@ -53,7 +53,7 @@ struct Options2 {
 };
 
 /*
- * TestForElem 
+ * TestForElem
  *
  * Description: This structure describes three posibles programas to test
  * First: Traditional
@@ -67,7 +67,7 @@ struct Options2 {
 struct TestForElem {
   string inFile;
   string outFile;
-  bool   redirect;
+  bool	 redirect;
   string cmdToTest;
   string cmdToDiff;
   string cmdToTest2;

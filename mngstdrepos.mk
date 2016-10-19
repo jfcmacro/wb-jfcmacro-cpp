@@ -1,6 +1,6 @@
 all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile printEvalUnit
 
-CXXFLAGS=-Wall
+CXXFLAGS=-Wall -std=c++11
 
 getStdRepos: getStdRepos.o stdinfo.o stdreposutils.o
 	$(CXX) -o $@ $^ -lyaml-cpp03
