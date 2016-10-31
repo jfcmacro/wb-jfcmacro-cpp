@@ -1,4 +1,4 @@
-CXXFLAGS=
+CXXFLAGS=-std=c++11 -g
 LDFLAGS2=-lpthread -ldl -lsqlite3 -lmongoclient -lboost_system
 
 all: eafitCVSInfo2StdInfo generarMesasAleatorias generarTurnosSustentacion euLoadStudentsCourseDB

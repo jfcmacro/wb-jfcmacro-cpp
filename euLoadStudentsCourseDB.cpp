@@ -1,15 +1,14 @@
 #include <locale>
 #include <iostream>
 #include <sstream>
-#include <strstream>
 #include <iomanip>
 #include <string>
 #include <cstdlib>
 #include <cstring>
+// #include <strstream>
 #include <sqlite3.h>
 #include <unistd.h>
 #include <time.h>
-#include <cstdlib>
 #include <mongo/client/dbclient.h>
 #include "euData.h"
 
@@ -28,11 +27,14 @@ struct pipe_is_space : std::ctype<char> {
 
 static void usage(const char* prgname);
 
+
 int sqlCursorSelectCourseId(void *nada, int argc, char **argv, char **colNames);
 int sqlInsertTableValue(void* nada, int argc, char **argv, char **colNames);
 DBClientConnection& mongoDBInit(void);
-void mngDBInsert(DBClientConnection &conn, string &studentid, string &studentrepo);
+void mngDBInsStdInfo(DBClientConnection &conn, string &studentid, string &studentemail);
+void mngDBInsStdRepoSVN(DBClientConnection &conn, LSCDBOptions& options, string &studentid, string &studentrepo);
 int toInt(const char* str);
+void setString(string &str, const char *cstr);
 
 int
 main(int argc, char *argv[]) {
@@ -43,21 +45,22 @@ main(int argc, char *argv[]) {
   }
   
   LSCDBOptions options;
-  
+  extern char *optarg;
   int opt;
 
   while ((opt = getopt(argc, argv, "d:c:g:t:y:")) != -1) {
     switch (opt) {
     case 'd':
-      options.dbfilename = optarg;
+      setString(options.dbfilename, optarg);
       break;
 
     case 'c':
-      options.courseid = optarg;
+      setString(options.courseid, optarg);
       break;
 
     case 'g':
-      options.groupid = optarg;
+      setString(options.groupid, optarg);
+      // options.groupid = optarg;
       break;
 
     case 'y': {
@@ -81,6 +84,8 @@ main(int argc, char *argv[]) {
       break;
     }
   }
+
+  cout << "Ready" << endl;
   
   // Setting cin delimiter '|'
   cin.imbue(locale(cin.getloc(), new pipe_is_space));
@@ -149,9 +154,7 @@ main(int argc, char *argv[]) {
       
       string insertchar("insert or replace into students values ('" +
                         studentid + "', " +
-                        "' '" + ", '" +
-                        studentname  + "', '" +
-                        studentemail + "');");
+                        studentname  + "', '");
       sql = new char[insertchar.size() + 1];
       strcpy(sql, insertchar.c_str());
       
@@ -165,7 +168,10 @@ main(int argc, char *argv[]) {
         // exit(1);
       }
       else {
-        mngDBInsert(conn, studentid, studentrepo);
+        // mngDBInsert(conn, studentid, studentrepo);
+        mngDBInsStdInfo(conn, studentid, studentemail);
+        mngDBInsStdRepoSVN(conn, options, studentid, studentrepo);
+                           
       }
       delete[] sql;
       
@@ -205,6 +211,7 @@ sqlInsertTableValue(void *parameter, int argc, char **argv, char **colNames) {
   return 0;
 }
 
+
 DBClientConnection& 
 mongoDBInit(void) {
   client::initialize();
@@ -216,23 +223,71 @@ mongoDBInit(void) {
 
 
 void
-mngDBInsert(DBClientConnection &conn,
-            string &studentid,
-            string &studentrepo) {
+mngDBInsStdInfo(DBClientConnection &conn,
+                string &studentid,
+                string &studentemail) {
   BSONObjBuilder obj;
+  
+  obj.append("studentid", studentid);
+  BSONArrayBuilder base;
+  base.append(studentemail);
+  obj.append("emails", base.arr());
+  obj.append("activeemail", 0);
+  conn.insert("following.stdinfo", obj.obj());
+}
 
-  obj.append("StudentId", studentid);
-  obj.append("Repo", studentrepo);
- 
-  conn.insert("following.StdRepos", obj.obj());
+void
+mngDBInsStdRepoSVN(DBClientConnection &conn,
+                LSCDBOptions &options,
+                string &studentid,
+                string &studentrepo) {
+  
+  BSONObjBuilder repoinfo;
+  repoinfo.append("type", "svn");
+  repoinfo.append("repository", studentrepo);
+
+  BSONArrayBuilder arrayRepos;
+
+  arrayRepos.append(repoinfo.obj());
+  
+  BSONObjBuilder document;
+  
+  document.append("studentid", studentid);
+  document.append("repositories", arrayRepos.arr());
+  document.append("activerepository", 0);
+
+  ostringstream oss;
+
+  oss << "following."
+      << options.courseid
+      << options.year
+      << options.term
+      << options.groupid;
+  
+  conn.insert(oss.str(), document.obj());
 }
 
 int
 toInt(const char *str) {
 
-  sstrstring sss(str);
+  istringstream iss(str);
   int ret;
-  sss >> ret;
+  iss >> ret;
 
   return ret;
+}
+
+
+void
+setString(string &str, const char *cstr) {
+
+  cout << "str: " << str
+       << " length: " << str.length()
+       << " cstr: " << cstr
+       << " length: " << ::strlen(cstr)
+       << endl;
+  char *value = new char[::strlen(cstr)];
+  ::strcpy(value, cstr);
+  str = value;
+  delete []value;
 }

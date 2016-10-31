@@ -23,8 +23,8 @@ string LSCDBOptions::getStrName(const char* name) {
   string strRetValue("");
   char *pEnv = getenv(name);
   
-  if (pEnv) {
-    strRetValue += pEnv;
+  if (pEnv != NULL) {
+    strRetValue = pEnv;
   }
   
   return strRetValue;
