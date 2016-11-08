@@ -6,6 +6,7 @@
  * programmer: Juan Francisco Cardona McCormick
  *
  * History of modifications:
+ * 2016-11-08 - Enable to change directory of test. Change some break for continue [bug]
  * 2016-06-01 - Start of modifications.
  */
 #include <sys/types.h>
@@ -608,18 +609,25 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
   for (unsigned int i = 0; i < evalUnit.elemsToEval.size(); ++i) {
 
-    // Moviendo al directorio del parcial
-    // if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
+    cout << "Element to eval name: " << evalUnit.elemsToEval[i].name << endl;
 
-    //   cerr << "Student: " << stdInfo.obtenerNombre() << endl
-    //        << " evaluating..." << endl
-    //       << " directory doesn't exist: "
-    //       << evalUnit.elemsToEval[i].name.c_str() << endl
-    //       << " current directory: " << ::get_current_dir_name()
-    //       << endl;
+    // Moving to directory where elements are
+    if (chLocalDirStr(evalUnit.elemsToEval[i].name.c_str()) != 0) {
 
-    //   break;
-    // }
+      cerr << "Student: " << stdInfo.obtenerNombre() << endl
+           << " evaluating..." << endl
+          << " directory doesn't exist: "
+          << evalUnit.elemsToEval[i].name.c_str() << endl
+          << " current directory: " << ::get_current_dir_name()
+          << endl;
+
+      break;
+    }
+
+    char pwd[256];
+    ::getcwd(pwd,256);
+    
+    cout << "Now at: " <<  pwd << endl;
 
     vector<string> args;
 
@@ -637,7 +645,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
           cerr << "Process cannot be cleaned" << endl;
           string up("..");
           chDirStr(up);
-          break;
+          continue;
         }
       }
 
@@ -657,7 +665,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
       if (launchProcess(evalUnit.elemsToEval[i].compileCmd, args, msg) != 0) {
 
-        string cmdVi("vi");
+        string cmdVi("vim");
         vector<string> argsVi;
         // argsVi.push_back(evalUnit.elemsToEval[i].srcfile);
 
@@ -679,7 +687,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
         string up("..");
         chDirStr(up);
-        break;
+        continue;
       }
     }
 
@@ -921,7 +929,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
 
     if (anyTestFailed) {
 
-      string cmdVi("vi");
+      string cmdVi("vim");
       vector<string> argsVi;
       string msgVi("Algo esta mal");
 
