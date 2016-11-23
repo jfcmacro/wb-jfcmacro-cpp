@@ -187,14 +187,17 @@ int launchProcess(const string& cmd,
 
     unsigned int i = 1;
     for (unsigned int j = 0; j < args.size(); ++i,++j) {
+      
       cmdArgs[i] = createCopyChar(args[j]);
     }
+    
     cmdArgs[i] = NULL;
 
     execvp(cmdArgs[0], cmdArgs);
 
     cerr << "This cannot happen here because: " << errno
          << " " << strerror(errno) << endl;
+    
     exit(20);
   }
 
@@ -621,7 +624,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
           << " current directory: " << ::get_current_dir_name()
           << endl;
 
-      break;
+      continue;
     }
 
     char pwd[256];
