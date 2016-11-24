@@ -1,0 +1,454 @@
+id: 'proyectos'
+name: 'cppcalc'
+directory: '/home/fcardona/Workbench/eafit-st0244/practicas/practica01/ST0244-2016-2-030-031-032-033-034-035-Practica-01-Impl/antlr4/calc/testdata'
+elements:
+  - id: '1'
+    name: 'cppcalc'
+    value: 1.0
+    srcfile: ['calc.cpp']
+    compile: 'make'
+    tests:
+# grupo 01 de pruebas
+      - infile: 'test2016201.calc'
+        outfile: 'test201620101.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016202.calc'
+        outfile: 'test201620201.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016203.calc'
+        outfile: 'test201620301.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016204.calc'
+        outfile: 'test201620401.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016205.calc'
+        outfile: 'test201620501.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016206.calc'
+        outfile: 'test201620601.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016207.calc'
+        outfile: 'test201620701.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016208.calc'
+        outfile: 'test201620801.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016209.calc'
+        outfile: 'test201620901.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016210.calc'
+        outfile: 'test201621001.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016211.calc'
+        outfile: 'test201621101.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016212.calc'
+        outfile: 'test201621201.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016213.calc'
+        outfile: 'test201621301.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016214.calc'
+        outfile: 'test201621401.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016215.calc'
+        outfile: 'test201621501.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016216.calc'
+        outfile: 'test201621601.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016217.calc'
+        outfile: 'test201621701.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016218.calc'
+        outfile: 'test201621801.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016219.calc'
+        outfile: 'test201621901.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016220.calc'
+        outfile: 'test201622001.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 02 de pruebas
+      - infile: 'test2016201.calc'
+        outfile: 'test201620102.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016202.calc'
+        outfile: 'test201620202.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016203.calc'
+        outfile: 'test201620302.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016204.calc'
+        outfile: 'test201620402.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016205.calc'
+        outfile: 'test201620502.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016206.calc'
+        outfile: 'test201620602.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016207.calc'
+        outfile: 'test201620702.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016208.calc'
+        outfile: 'test201620802.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016209.calc'
+        outfile: 'test201620902.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016210.calc'
+        outfile: 'test201621002.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016211.calc'
+        outfile: 'test201621102.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016212.calc'
+        outfile: 'test201621202.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016213.calc'
+        outfile: 'test201621302.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016214.calc'
+        outfile: 'test201621402.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016215.calc'
+        outfile: 'test201621502.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016216.calc'
+        outfile: 'test201621602.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016217.calc'
+        outfile: 'test201621702.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016218.calc'
+        outfile: 'test201621802.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016219.calc'
+        outfile: 'test201621902.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016220.calc'
+        outfile: 'test201622002.out'
+        redirect: true
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 03 de pruebas
+      - infile: 'test2016201.calc'
+        outfile: 'test201620103.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016202.calc'
+        outfile: 'test201620203.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016203.calc'
+        outfile: 'test201620303.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016204.calc'
+        outfile: 'test201620403.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016205.calc'
+        outfile: 'test201620503.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016206.calc'
+        outfile: 'test201620603.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016207.calc'
+        outfile: 'test201620703.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016208.calc'
+        outfile: 'test201620803.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016209.calc'
+        outfile: 'test201620903.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016210.calc'
+        outfile: 'test201621003.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016211.calc'
+        outfile: 'test201621103.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016212.calc'
+        outfile: 'test201621203.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016213.calc'
+        outfile: 'test201621303.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016214.calc'
+        outfile: 'test201621403.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016215.calc'
+        outfile: 'test201621503.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016216.calc'
+        outfile: 'test201621603.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016217.calc'
+        outfile: 'test201621703.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016218.calc'
+        outfile: 'test201621803.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016219.calc'
+        outfile: 'test201621903.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016220.calc'
+        outfile: 'test201622003.out'
+        redirect: false
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 04 de pruebas
+      - infile: 'test2016201.calc'
+        outfile: 'test201620104.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016202.calc'
+        outfile: 'test201620204.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016203.calc'
+        outfile: 'test201620304.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016204.calc'
+        outfile: 'test201620404.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016205.calc'
+        outfile: 'test201620504.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016206.calc'
+        outfile: 'test201620604.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016207.calc'
+        outfile: 'test201620704.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016208.calc'
+        outfile: 'test201620804.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016209.calc'
+        outfile: 'test201620904.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016210.calc'
+        outfile: 'test201621004.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016211.calc'
+        outfile: 'test201621104.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016212.calc'
+        outfile: 'test201621204.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016213.calc'
+        outfile: 'test201621304.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016214.calc'
+        outfile: 'test201621404.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016215.calc'
+        outfile: 'test201621504.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016216.calc'
+        outfile: 'test201621604.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016217.calc'
+        outfile: 'test201621704.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016218.calc'
+        outfile: 'test201621804.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016219.calc'
+        outfile: 'test201621904.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'test2016220.calc'
+        outfile: 'test201622004.out'
+        redirect: false
+        args: ['-v', 'a=10', '-v', 'b=20', '-v', 'c=30', '-v', 'd=40', '-v', 'e=50']
+        command: './cppcalc'
+        diff: 'diff'
