@@ -1,6 +1,6 @@
 id: 'proyectos'
-name: 'cppcalc'
-directory: '/home/fcardona/Workbench/eafit-st0244/practicas/practica01/ST0244-2016-2-030-031-032-033-034-035-Practica-01-Impl/antlr4/calc/testdata'
+name: ''
+directory: '/home/jfcmacro/Workarea/eafit-st0244/practicas/practica01/ST0244-2016-2-030-031-032-033-034-035-Practica-01-Impl/antlr4/calc/testdata'
 elements:
   - id: '1'
     name: 'cppcalc'

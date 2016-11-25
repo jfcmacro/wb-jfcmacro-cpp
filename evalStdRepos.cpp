@@ -660,7 +660,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
       string msg("Preparing to compile with make all");
 
       if (evalUnit.elemsToEval[i].compileCmd == "make") {
-        args.push_back("all");
+        // args.push_back("");
       }
       else if (evalUnit.elemsToEval[i].compileCmd == "mvn") {
         args.push_back("compile");
