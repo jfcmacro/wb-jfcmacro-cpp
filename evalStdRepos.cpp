@@ -575,6 +575,17 @@ int chLocalDirStr(const string& dir) {
   return chDirStr(localdir);
 }
 
+string& getCurrentDirName() {
+  const size_t DIRNAMESIZE = 1024;
+  char *currentDirName = new char[DIRNAMESIZE];
+
+  getcwd(currentDirName, DIRNAMESIZE);
+
+  string* strCurrentDirName = new string(currentDirName);
+  delete []currentDirName;
+  return *strCurrentDirName;
+}
+
 
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
                  const Options2& options, EvalUnit& evalUnit) {
@@ -582,7 +593,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
   if (!existsLocalDir(stdInfo.obtenerEmail())) {
 
     cerr << "Student: " << stdInfo.obtenerNombre() << endl
-         << " current directory: " << ::get_current_dir_name()
+         << " current directory: " << ::getCurrentDirName()
          << " directory doesn't exist: " << stdInfo.obtenerEmail() << endl;
     return;
   }
@@ -606,7 +617,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
   chLocalDirStr(evalUnit.name);
 
   cout << "Student: " << stdInfo.obtenerNombre() << endl
-       << "Current directory: " << ::get_current_dir_name() << endl;
+       << "Current directory: " << ::getCurrentDirName() << endl;
 
   float totalStudent = 0.0f;
 
@@ -621,7 +632,7 @@ void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
            << " evaluating..." << endl
           << " directory doesn't exist: "
           << evalUnit.elemsToEval[i].name.c_str() << endl
-          << " current directory: " << ::get_current_dir_name()
+          << " current directory: " << ::getCurrentDirName()
           << endl;
 
       continue;

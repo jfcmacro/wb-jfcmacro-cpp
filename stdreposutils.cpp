@@ -15,6 +15,7 @@
 #include <fstream>
 #include <getopt.h>
 #include <stack>
+#include <iostream>
 
 TestForElem::TestForElem() :
   inFile(), outFile(), redirect(true),
