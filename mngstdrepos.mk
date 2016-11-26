@@ -27,7 +27,7 @@ printEvalUnit: printEvalUnit.o stdreposutils.o stdinfo.o
 printEvalUnit.o: printEvalUnit.cpp stdreposutils.h
 
 printYamlFile: printYamlFile.o
-	$(CXX) -o $@ $^ -lyaml-cpp03 -L/usr/local/lib
+	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
 
 printYamlFile.o: printYamlFile.cpp
 clean:
