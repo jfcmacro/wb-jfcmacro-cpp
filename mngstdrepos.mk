@@ -3,7 +3,7 @@ all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile printEvalUnit
 CXXFLAGS=-Wall -std=c++11
 
 getStdRepos: getStdRepos.o stdinfo.o stdreposutils.o
-	$(CXX) -o $@ $^ -lyaml-cpp -L /usr/local/bin
+	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/bin
 
 getStdRepos.o: getStdRepos.cpp stdinfo.h stdreposutils.h
 
@@ -17,17 +17,17 @@ eafitCVSInfo2StdInfo: eafitCVSInfo2StdInfo.o
 eafitCVSInfo2StdInfo.o: eafitCVSInfo2StdInfo.cpp
 
 evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o
-	$(CXX) -o $@ $^ -lyaml-cpp -L /usr/local/bin
+	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/bin
 
 evalStdRepos.o: evalStdRepos.cpp stdreposutils.h stdinfo.h
 
 printEvalUnit: printEvalUnit.o stdreposutils.o stdinfo.o
-	$(CXX) -o $@ $^ -lyaml-cpp -L /usr/local/bin
+	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/bin
 
 printEvalUnit.o: printEvalUnit.cpp stdreposutils.h
 
 printYamlFile: printYamlFile.o
-	$(CXX) -o $@ $^ -lyaml-cpp03 -L /usr/local/bin
+	$(CXX) -o $@ $^ -lyaml-cpp03 -L/usr/local/bin
 
 printYamlFile.o: printYamlFile.cpp
 clean:
