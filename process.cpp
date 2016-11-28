@@ -3,6 +3,9 @@
 #include <iostream>
 #include <cstring>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 ProgramInfo::ProgramInfo(string cmd,
                          vector<string> args) :
@@ -33,6 +36,10 @@ ProgramInfo::getArg(unsigned int pos) const {
   return args[pos];
 }
 
+// ChainedProcessInfo::ChainedProcessInfo() :
+//   active(true), in(-1), out(-1) {
+// }
+  
 void
 closingArrayPipes(int **pipes, int n, int noClose) {
   
@@ -150,4 +157,85 @@ char* createCopyChar(const string& arg) {
   char *ret = new char[arg.size() + 1];
   ::strcpy(ret, arg.c_str());
   return ret;
+}
+
+void
+createChainedPipeProcess(const vector<ProgramInfo>& programs,
+                         const string& inFileName,
+                         const string& outFileName,
+                         int inOut[2],
+                         vector<pid_t>& pidList) {
+  int pipeIn[2];
+  int pipeOut[2];
+
+  if (inFileName.size() != 0) {
+    
+    struct stat inFile;
+    
+    if (stat(inFileName.c_str(), &inFile) == -1) {
+      
+    }
+
+    if (stat
+  }
+  
+  pipe(pipeIn);
+  pipe(pipeOut);
+
+  inOut[1] = pipeIn[1];
+  inOut[0] = pipeOut[0];
+  pidList.clear();
+  
+  for (unsigned int i = 0; i < programs.size(); ++i) {
+    pidList.push_back(fork());
+
+    if (pidList[i] == 0) {
+      dup2(pipeIn[0], 0);
+      dup2(pipeOut[1], 1);
+
+      close(pipeIn[1]);
+      close(pipeOut[0]);
+      close(inOut[0]);
+      close(inOut[1]);
+
+      char **cmdArgs = new char*[programs[i].getArgs().size()+2];
+      
+      cmdArgs[0] = createCopyChar(programs[i].getCmd());
+
+      unsigned int k = 1;
+      for (unsigned int j = 0; j < programs[i].getArgs().size();
+           ++k,++j) {
+        
+        cmdArgs[k] = createCopyChar(programs[i].getArg(j));
+      }
+    
+      cmdArgs[k] = NULL;
+
+      execvp(cmdArgs[0], cmdArgs);
+
+      cerr << "This cannot happen here because: " << errno
+           << " " << strerror(errno) << endl;
+      
+      _exit(20);
+      
+    }
+    else {
+      
+      if (inOut[1] != pipeIn[1]) {
+        close(pipeIn[1]);
+      }
+      
+      close(pipeIn[0]);
+      pipeIn[0] = pipeOut[0];
+      pipeIn[1] = pipeOut[1];
+
+      if (i + 1 != programs.size()) {
+        pipe(pipeOut);
+      }
+      else {
+        inOut[0] = pipeOut[0];
+        close(pipeOut[1]);
+      }
+    }
+  }
 }

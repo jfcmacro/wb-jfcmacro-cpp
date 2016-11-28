@@ -22,6 +22,7 @@ main(int argc, char *argv[]) {
   cmd = "ls";
   args.push_back("-l");
   args.push_back("-a");
+  args.push_back("-t");
 // #else
 //   cmd = "./testStdDesc";
 //   args.push_back("1");
@@ -32,35 +33,35 @@ main(int argc, char *argv[]) {
   programs.push_back(*pInfo);
 
 #ifdef COMMON_TEST
-  // cmd = "sort";
-  // args.clear();
-  // args.push_back("-u");
+  cmd = "sort";
+  args.clear();
+  args.push_back("-u");
   // #else
   //   cmd = "./testStdDesc";
   //   args.clear();
   //   args.push_back("2");
 #endif
   
-  // pInfo = new ProgramInfo(cmd, args);
-  // programs.push_back(*pInfo);
+  pInfo = new ProgramInfo(cmd, args);
+  programs.push_back(*pInfo);
 
 #ifdef COMMON_TEST
-  // cmd = "grep";
-  // args.clear();
-  // args.push_back("^d");
+  cmd = "grep";
+  args.clear();
+  args.push_back("^d");
 // #else
 //   cmd = "./testStdDesc";
 //   args.clear();
 //   args.push_back("3");
 #endif
   
-  // pInfo = new ProgramInfo(cmd, args);
-  // programs.push_back(*pInfo);
+  pInfo = new ProgramInfo(cmd, args);
+  programs.push_back(*pInfo);
   
   vector<pid_t> processIds;
 
-  int pipeIn[2];
-  int pipeOut[2];
+  // int pipeIn[2];
+  // int pipeOut[2];
 
   // ::pipe(pipeOut);
   // ::pipe(pipeIn);
@@ -68,13 +69,20 @@ main(int argc, char *argv[]) {
   // pipeIn[0] = 0;
   // pipeIn[1] = 1;
 
-  createProcessPipe(programs,
-                    pipeIn, pipeOut,
-                    processIds);
+  // createProcessPipe(programs,
+  //                   pipeIn, pipeOut,
+  //                   processIds);
 
+  int inOut[2];
+  createChainedPipeProcess(programs,
+                           inOut,
+                           processIds);
+
+  close(inOut[1]);
+  
   char c;
   int nrc;
-  while ((nrc = read(pipeOut[0], &c, 1)) > 0) {
+  while ((nrc = read(inOut[0], &c, 1)) > 0) {
     cout << c;
   }
 
