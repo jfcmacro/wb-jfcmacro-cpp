@@ -170,20 +170,35 @@ createChainedPipeProcess(const vector<ProgramInfo>& programs,
 
   if (inFileName.size() != 0) {
     
-    struct stat inFile;
+    struct stat inStatFile;
     
-    if (stat(inFileName.c_str(), &inFile) == -1) {
-      
+    if (stat(inFileName.c_str(), &inStatFile) == -1) {
+      throw CPPE_INPUT_FILE_DOES_NOT_EXIST;
     }
 
-    if (stat
+    if (!S_ISREG(inStatFile.st_mode)) {
+      throw CPPE_INPUT_FILE_IS_NOT_REGULAR;
+    }
+
+    if (!(inStatFile.st_mode & S_IRUSR)) {
+      throw CPPE_INPUT_FILE_HAS_NOT_PERMISSIONS;
+    }
+
+    if ((pipeIn[0] = open(inFileName.c_str(), O_RDONLY)) == -1) {
+      throw CPPE_INPUT_FILE_NOT_OPEN;
+    }
+    inOut[0] = pipeIn[0];
+    pipeIn[1] = -1;
+  }
+  else {
+  
+    pipe(pipeIn);
+    inOut[1] = pipeIn[1];
   }
   
-  pipe(pipeIn);
   pipe(pipeOut);
-
-  inOut[1] = pipeIn[1];
   inOut[0] = pipeOut[0];
+  
   pidList.clear();
   
   for (unsigned int i = 0; i < programs.size(); ++i) {

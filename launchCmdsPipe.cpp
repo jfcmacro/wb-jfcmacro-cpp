@@ -19,10 +19,14 @@ main(int argc, char *argv[]) {
   string cmd;
 
 #ifdef COMMON_TEST
-  cmd = "ls";
-  args.push_back("-l");
-  args.push_back("-a");
-  args.push_back("-t");
+  cmd = "sort";
+  args.clear();
+  args.push_back("-u");
+
+  // cmd = "ls";
+  // args.push_back("-l");
+  // args.push_back("-a");
+  // args.push_back("-t");
 // #else
 //   cmd = "./testStdDesc";
 //   args.push_back("1");
@@ -32,23 +36,23 @@ main(int argc, char *argv[]) {
 
   programs.push_back(*pInfo);
 
-#ifdef COMMON_TEST
-  cmd = "sort";
-  args.clear();
-  args.push_back("-u");
-  // #else
-  //   cmd = "./testStdDesc";
-  //   args.clear();
-  //   args.push_back("2");
-#endif
+// #ifdef COMMON_TEST
+//   cmd = "sort";
+//   args.clear();
+//   args.push_back("-u");
+//   // #else
+//   //   cmd = "./testStdDesc";
+//   //   args.clear();
+//   //   args.push_back("2");
+// #endif
   
-  pInfo = new ProgramInfo(cmd, args);
-  programs.push_back(*pInfo);
+//   pInfo = new ProgramInfo(cmd, args);
+//   programs.push_back(*pInfo);
 
 #ifdef COMMON_TEST
   cmd = "grep";
   args.clear();
-  args.push_back("^d");
+  args.push_back("^2016175");
 // #else
 //   cmd = "./testStdDesc";
 //   args.clear();
@@ -73,30 +77,36 @@ main(int argc, char *argv[]) {
   //                   pipeIn, pipeOut,
   //                   processIds);
 
-  int inOut[2];
-  createChainedPipeProcess(programs,
-                           inOut,
-                           processIds);
+  try {
+    int inOut[2];
+    createChainedPipeProcess(programs,
+                             "st0244-2016-2-030-stdinfo.dat",
+                             "",
+                             inOut,
+                             processIds);
 
-  close(inOut[1]);
+    close(inOut[1]);
   
-  char c;
-  int nrc;
-  while ((nrc = read(inOut[0], &c, 1)) > 0) {
-    cout << c;
-  }
+    char c;
+    int nrc;
+    while ((nrc = read(inOut[0], &c, 1)) > 0) {
+      cout << c;
+    }
+    
+    if (nrc == -1) {
+      cerr << "Input: " << strerror(errno) << endl;
+    }
 
-  if (nrc == -1) {
-    cerr << "Input: " << strerror(errno) << endl;
-  }
-
-  for (vector<pid_t>::iterator it = processIds.begin();
-       it != processIds.end(); ++it) {
-    int status;
-    waitpid(*it, &status, 0);
+    for (vector<pid_t>::iterator it = processIds.begin();
+         it != processIds.end(); ++it) {
+      int status;
+      waitpid(*it, &status, 0);
     cout << "pid: " << *it << " status: " <<  status << endl;
+    }
   }
-
+  catch (ChainedPipeProcessException cppe) {
+    cerr << "Exception: " << cppe << endl;
+  }
   return 0;
 }
 
