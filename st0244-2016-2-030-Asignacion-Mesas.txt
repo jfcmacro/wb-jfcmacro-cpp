@@ -1,0 +1,21 @@
+estudiante: Wendy Marìa Arango Chavarría      mesa: A4-09
+estudiante: Cristian Aristizabal Giraldo        mesa: X0-04
+estudiante: Juan José Buitrago Román          mesa: A3-16
+estudiante: Yonatan Estiven Cano Montoya        mesa: A4-01
+estudiante: Diego Alejandro Cifuentes García   mesa: R1-15
+estudiante: Miguel Estrada Moreno               mesa: A3-23
+estudiante: Sara Marcela Girón Ospina          mesa: A2-08
+estudiante: Daniel Lopez Correa                 mesa: A3-27
+estudiante: Miguel Morales Velásquez           mesa: A3-33
+estudiante: Nicolas Muñoz Estrada              mesa: X0-03
+estudiante: David Muñoz Montoya                mesa: R1-02
+estudiante: Juan Camilo Naranjo Marin           mesa: A3-03
+estudiante: Santiago Ortiz Cano                 mesa: A2-14
+estudiante: Juan Gonzalo Quiroz Cadavid         mesa: A4-08
+estudiante: John Jairo Riascos Ruano            mesa: A1-16
+estudiante: Juan Felipe Rojas Martinez          mesa: A2-03
+estudiante: Joan Pablo Salazar Garcia           mesa: X0-02
+estudiante: Ana María Vinasco Ciro             mesa: A1-05
+estudiante: Andres Felipe Zapata Palacio        mesa: A3-11
+Total estudiantes: 19 19
+Total mesas: 26 7

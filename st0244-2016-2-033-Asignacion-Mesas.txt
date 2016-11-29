@@ -1,0 +1,22 @@
+estudiante: José Miguel Alzate Acevedo         mesa: A3-10
+estudiante: Duvan Antivar Goez                  mesa: A2-20
+estudiante: Daniel Esteban Arango Gonzalez      mesa: A2-16
+estudiante: Luis Miguel Arroyave Quiñones      mesa: A2-35
+estudiante: Sebastián Bustamante Cardona       mesa: A1-06
+estudiante: Ronald Cardona Martinez             mesa: A1-20
+estudiante: Juan Manuel Ciro Restrepo           mesa: A2-10
+estudiante: Yam Alexander Galindo Echavarria    mesa: A3-06
+estudiante: Juan Pablo González Álvarez       mesa: A2-01
+estudiante: Hernando Henao Bedoya               mesa: A3-29
+estudiante: Juan Jose Jaramillo Castaño        mesa: A1-19
+estudiante: Luis Andres Ladino Velez            mesa: A1-10
+estudiante: Alex Montoya Franco                 mesa: R1-01
+estudiante: Andrés Camilo Paez Ríos           mesa: A2-05
+estudiante: Santiago Passos Patiño             mesa: A1-21
+estudiante: Sebastian Patiño Barrientos        mesa: A3-18
+estudiante: Richar Alexander Rivera Correa      mesa: A3-28
+estudiante: Juan Camilo Rodriguez Montoya       mesa: A1-15
+estudiante: Juan José Suárez Estrada          mesa: A1-08
+estudiante: Jefferson Villa Cortes              mesa: A1-22
+Total estudiantes: 20 20
+Total mesas: 89 69

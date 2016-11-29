@@ -1,0 +1,24 @@
+estudiante: Douglas Ardila Garces               mesa: R1-13
+estudiante: Cristian Manuel Bedoya Vargas       mesa: A2-06
+estudiante: Pablo Bernal Moreno                 mesa: A1-09
+estudiante: Lorenzo Cannafarina Carrizosa       mesa: A1-18
+estudiante: Hassler Castro Cuesta               mesa: A3-36
+estudiante: Valeria Castro Guzman               mesa: A3-01
+estudiante: Jorge Andres Hoyos Gomez            mesa: R1-04
+estudiante: Miguel Angel Hurtado Correa         mesa: A2-11
+estudiante: Diego Fernando Martinez Osorio      mesa: A3-20
+estudiante: Daniel Ochoa Montes                 mesa: A4-02
+estudiante: Miguel Angel Ortiz Arboleda         mesa: A3-34
+estudiante: Esteban Perez Noreña               mesa: A4-03
+estudiante: Andres Pulgarin Rodriguez           mesa: A3-05
+estudiante: Stiven Ramírez Arango              mesa: A4-10
+estudiante: Mariana Ramirez Duque               mesa: A4-11
+estudiante: Edwin Arley Rengifo Villa           mesa: A2-24
+estudiante: Julian Ricaurte Hoyos               mesa: A2-28
+estudiante: Juan Pablo Rodriguez Marulanda      mesa: A2-34
+estudiante: Joshua Sanchez Alvarez              mesa: A3-14
+estudiante: Camilo Suaza Gallego                mesa: A3-12
+estudiante: Camila White Romero                 mesa: A3-35
+estudiante: Juan Pablo Zapata Raigoza           mesa: A2-36
+Total estudiantes: 22 22
+Total mesas: 69 47

@@ -1,0 +1,20 @@
+estudiante: Andrés Danilo Patiño Vélez       mesa: A3-25
+estudiante: José Daniel Agudelo Aguirre        mesa: A3-15
+estudiante: Juan Camilo Arenas Florez           mesa: A1-03
+estudiante: Andres Felipe Avendaño Restrepo    mesa: A2-26
+estudiante: Esteban Echavarría Collazos        mesa: A1-23
+estudiante: Johan Alexis Gómez Rendón         mesa: A3-04
+estudiante: Andrea González Osorio             mesa: R1-11
+estudiante: Alexander Miranda Atencio           mesa: A1-11
+estudiante: Gustavo Adolfo Ojeda Sanabria       mesa: A4-04
+estudiante: Sebastian Ortiz Serna               mesa: A3-37
+estudiante: Sebastian Ospina Cabarcas           mesa: A3-21
+estudiante: Sebastian Palacio Arango            mesa: R1-10
+estudiante: Juan Sebastian Perez Osorno         mesa: R1-08
+estudiante: Joan Esteban Saldarriaga Ayala      mesa: A2-07
+estudiante: Julián Andrés Sánchez Alzate     mesa: A3-22
+estudiante: Daniel Tobon Cardona                mesa: A3-26
+estudiante: Juan Sebastian Valencia Arias       mesa: R1-05
+estudiante: Alejandro Velasquez Uribe           mesa: A2-31
+Total estudiantes: 18 18
+Total mesas: 107 89

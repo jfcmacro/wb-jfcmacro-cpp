@@ -1,0 +1,19 @@
+estudiante: Cesar Augusto Cataño Loaiza        mesa: A3-13
+estudiante: Camilo Ernesto Cruz Villegas        mesa: A4-12
+estudiante: Alejandro Gil Moreno                mesa: A2-30
+estudiante: David Felipe Lemus Giraldo          mesa: A4-07
+estudiante: Keila Andrea Martínez Lagares      mesa: A2-27
+estudiante: Juan Felipe Navales Restrepo        mesa: A2-15
+estudiante: Juan Pablo Orozco Montoya           mesa: A1-14
+estudiante: Sara Lucia Peniche Gonzalez         mesa: A2-12
+estudiante: Juan Diego Restrepo Alvaréz        mesa: A3-32
+estudiante: Jairo Andres Ruiz Machado           mesa: A3-19
+estudiante: Juan Diego Saldarriaga Betancur     mesa: A2-19
+estudiante: Jairo Esteban Santacruz Hernandez   mesa: A4-06
+estudiante: David Alejandro Sepulveda Amaya     mesa: A2-32
+estudiante: Juan Diego Villa Céspedes          mesa: A2-22
+estudiante: Andres Felipe Villada Montoya       mesa: A3-24
+estudiante: Braimer Esteban Zapata Espinosa     mesa: R1-03
+estudiante: Stefania Zapata Osorio              mesa: A4-05
+Total estudiantes: 17 17
+Total mesas: 124 107

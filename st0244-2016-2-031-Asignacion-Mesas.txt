@@ -1,0 +1,27 @@
+estudiante: Santiago Aguirre Delgado            mesa: A2-02
+estudiante: Santiago Alzate Valencia            mesa: A2-17
+estudiante: Juan David Arcila Moreno            mesa: A3-07
+estudiante: Natalia Arias Lozano                mesa: A1-01
+estudiante: Maria Camila Calle Agudelo          mesa: A2-09
+estudiante: Manuela Carrasco Pinzon             mesa: A2-18
+estudiante: Carlos Arturo Cepeda Coley          mesa: R1-12
+estudiante: Juan Jose Duque Rendon              mesa: A3-09
+estudiante: Esteban Echeverri Jaramillo         mesa: A1-17
+estudiante: Marco Antonio Franco Montoya        mesa: A2-25
+estudiante: Diego Andrés Giraldo Gómez        mesa: A1-07
+estudiante: Anderson Daniel Grajales Alzate     mesa: A3-17
+estudiante: Juan Esteban Henao Muñoz           mesa: A1-12
+estudiante: Jose David Henao Ocampo             mesa: R1-06
+estudiante: Felipe Macias Herrera               mesa: A1-02
+estudiante: Emanuel Madrid Restrepo             mesa: A1-13
+estudiante: James Dario Montoya Sierra          mesa: A2-23
+estudiante: Sergio Andrés Muñoz Rojas         mesa: A2-21
+estudiante: Luis Fernando Posada Cespedes       mesa: R1-07
+estudiante: José Orlando Rengifo Caicedo       mesa: R1-14
+estudiante: Jaqueline Rivillas Vallejo          mesa: A1-04
+estudiante: Alejandro Rojas Benitez             mesa: A2-04
+estudiante: Mateo Tapias Álvarez               mesa: A1-24
+estudiante: Camilo Villa Restrepo               mesa: A2-13
+estudiante: Maria Camila Villegas Correa        mesa: A3-31
+Total estudiantes: 25 25
+Total mesas: 47 22
