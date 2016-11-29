@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 
 #define COMMON_TEST
@@ -79,13 +82,21 @@ main(int argc, char *argv[]) {
 
   try {
     int inOut[2];
+    string inputfile("st0244-2016-2-030-stdinfo.dat");
+    string outputfile("output.tmp");
+    
     createChainedPipeProcess(programs,
-                             "st0244-2016-2-030-stdinfo.dat",
-                             "",
+                             inputfile,
+                             outputfile,
                              inOut,
                              processIds);
 
     close(inOut[1]);
+
+    if (outputfile.size() != 0) {
+      inOut[0] = open(outputfile.c_str(),
+                      O_WRONLY);
+    }
   
     char c;
     int nrc;

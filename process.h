@@ -45,11 +45,15 @@ void createProcessPipe(const vector<ProgramInfo>& programs,
                        const int pipeOut[2],
                        vector<pid_t>& pidList);
 
-enum ChainedPipeProcessException { CPPE_INPUT_FILE_DOES_NOT_EXIST,
-                                   CPPE_OUTPUT_FILE_EXITS,
-                                   CPPE_INPUT_FILE_IS_NOT_REGULAR,
-                                   CPPE_INPUT_FILE_HAS_NOT_PERMISSIONS,
-                                   CPPE_INPUT_FILE_NOT_OPEN
+enum ChainedPipeProcessException {
+  CPPE_INPUT_FILE_DOES_NOT_EXIST,
+  CPPE_OUTPUT_FILE_EXITS,
+  CPPE_INPUT_FILE_IS_NOT_REGULAR,
+  CPPE_INPUT_FILE_HAS_NOT_PERMISSIONS,
+  CPPE_INPUT_FILE_NOT_OPEN,
+  CPPE_OUTFILE_CANNOT_BE_CREATED,
+  CPPE_OUTFILE_HAS_NOT_CORRECT_PERMISSIONS,
+  CPPE_OUTFILE_CANNOT_BE_OPENED
 };
 
 void createChainedPipeProcess(const vector<ProgramInfo>& programs,
