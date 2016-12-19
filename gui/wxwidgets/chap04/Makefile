@@ -3,7 +3,7 @@
 CXXFLAGS=-g `wx-config --cxxflags`
 LDFLAGS=`wx-config --libs`
 EXECUTABLES=minimal dialog wxPanelExample wxNotebookExample \
-	wxScrolledWindowExample
+	wxScrolledWindowExample wxSplitterWindowExample
 
 all: $(EXECUTABLES)
 
@@ -34,6 +34,12 @@ wxScrolledWindowExample: wxScrolledWindowExample.o
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 wxScrolledWindowExample.o: wxScrolledWindowExample.cpp mondrian.xpm
+	$(CXX) $(CXXFLAGS) -c $<
+
+wxSplitterWindowExample: wxSplitterWindowExample.o
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+wxSplitterWindowExample.o: wxSplitterWindowExample.cpp mondrian.xpm
 	$(CXX) $(CXXFLAGS) -c $< 
 
 clean:
