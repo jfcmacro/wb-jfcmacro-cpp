@@ -36,8 +36,8 @@ private:
 
 char* createCopyChar(const string& arg);
 
-void closingArrayPipes(int **pipes, int n, int noClose);
-void closingArrayPipesExcEdges(int **pipes, int n);
+/* void closingArrayPipes(int **pipes, int n, int noClose); */
+/* void closingArrayPipesExcEdges(int **pipes, int n); */
 
 
 void createProcessPipe(const vector<ProgramInfo>& programs,
@@ -62,4 +62,22 @@ void createChainedPipeProcess(const vector<ProgramInfo>& programs,
                               int inOut[2],
                               vector<pid_t>& pidList);
 
-char* createCopyChar(const string& arg);
+// char* createCopyChar(const string& arg);
+
+int launchProcess(const string& cmd,
+                  vector<string> args,
+                  const string& msgError);
+
+int launchProcessInFile(const string& inFile,
+                        const string& cmd, vector<string> args,
+                        const string& msgError);
+
+int launchTwoProcess(// const string& inFile,
+                     const string& cmd1, vector<string> args1,
+                     const string& cmd2, vector<string> args2,
+                     const string& msgError);
+
+int launchTwoProcessInFile(const string& inFile,
+                           const string& cmd1, vector<string> args1,
+                           const string& cmd2, vector<string> args2,
+                           const string& msgError);

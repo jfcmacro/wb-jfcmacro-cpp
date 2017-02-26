@@ -1,10 +1,7 @@
 CXXFLAGS=-std=c++11 -g
 LDFLAGS2=-lpthread -ldl -lsqlite3 -lmongoclient -lboost_system
 
-all: eafitCVSInfo2StdInfo generarMesasAleatorias generarTurnosSustentacion euLoadStudentsCourseDB launchCmdsPipe
-
-eafitCVSInfo2StdInfo: eafitCVSInfo2StdInfo.o
-	$(CXX) -o $@ $^ 
+all: generarMesasAleatorias generarTurnosSustentacion euLoadStudentsCourseDB launchCmdsPipe
 
 generarMesasAleatorias: generarMesasAleatorias.o
 	$(CXX) -o $@ $^

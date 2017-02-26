@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include "stdreposutils.h"
 #include "stdinfo.h"
+#include "process.h"
 
 using namespace std;
 
@@ -42,23 +43,23 @@ static void usage(const char* progname) {
 void evalStdRepo(const string& stdId, const Estudiante& stdInfo,
                  const Options2& options, EvalUnit& evalUnit);
 
-int launchProcess(const string& cmd,
-                  vector<string> args,
-                  const string& msgError);
+// int launchProcess(const string& cmd,
+//                   vector<string> args,
+//                   const string& msgError);
 
-int launchProcessInFile(const string& inFile,
-                        const string& cmd, vector<string> args,
-                        const string& msgError);
+// int launchProcessInFile(const string& inFile,
+//                         const string& cmd, vector<string> args,
+//                         const string& msgError);
 
-int launchTwoProcess(const string& inFile,
-                     const string& cmd1, vector<string> args1,
-                     const string& cmd2, vector<string> args2,
-                     const string& msgError);
+// int launchTwoProcess(const string& inFile,
+//                      const string& cmd1, vector<string> args1,
+//                      const string& cmd2, vector<string> args2,
+//                      const string& msgError);
 
-int launchTwoProcessInFile(const string& inFile,
-                           const string& cmd1, vector<string> args1,
-                           const string& cmd2, vector<string> args2,
-                           const string& msgError);
+// int launchTwoProcessInFile(const string& inFile,
+//                            const string& cmd1, vector<string> args1,
+//                            const string& cmd2, vector<string> args2,
+//                            const string& msgError);
 int
 main(int argc, char **argv) {
 
@@ -169,361 +170,361 @@ main(int argc, char **argv) {
   return 0;
 }
 
-char* createCopyChar(const string& arg) {
-  char *ret = new char[arg.size() + 1];
-  ::strcpy(ret, arg.c_str());
-  return ret;
-}
+// char* createCopyChar(const string& arg) {
+//   char *ret = new char[arg.size() + 1];
+//   ::strcpy(ret, arg.c_str());
+//   return ret;
+// }
 
-int launchProcess(const string& cmd,
-                  vector<string> args,
-                  const string& msgError) {
+// int launchProcess(const string& cmd,
+//                   vector<string> args,
+//                   const string& msgError) {
 
-  if (fork() == 0) {
+//   if (fork() == 0) {
 
-    char **cmdArgs = new char*[args.size()+2];
+//     char **cmdArgs = new char*[args.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd);
+//     cmdArgs[0] = createCopyChar(cmd);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args.size(); ++i,++j) {
       
-      cmdArgs[i] = createCopyChar(args[j]);
-    }
+//       cmdArgs[i] = createCopyChar(args[j]);
+//     }
     
-    cmdArgs[i] = NULL;
+//     cmdArgs[i] = NULL;
 
-    execvp(cmdArgs[0], cmdArgs);
+//     execvp(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
     
-    exit(20);
-  }
+//     exit(20);
+//   }
 
-  int status;
-  wait(&status);
+//   int status;
+//   wait(&status);
 
-  if (WIFEXITED(status)) {
-    if (WEXITSTATUS(status) != 0) {
-      cerr << msgError
-           << " status: " << WEXITSTATUS(status)
-           << endl;
-      return WEXITSTATUS(status);
-    }
-    return 0;
-  }
-  return -1;
-}
+//   if (WIFEXITED(status)) {
+//     if (WEXITSTATUS(status) != 0) {
+//       cerr << msgError
+//            << " status: " << WEXITSTATUS(status)
+//            << endl;
+//       return WEXITSTATUS(status);
+//     }
+//     return 0;
+//   }
+//   return -1;
+// }
 
-int launchProcessInFile(const string& inFile,
-                        const string& cmd, vector<string> args,
-                        const string& msgError) {
+// int launchProcessInFile(const string& inFile,
+//                         const string& cmd, vector<string> args,
+//                         const string& msgError) {
 
-  cout << "cmd: " << cmd << " ";
+//   cout << "cmd: " << cmd << " ";
 
-  for (unsigned int i = 0; i < args.size(); ++i) {
-    cout << args[i];
-    if (i + 1 == args.size())  cout << " ";
-  }
+//   for (unsigned int i = 0; i < args.size(); ++i) {
+//     cout << args[i];
+//     if (i + 1 == args.size())  cout << " ";
+//   }
 
-  cout << endl;
+//   cout << endl;
 
-  pid_t pidChild;
+//   pid_t pidChild;
 
-  if ((pidChild = fork()) == 0) { /* First Child */
+//   if ((pidChild = fork()) == 0) { /* First Child */
 
-    char **cmdArgs = new char*[args.size()+2];
+//     char **cmdArgs = new char*[args.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd);
+//     cmdArgs[0] = createCopyChar(cmd);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args.size(); ++i,++j) {
 
-      cmdArgs[i] = createCopyChar(args[j]);
-    }
+//       cmdArgs[i] = createCopyChar(args[j]);
+//     }
 
-    cmdArgs[i] = NULL;
+//     cmdArgs[i] = NULL;
 
-    int fd;
+//     int fd;
 
-    if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
-      cerr << "File: " << inFile << " cannot be opened "
-           << " because " << errno << endl;
-      exit(21);
-    }
+//     if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+//       cerr << "File: " << inFile << " cannot be opened "
+//            << " because " << errno << endl;
+//       exit(21);
+//     }
 
-    ::dup2(fd, STDIN_FILENO);
-    // ::dup2(pipefds[1], STDOUT_FILENO);
+//     ::dup2(fd, STDIN_FILENO);
+//     // ::dup2(pipefds[1], STDOUT_FILENO);
 
-    ::close(fd);
-    // ::close(pipefds[0]);
-    // ::close(pipefds[1]);
+//     ::close(fd);
+//     // ::close(pipefds[0]);
+//     // ::close(pipefds[1]);
 
-    ::execv(cmdArgs[0], cmdArgs);
+//     ::execv(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
-    exit(30);
-  }
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
+//     exit(30);
+//   }
 
-  int statChild;
-  waitpid(pidChild, &statChild, 0);
+//   int statChild;
+//   waitpid(pidChild, &statChild, 0);
 
-  cout << "child end status: " << statChild <<  endl;
+//   cout << "child end status: " << statChild <<  endl;
 
-  if (WIFEXITED(statChild)) {
-    if (WEXITSTATUS(statChild) != 0) {
-      cerr << msgError
-           << " status child: " << WEXITSTATUS(statChild)
-        ;
-    }
-  }
+//   if (WIFEXITED(statChild)) {
+//     if (WEXITSTATUS(statChild) != 0) {
+//       cerr << msgError
+//            << " status child: " << WEXITSTATUS(statChild)
+//         ;
+//     }
+//   }
 
-  return -1;
-}
+//   return -1;
+// }
 
 
-int launchTwoProcessInFile(const string& inFile,
-                           const string& cmd1, vector<string> args1,
-                           const string& cmd2, vector<string> args2,
-                           const string& msgError) {
+// int launchTwoProcessInFile(const string& inFile,
+//                            const string& cmd1, vector<string> args1,
+//                            const string& cmd2, vector<string> args2,
+//                            const string& msgError) {
 
-  cout << "cmd1: " << cmd1 << " ";
-  for (unsigned int i = 0; i < args1.size(); ++i) {
-    cout << args1[i];
-    if (i + 1 == args1.size())  cout << " ";
-  }
-  cout << endl;
+//   cout << "cmd1: " << cmd1 << " ";
+//   for (unsigned int i = 0; i < args1.size(); ++i) {
+//     cout << args1[i];
+//     if (i + 1 == args1.size())  cout << " ";
+//   }
+//   cout << endl;
 
-  cout << "cmd2: " << cmd2 << " ";
-  for (unsigned int i = 0; i < args2.size(); ++i) {
-    cout << args2[i];
-    if (i + 1 != args2.size())  cout << " ";
-  }
-  cout << endl;
+//   cout << "cmd2: " << cmd2 << " ";
+//   for (unsigned int i = 0; i < args2.size(); ++i) {
+//     cout << args2[i];
+//     if (i + 1 != args2.size())  cout << " ";
+//   }
+//   cout << endl;
 
-  int pipefds[2];
+//   int pipefds[2];
 
-  ::pipe(pipefds);
+//   ::pipe(pipefds);
 
-  pid_t pidChild1;
+//   pid_t pidChild1;
 
-  if ((pidChild1 = fork()) == 0) { /* First Child */
+//   if ((pidChild1 = fork()) == 0) { /* First Child */
 
-    char **cmdArgs = new char*[args1.size()+2];
+//     char **cmdArgs = new char*[args1.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd1);
+//     cmdArgs[0] = createCopyChar(cmd1);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args1.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args1.size(); ++i,++j) {
 
-      cmdArgs[i] = createCopyChar(args1[j]);
-    }
+//       cmdArgs[i] = createCopyChar(args1[j]);
+//     }
 
-    cmdArgs[i] = NULL;
+//     cmdArgs[i] = NULL;
 
-    int fd;
+//     int fd;
 
-    if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
-      cerr << "File: " << inFile << " cannot be opened "
-           << " because " << errno << endl;
-      exit(21);
-    }
+//     if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+//       cerr << "File: " << inFile << " cannot be opened "
+//            << " because " << errno << endl;
+//       exit(21);
+//     }
 
-    ::dup2(fd, STDIN_FILENO);
-    ::dup2(pipefds[1], STDOUT_FILENO);
+//     ::dup2(fd, STDIN_FILENO);
+//     ::dup2(pipefds[1], STDOUT_FILENO);
 
-    ::close(fd);
-    ::close(pipefds[0]);
-    ::close(pipefds[1]);
+//     ::close(fd);
+//     ::close(pipefds[0]);
+//     ::close(pipefds[1]);
 
-    ::execv(cmdArgs[0], cmdArgs);
+//     ::execv(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
-    exit(30);
-  }
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
+//     exit(30);
+//   }
 
-  pid_t pidChild2;
+//   pid_t pidChild2;
 
-  if ((pidChild2 = fork()) == 0) { /* Child 2*/
-    char **cmdArgs = new char*[args2.size()+2];
+//   if ((pidChild2 = fork()) == 0) { /* Child 2*/
+//     char **cmdArgs = new char*[args2.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd2);
+//     cmdArgs[0] = createCopyChar(cmd2);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args2.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args2.size(); ++i,++j) {
 
-      cmdArgs[i] = createCopyChar(args2[j]);
-    }
-    cmdArgs[i] = NULL;
+//       cmdArgs[i] = createCopyChar(args2[j]);
+//     }
+//     cmdArgs[i] = NULL;
 
-    ::dup2(pipefds[0], STDIN_FILENO);
+//     ::dup2(pipefds[0], STDIN_FILENO);
 
-    ::close(pipefds[0]);
-    ::close(pipefds[1]);
+//     ::close(pipefds[0]);
+//     ::close(pipefds[1]);
 
-    execvp(cmdArgs[0], cmdArgs);
+//     execvp(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
-    exit(40);
-  }
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
+//     exit(40);
+//   }
 
-  ::close(pipefds[0]);
-  ::close(pipefds[1]);
+//   ::close(pipefds[0]);
+//   ::close(pipefds[1]);
 
-  int statChild1;
-  waitpid(pidChild1, &statChild1, 0);
+//   int statChild1;
+//   waitpid(pidChild1, &statChild1, 0);
 
-  cout << "child1 end status: " << statChild1 <<  endl;
+//   cout << "child1 end status: " << statChild1 <<  endl;
 
-  if (WIFEXITED(statChild1)) {
-    if (WEXITSTATUS(statChild1) != 0) {
-      cerr << msgError
-           << " status child 1: " << WEXITSTATUS(statChild1)
-           << endl;
-    }
-  }
+//   if (WIFEXITED(statChild1)) {
+//     if (WEXITSTATUS(statChild1) != 0) {
+//       cerr << msgError
+//            << " status child 1: " << WEXITSTATUS(statChild1)
+//            << endl;
+//     }
+//   }
 
-  int statChild2;
+//   int statChild2;
 
-  waitpid(pidChild2, &statChild2, 0);
+//   waitpid(pidChild2, &statChild2, 0);
 
-  cout << "child2 end status: " << statChild2 << endl;
+//   cout << "child2 end status: " << statChild2 << endl;
 
-  if (WIFEXITED(statChild2)) {
-    if (WEXITSTATUS(statChild2) != 0) {
-      cerr << msgError
-           << " status child 2: " << WEXITSTATUS(statChild2)
-           << endl;
-      return WEXITSTATUS(statChild2);
-    }
-    return WEXITSTATUS(statChild2);
-  }
-  return -1;
-}
+//   if (WIFEXITED(statChild2)) {
+//     if (WEXITSTATUS(statChild2) != 0) {
+//       cerr << msgError
+//            << " status child 2: " << WEXITSTATUS(statChild2)
+//            << endl;
+//       return WEXITSTATUS(statChild2);
+//     }
+//     return WEXITSTATUS(statChild2);
+//   }
+//   return -1;
+// }
 
-int launchTwoProcess(const string& cmd1, vector<string> args1,
-                     const string& cmd2, vector<string> args2,
-                     const string& msgError) {
+// int launchTwoProcess(const string& cmd1, vector<string> args1,
+//                      const string& cmd2, vector<string> args2,
+//                      const string& msgError) {
 
-  cout << "cmd1: " << cmd1 << " ";
-  for (unsigned int i = 0; i < args1.size(); ++i) {
-    cout << args1[i];
-    if (i + 1 == args1.size())  cout << " ";
-  }
-  cout << endl;
+//   cout << "cmd1: " << cmd1 << " ";
+//   for (unsigned int i = 0; i < args1.size(); ++i) {
+//     cout << args1[i];
+//     if (i + 1 == args1.size())  cout << " ";
+//   }
+//   cout << endl;
 
-  cout << "cmd2: " << cmd2 << " ";
-  for (unsigned int i = 0; i < args2.size(); ++i) {
-    cout << args2[i];
-    if (i + 1 != args2.size())  cout << " ";
-  }
-  cout << endl;
+//   cout << "cmd2: " << cmd2 << " ";
+//   for (unsigned int i = 0; i < args2.size(); ++i) {
+//     cout << args2[i];
+//     if (i + 1 != args2.size())  cout << " ";
+//   }
+//   cout << endl;
 
-  int pipefds[2];
+//   int pipefds[2];
 
-  ::pipe(pipefds);
+//   ::pipe(pipefds);
 
-  pid_t pidChild1;
+//   pid_t pidChild1;
 
-  if ((pidChild1 = fork()) == 0) { /* First Child */
+//   if ((pidChild1 = fork()) == 0) { /* First Child */
 
-    char **cmdArgs = new char*[args1.size()+2];
+//     char **cmdArgs = new char*[args1.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd1);
+//     cmdArgs[0] = createCopyChar(cmd1);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args1.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args1.size(); ++i,++j) {
 
-      cmdArgs[i] = createCopyChar(args1[j]);
-    }
+//       cmdArgs[i] = createCopyChar(args1[j]);
+//     }
 
-    cmdArgs[i] = NULL;
+//     cmdArgs[i] = NULL;
 
-    // int fd;
+//     // int fd;
 
-    // if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
-    //   cerr << "File: " << inFile << " cannot be opened "
-    //        << " because " << errno << endl;
-    //   exit(21);
-    // }
+//     // if ((fd = open(inFile.c_str(), O_RDONLY)) == -1) {
+//     //   cerr << "File: " << inFile << " cannot be opened "
+//     //        << " because " << errno << endl;
+//     //   exit(21);
+//     // }
 
-    // ::dup2(fd, STDIN_FILENO);
-    ::dup2(pipefds[1], STDOUT_FILENO);
+//     // ::dup2(fd, STDIN_FILENO);
+//     ::dup2(pipefds[1], STDOUT_FILENO);
 
-    // ::close(fd);
-    ::close(pipefds[0]);
-    ::close(pipefds[1]);
+//     // ::close(fd);
+//     ::close(pipefds[0]);
+//     ::close(pipefds[1]);
 
-    ::execv(cmdArgs[0], cmdArgs);
+//     ::execv(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
-    exit(30);
-  }
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
+//     exit(30);
+//   }
 
-  pid_t pidChild2;
+//   pid_t pidChild2;
 
-  if ((pidChild2 = fork()) == 0) { /* Child 2*/
-    char **cmdArgs = new char*[args2.size()+2];
+//   if ((pidChild2 = fork()) == 0) { /* Child 2*/
+//     char **cmdArgs = new char*[args2.size()+2];
 
-    cmdArgs[0] = createCopyChar(cmd2);
+//     cmdArgs[0] = createCopyChar(cmd2);
 
-    unsigned int i = 1;
-    for (unsigned int j = 0; j < args2.size(); ++i,++j) {
+//     unsigned int i = 1;
+//     for (unsigned int j = 0; j < args2.size(); ++i,++j) {
 
-      cmdArgs[i] = createCopyChar(args2[j]);
-    }
-    cmdArgs[i] = NULL;
+//       cmdArgs[i] = createCopyChar(args2[j]);
+//     }
+//     cmdArgs[i] = NULL;
 
-    ::dup2(pipefds[0], STDIN_FILENO);
+//     ::dup2(pipefds[0], STDIN_FILENO);
 
-    ::close(pipefds[0]);
-    ::close(pipefds[1]);
+//     ::close(pipefds[0]);
+//     ::close(pipefds[1]);
 
-    execvp(cmdArgs[0], cmdArgs);
+//     execvp(cmdArgs[0], cmdArgs);
 
-    cerr << "This cannot happen here because: " << errno
-         << " " << strerror(errno) << endl;
-    exit(40);
-  }
+//     cerr << "This cannot happen here because: " << errno
+//          << " " << strerror(errno) << endl;
+//     exit(40);
+//   }
 
-  ::close(pipefds[0]);
-  ::close(pipefds[1]);
+//   ::close(pipefds[0]);
+//   ::close(pipefds[1]);
 
-  int statChild1;
-  waitpid(pidChild1, &statChild1, 0);
+//   int statChild1;
+//   waitpid(pidChild1, &statChild1, 0);
 
-  cout << "child1 end status: " << statChild1 <<  endl;
+//   cout << "child1 end status: " << statChild1 <<  endl;
 
-  if (WIFEXITED(statChild1)) {
-    if (WEXITSTATUS(statChild1) != 0) {
-      cerr << msgError
-           << " status child 1: " << WEXITSTATUS(statChild1)
-           << endl;
-    }
-  }
+//   if (WIFEXITED(statChild1)) {
+//     if (WEXITSTATUS(statChild1) != 0) {
+//       cerr << msgError
+//            << " status child 1: " << WEXITSTATUS(statChild1)
+//            << endl;
+//     }
+//   }
 
-  int statChild2;
+//   int statChild2;
 
-  waitpid(pidChild2, &statChild2, 0);
+//   waitpid(pidChild2, &statChild2, 0);
 
-  cout << "child2 end status: " << statChild2 << endl;
+//   cout << "child2 end status: " << statChild2 << endl;
 
-  if (WIFEXITED(statChild2)) {
-    if (WEXITSTATUS(statChild2) != 0) {
-      cerr << msgError
-           << " status child 2: " << WEXITSTATUS(statChild2)
-           << endl;
-      return WEXITSTATUS(statChild2);
-    }
-    return WEXITSTATUS(statChild2);
-  }
-  return -1;
-}
+//   if (WIFEXITED(statChild2)) {
+//     if (WEXITSTATUS(statChild2) != 0) {
+//       cerr << msgError
+//            << " status child 2: " << WEXITSTATUS(statChild2)
+//            << endl;
+//       return WEXITSTATUS(statChild2);
+//     }
+//     return WEXITSTATUS(statChild2);
+//   }
+//   return -1;
+// }
 
 bool existsFile(const string& file) {
   struct stat statBuffer;

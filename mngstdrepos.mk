@@ -16,7 +16,12 @@ eafitCVSInfo2StdInfo: eafitCVSInfo2StdInfo.o
 
 eafitCVSInfo2StdInfo.o: eafitCVSInfo2StdInfo.cpp
 
-evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o
+procesarMosaicoEstudiantesCrudo: procesarMosaicoEstudiantesCrudo.o process.o
+	$(CXX) -o $@ $^
+
+procesarMosaicoEstudiantesCrudo.o: procesarMosaicoEstudiantesCrudo.cpp process.h
+
+evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o process.o
 	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
 
 evalStdRepos.o: evalStdRepos.cpp stdreposutils.h stdinfo.h
@@ -25,6 +30,8 @@ printEvalUnit: printEvalUnit.o stdreposutils.o stdinfo.o
 	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
 
 printEvalUnit.o: printEvalUnit.cpp stdreposutils.h
+
+process.o: process.cpp process.h
 
 printYamlFile: printYamlFile.o
 	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
