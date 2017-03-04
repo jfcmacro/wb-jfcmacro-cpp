@@ -33,6 +33,9 @@ printYamlFile: printYamlFile.o
 fromClipBoard2StdInfo: fromClipBoard2StdInfo.o process.o
 	$(CXX) -o $@ $^
 
+testProcess: testProcess.o process.o
+	$(CXX) -o $@ $^
+
 getStdRepos.o: getStdRepos.cpp stdinfo.h stdreposutils.h
 
 stdreposutils.o: stdreposutils.cpp stdreposutils.h

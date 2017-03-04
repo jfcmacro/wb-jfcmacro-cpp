@@ -727,3 +727,7 @@ int launchTwoProcess(const string& cmd1, vector<string> args1,
 //   delete []currentDirName;
 //   return *strCurrentDirName;
 // }
+
+
+PipelineProcess::PipelineProcess(vector<ProgramInfo> programInfo) :
+  programInfo(programInfo) { }

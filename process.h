@@ -19,6 +19,13 @@ private:
   vector<string> args;
 };
 
+class PipelineProcess {
+ public:
+  PipelineProcess(vector<ProgramInfo> programInfo);
+ private:
+  vector<ProgramInfo> programInfo;
+};
+
 /* class ChainedProcessInfo { */
 /*  public: */
 /*   /\* ChainedProcessInfo(string& inFileName, string& outFileName); *\/ */
