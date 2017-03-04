@@ -7,10 +7,28 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <regex>
 
 ProgramInfo::ProgramInfo(string cmd,
                          vector<string> args) :
   cmd(cmd), args(args) {
+}
+
+ProgramInfo::ProgramInfo(string cmd) : cmd(), args() {
+  smatch m;
+  regex e("([^ ]*)");
+
+  bool first = true;
+  while (regex_search(cmd,m,e)) {
+    if (first) {
+      this->cmd = m[0];
+      first = false;
+    }
+    else {
+      this->args.push_back(m[0]);
+    }
+    cmd = m.suffix().str();
+  }
 }
 
 ProgramInfo::~ProgramInfo() {

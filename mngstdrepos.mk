@@ -1,4 +1,6 @@
-all: getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile printEvalUnit
+EXECS=getStdRepos eafitCVSInfo2StdInfo evalStdRepos printYamlFile printEvalUnit fromClipBoard2StdInfo testProcess
+
+all: $(EXECS)
 
 CXXFLAGS=-Wall -std=c++11
 
@@ -16,10 +18,10 @@ eafitCVSInfo2StdInfo: eafitCVSInfo2StdInfo.o
 
 eafitCVSInfo2StdInfo.o: eafitCVSInfo2StdInfo.cpp
 
-procesarMosaicoEstudiantesCrudo: procesarMosaicoEstudiantesCrudo.o process.o
+fromClipBoard2StdInfo: fromClipBoard2StdInfo.o process.o
 	$(CXX) -o $@ $^
 
-procesarMosaicoEstudiantesCrudo.o: procesarMosaicoEstudiantesCrudo.cpp process.h
+fromClipBoard2StdInfo.o: fromClipBoard2StdInfo.cpp process.h
 
 evalStdRepos: evalStdRepos.o stdreposutils.o stdinfo.o process.o
 	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
@@ -36,8 +38,14 @@ process.o: process.cpp process.h
 printYamlFile: printYamlFile.o
 	$(CXX) -o $@ $^ -lyaml-cpp -L/usr/local/lib
 
+testProcess: testProcess.o process.o
+	$(CXX) -o $@ $^
+
+testProcess.o: testProcess.cpp
+
 printYamlFile.o: printYamlFile.cpp
 clean:
 	rm -f getStdRepos.o eafitCVSInfo2StdInfo.o stdinfo.o stdreposutils.o evalStdRepos.o printYamlFile.o
+	rm -f fromClipBoard2StdInfo.o
 	rm -f traerRepositorio eafitCVSInfo2StdInfo evalStdRepos evalStdRepos3 printYamlFile
-	rm -f printEvalUnit
+	rm -f printEvalUnit fromClipBoard2StdInfo

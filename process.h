@@ -8,6 +8,7 @@ class  ProgramInfo {
 public:
   ProgramInfo(string cmd,
               vector<string> args);
+  ProgramInfo(string cmd);
   ~ProgramInfo();
   string getCmd() const;
   vector<string> getArgs() const;
