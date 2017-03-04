@@ -16,7 +16,7 @@ ProgramInfo::ProgramInfo(string cmd,
 
 ProgramInfo::ProgramInfo(string cmd) : cmd(), args() {
   smatch m;
-  regex e("([^ ]*)");
+  regex e("");
 
   bool first = true;
   while (regex_search(cmd,m,e)) {
