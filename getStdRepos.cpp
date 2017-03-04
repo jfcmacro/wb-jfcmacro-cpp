@@ -34,7 +34,7 @@ main(int argc, char **argv) {
   int iniFich;
   Options options;
 
-  iniFich = procesarOptiones(options, argc, argv);
+  iniFich = procesarOpciones(options, argc, argv);
 
   if (iniFich == argc) {
     usage(argv[0]);

@@ -197,7 +197,7 @@ int remove_directory(const char *path)
   return r;
 }
 
-int procesarOptiones(Options& options, int argc, char **argv) {
+int procesarOpciones(Options& options, int argc, char **argv) {
   int c;
   // int digit_optind = 0;
 

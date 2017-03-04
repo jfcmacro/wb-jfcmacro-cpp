@@ -116,7 +116,7 @@ void createAndCopy(const string& src, char **address);
 bool obtenerEstudiantes(map <string,Estudiante>& codEst,
 			const char* estudiantesfichero);
 
-int procesarOptiones(Options& options, int argc, char **argv);
+int procesarOpciones(Options& options, int argc, char **argv);
 
 int parseOptions2(Options2& options, int argc, char **argv);
 
