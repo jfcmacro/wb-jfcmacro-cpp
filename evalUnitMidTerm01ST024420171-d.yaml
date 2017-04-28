@@ -1,0 +1,51 @@
+id: 'parciales'
+name: 'parcial01'
+directory: '/home/jfcmacro/Workarea/eafit-st0244/parciales/parcial01/ST0244-2017-1-030-033-034/a'
+elements:
+  - id: '1'
+    name: 'punto01'
+    value: 0.25
+    srcfile: ['a.drv', 'b.drv']
+    compile: 'de3lang -g'
+  - id: '2'
+    name: 'punto02'
+    value: 0.25
+    compile: 'de3lang -d'
+    srcfile: ['a.drv', 'b.drv']
+  - id: '3a'
+    name: 'punto03'
+    value: 0.12
+    compile: 'de3lang -d'
+    srcfile: ['primera.drv', 'segunda.drv']
+  - id: '3b'
+    name: 'punto03'
+    value: 0.13
+    compile: 'de3lang -t'
+    srcfile: ['primera.tr', 'segunda.tr']
+  - id: '4'
+    name: 'punto04'
+    value: 0.30
+    compile: 'de3lang -t'
+    srcfile: ['calc.ewe']
+    tests:
+      - infile: 'calc01.in'
+        outfile: 'calc01.out'
+        command: 'ewe calc.ewe'
+        diff: 'diff'
+      - infile: 'calc02.in'
+        outfile: 'calc02.in'
+        command: 'ewe calc.ewe'
+        diff: 'diff'
+      - infile: 'calc03.in'
+        outfile: 'calc03.in'
+        command: 'ewe calc.ewe'
+        diff: 'diff'
+      - infile: 'calc04.in'
+        outfile: 'calc04.in'
+        command: 'ewe calc.ewe'
+        diff: 'diff'
+      - infile: 'calc05.in'
+        outfile: 'calc05.in'
+        command: 'ewe calc.ewe'
+        diff: 'diff'
+        

@@ -34,25 +34,26 @@
 using namespace std;
 
 struct Options {
-  string workdir;
-  string reposdir;
-  string timestamp;
-  string username;
-  vector<string> stdlst;
-  bool resumen;
-  Options(string& workdir, string& reposdir, string& timestamp,
-	  string& username);
+  string workdir;        // Workdir where the repos will be lay down
+  string reposdir;       // Name of the repository into Workdir
+  string timestamp;      // Time and hour to get the repository
+  string reposubdir;     // Subdirectorio belong to the repository
+  string username;       // Username to get repositoryw
+  vector<string> stdlst; // List of students ids
+  bool resumen;          // Enable to show this resumen
+  Options(string& workdir, string& reposdir, 
+          string& timestamp, string& reposubdir,
+          string& username);
   Options();
 };
 
 struct Options2 {
-  string workdir;
-  string reposdir;
-  string username;
-  string evalUnitFile;
-  vector<string> stdlst;
-  bool resumen;
-  Options2(string& workdir, string& reposdir, string& username, string& evalUnitFile);
+  string workdir;          // Workdir where the repos will be lay down
+  string reposdir;         // Name of the repository into Workdir
+  string evalUnitFile;     // Eval Unit File that describe the compilantio and execution
+  vector<string> stdlst;   // Students Ids,
+  bool resumen;            // Enable resume
+  Options2(string& workdir, string& reposdir, string& evalUnitFile);
   Options2();
 };
 

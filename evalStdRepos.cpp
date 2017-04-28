@@ -97,7 +97,6 @@ main(int argc, char **argv) {
     }
 
     cout  << endl
-          << "--username: " << options.username << endl
           << "filename: " << argv[optind] << endl;
   }
 

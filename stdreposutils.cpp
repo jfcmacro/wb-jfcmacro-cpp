@@ -8,6 +8,7 @@
  * purpose:
  *
  * History of modifications:
+ * 2017-03-22 - Updating options
  * 2016-06-01 - Start of modifications.
  */
 #include "stdreposutils.h"
@@ -108,29 +109,36 @@ const string TIMESTAMP = ::getenv("TIMESTAMP") ?
 const string USERNAME = ::getenv("SVNUSERNAME") ?
   ::getenv("SVNUSERNAME")
   : "fcardona";
+const string REPOSUBDIR = ::getenv("REPOSUBDIR") ?
+  ::getenv("REPOSUBDIR")
+  : "";
 
-
-Options::Options(string& workdir, string& reposdir, string& timestamp,
-          string& username) :
-    workdir(workdir), reposdir(reposdir),
-    timestamp(timestamp), username(username),
-    resumen(false) { }
+Options::Options(string& workdir, string& reposdir,
+                 string& timestamp, string& reposubdir,
+                 string& username) :
+  workdir(workdir),
+  reposdir(reposdir),
+  timestamp(timestamp),
+  reposubdir(reposubdir),
+  username(username),
+  resumen(false) { }
 
 Options::Options() :
     workdir(WORKDIR), reposdir(REPOSDIR),
-    timestamp(TIMESTAMP), username(USERNAME),
+    timestamp(TIMESTAMP), reposubdir(REPOSUBDIR),
+    username(USERNAME),
     resumen(false) { }
 
 Options2::Options2(string& workdir, string& reposdir,
-                   string& username, string& evalUnitFile)
+                   string& evalUnitFile)
   :
   workdir(workdir), reposdir(reposdir),
-  username(username), evalUnitFile(evalUnitFile),
+  evalUnitFile(evalUnitFile),
   resumen(false) { }
 
 Options2::Options2() :
     workdir(WORKDIR), reposdir(REPOSDIR),
-    username(USERNAME), evalUnitFile(),
+    evalUnitFile(),
     resumen(false) { }
 
 // This was taken from
@@ -206,13 +214,14 @@ int procesarOpciones(Options& options, int argc, char **argv) {
     int option_index = 0;
 
     static struct option long_options[] = {
-      {"workdir",   required_argument, 0, 0},
-      {"reposdir",  required_argument, 0, 0},
-      {"timestamp", required_argument, 0, 0},
-      {"username",  required_argument, 0, 0},
-      {"stdlst",    required_argument, 0, 0},
-      {"resumen",   no_argument,       0, 0},
-      {0,           0,                 0, 0}
+      {"workdir",    required_argument, 0, 0},
+      {"reposdir",   required_argument, 0, 0},
+      {"timestamp",  required_argument, 0, 0},
+      {"username",   required_argument, 0, 0},
+      {"stdlst",     required_argument, 0, 0},
+      {"resumen",    no_argument,       0, 0},
+      {"reposubdir", required_argument, 0, 0},
+      {0,            0,                 0, 0}
     };
 
     c = getopt_long(argc, argv, "",
@@ -256,6 +265,10 @@ int procesarOpciones(Options& options, int argc, char **argv) {
       case 5:
         options.resumen = true;
         break;
+
+      case 6:
+        options.reposubdir = optarg;
+        break;
       }
       break;
 
@@ -282,7 +295,6 @@ int parseOptions2(Options2& options, int argc, char **argv) {
     static struct option long_options[] = {
       {"workdir",      required_argument, 0, 0},
       {"reposdir",     required_argument, 0, 0},
-      {"username",     required_argument, 0, 0},
       {"evalunitfile", required_argument, 0, 0},
       {"stdlst",       required_argument, 0, 0},
       {"resumen",      no_argument,       0, 0},
@@ -306,14 +318,10 @@ int parseOptions2(Options2& options, int argc, char **argv) {
         break;
 
       case 2:
-        options.username = optarg;
-        break;
-
-      case 3:
         options.evalUnitFile = optarg;
         break;
 
-      case 4:
+      case 3:
         {
           char *buffer = new char[::strlen(optarg)+1];
           ::strcpy(buffer,optarg);
@@ -328,7 +336,7 @@ int parseOptions2(Options2& options, int argc, char **argv) {
         }
         break;
 
-      case 5:
+      case 4:
         options.resumen = true;
         break;
       }

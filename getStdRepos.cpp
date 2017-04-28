@@ -20,6 +20,7 @@ static void usage(const char* progname) {
        << "[--reposdir[=]arg]" << endl
        << "[--timestamp[=]arg]" << endl
        << "[--username[=]arg]" << endl
+       << "[--reposubdir[=]arg]" << endl
        << "[--stdlst[=]stdcode[,stdcode]..." << endl
        << "[--resumen] <file>" << endl;
   ::exit(1);
@@ -41,15 +42,19 @@ main(int argc, char **argv) {
   }
 
   if (options.resumen) {
-    cout << "--workdir: " << options.workdir << endl
-         << "--reposdir: " << options.reposdir << endl
-         << "--timestamp: " << options.timestamp << endl
-         << "--stdlst: " << endl;
+    cout << "--workdir: "    << options.workdir << endl
+         << "--reposdir: "   << options.reposdir << endl
+         << "--timestamp: "  << options.timestamp << endl
+         << "--reposubdir: " << options.reposubdir << endl
+         << "--stdlst: "     << endl;
+    
     for (vector<string>::iterator it = options.stdlst.begin();
          it != options.stdlst.end();
          ++it) {
+      
       cout << *it << ",";
     }
+    
     cout  << endl
           << "--username: " << options.username << endl
           << "filename: " << argv[optind] << endl;
@@ -119,6 +124,10 @@ void studentProcess(const string& stdId,
 
   string allname("https://svn.riouxsvn.com/");
   allname += stdInfo.obtenerRepo();
+
+  if (options.reposubdir.size() != 0) {
+    allname += "/" + options.reposubdir + "/"; 
+  }
 
   if (fork() == 0) { /* child */
 
