@@ -1,0 +1,879 @@
+id: ''
+name: 'cppcalc'
+directory: '/home/jfcmacro/Workarea/eafit-st0244/practicas/practica01/ST0244-2017-1-030-033-034-Practica-01-Impl/examples'
+elements:
+  - id: '1'
+    name: ''
+    value: 5.0
+    srcfile: ['calc.cpp']
+    compile: 'make'
+    tests:
+# grupo 01 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0101.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0201.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0301.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0401.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0501.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0601.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0701.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0801.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0901.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1001.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1101.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1201.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1301.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1401.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1501.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1601.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1701.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1801.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1901.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2001.out'
+        redirect: true
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 02 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0102.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0202.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0302.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0402.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0502.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0502.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0602.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0702.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0802.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0802.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0902.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1002.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1102.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1202.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1302.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1402.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1502.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1602.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1702.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1802.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1902.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2002.out'
+        redirect: true
+        args: ['-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 03 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0103.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0203.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0303.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0403.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0503.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0603.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0703.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0803.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0903.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1003.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1103.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1203.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1303.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1403.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1503.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1603.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1703.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1803.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1903.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2903.out'
+        redirect: false
+        args: ['-p', '5']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 04 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0104.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0204.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0304.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0404.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0504.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0604.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0704.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0804.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0904.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1004.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1104.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1204.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1304.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1404.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1504.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1604.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1704.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1804.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1904.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2004.out'
+        redirect: false
+        args: ['expresion01.expr', 'expresion02.expr', 'expresion03.expr']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 05 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0105.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0205.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0305.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0405.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0505.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0605.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0705.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0805.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0805.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0905.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1005.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1105.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1205.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1305.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1405.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1505.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1605.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1705.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1805.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1905.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2005.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 06 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0106.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0206.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0306.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0402.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0506.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0506.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0606.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0706.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0806.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0806.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0906.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1006.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1106.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1206.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1306.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1406.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1506.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1606.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1706.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1806.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1906.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2006.out'
+        redirect: true
+        args: ['-p', '8', '-v', 'value1=10.02;', '-v', 'value2=32.23;', '-v', 'value3=30.23;', '-v', 'value4=23.21;', '-v', 'value0=23.2;', 'expresion10.expr']
+        command: './cppcalc'
+        diff: 'diff'
+# grupo 07 de pruebas
+      - infile: 'expresion01.expr'
+        outfile: 'expresion0107.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion02.expr'
+        outfile: 'expresion0207.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion03.expr'
+        outfile: 'expresion0307.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion04.expr'
+        outfile: 'expresion0407.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0507.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion05.expr'
+        outfile: 'expresion0507.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion06.expr'
+        outfile: 'expresion0607.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion07.expr'
+        outfile: 'expresion0707.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0807.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion08.expr'
+        outfile: 'expresion0807.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion09.expr'
+        outfile: 'expresion0907.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion10.expr'
+        outfile: 'expresion1007.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion11.expr'
+        outfile: 'expresion1107.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion12.expr'
+        outfile: 'expresion1207.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion13.expr'
+        outfile: 'expresion1307.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion14.expr'
+        outfile: 'expresion1407.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion15.expr'
+        outfile: 'expresion1507.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion16.expr'
+        outfile: 'expresion1607.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion17.expr'
+        outfile: 'expresion1707.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion18.expr'
+        outfile: 'expresion1807.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion19.expr'
+        outfile: 'expresion1907.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
+      - infile: 'expresion20.expr'
+        outfile: 'expresion2007.out'
+        redirect: true
+        args: ['-p', '6', '-v', 'value1=12.92;', '-v', 'value2=348.23;', '-v', 'value3=30.23;', '-v', 'value4=982.12;', '-v', 'value0=23.2;', '-s']
+        command: './cppcalc'
+        diff: 'diff'
