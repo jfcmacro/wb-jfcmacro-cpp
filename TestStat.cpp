@@ -5,8 +5,6 @@
 #include <cstdlib>
 #include <iostream>
 
-
-
 static
 void usage(const char* progname) {
   std::cerr << "Usage: " << progname << " filename ..." << std::endl;
@@ -31,7 +29,7 @@ main(int argc, char *argv[]) {
         break;
       case ENOENT:
         std::cerr << "filename: " << argv[i]
-                  << " pathname doesn't exits " << std::endl;
+                  << " pathname doesn't exist " << std::endl;
         break;
       case ENOTDIR:
         std::cerr << "filename: " << argv[i]
