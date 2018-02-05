@@ -11,6 +11,7 @@ main(void) {
   if (child == 0) {
     execl("/usr/bin/gnome-terminal",
           "gnome-terminal",
+          "--full-screen",
           "--window-with-profile",
           "Desarrollo Programas",
           NULL);
