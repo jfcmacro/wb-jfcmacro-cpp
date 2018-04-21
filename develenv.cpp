@@ -54,11 +54,11 @@ bool existTmuxSession(const char* sname) {
 
     if (fgets(p, BUFFER_SIZE, pIn) == NULL) break;
 
-    std::cout << p << std::endl;
+    // std::cout << p << std::endl;
     
     sscanf(p, "%s", pFirst);
 
-    std::cout << "pFirst: " << pFirst << std::endl;
+    // std::cout << "pFirst: " << pFirst << std::endl;
     
     if (::strcmp(pFirst, sname) == 0) return true;
   } while (true);
