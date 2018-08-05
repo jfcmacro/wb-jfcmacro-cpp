@@ -1,0 +1,29 @@
+201710043010|Ricardo Andres Avendaño Peña en la mesa: f1c1-a
+201710047010|Alejandro Cano Munera en la mesa: f4c3-a
+201710151010|Jhoan Stiven Cardona Galeano en la mesa: f2c6-d
+201710011010|María Paula Chaparro Muñoz en la mesa: f1c4-d
+201710119010|Jamerson Stive Correa Correa en la mesa: f4c5-c
+201710015010|Felipe Cortes Jaramillo en la mesa: f3c5-a
+201729422010|Juan Jose Duque Rendon en la mesa: f3c1-a
+201710099010|Santiago Escobar Mejia en la mesa: f1c2-b
+201626750010|Susana Londoño Muñoz en la mesa: f4c6-d
+201710061010|Santiago Machado Ceballos en la mesa: f4c2-d
+201710054010|Daniel Alejandro Mesa Arango en la mesa: f2c5-a
+201710029010|Willinton Muñoz Espinal en la mesa: f2c4-b
+201627502010|Luis Fernando Posada Cespedes en la mesa: f3c3-c
+201710028010|Juan Felipe Ramírez Ramírez en la mesa: f2c3-a
+201710074010|Luis Carlos Rodriguez Zuñiga en la mesa: f1c5-a
+201710143010|Andres Sanchez Castrillon en la mesa: f4c1-c
+201710076010|Laura Sanchez Cordob en la mesa: f3c4-d
+201710063010|Santiago Soto Marulanda en la mesa: f3c2-b
+201710012010|Rafael Villegas Michel en la mesa: f1c3-c
+201717515010|Santiago Arturo Zapata Chacón en la mesa: f2c1-c
+
+Assigned students: 20 20
+
+Remain tables: 24 4
+
+f1c6-b
+f2c2-d
+f3c6-b
+f4c4-b
