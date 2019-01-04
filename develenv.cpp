@@ -63,7 +63,7 @@ main(void) {
 	      XFCE_TERMINAL,
 	      XFCE_FULL_SCREEN_OPTION,
 	      "--command=tmux",
-	      "--font=\"Monospace Regular 12\"",
+	      // "--font=\"Monospace Regular 12\"",
 	      NULL);
       }
       exit(1);
