@@ -8,4 +8,4 @@ reader-writer.o: reader-writer.cpp
 	${CXX} -c $< 
 
 clean:
-	rm -f reader-writer *.o *.*~
+	rm -f reader-writer *.o *.*~ *~
