@@ -18,4 +18,4 @@ minimalWithoutTable.o: minimalWithoutTable.cpp mondrian.xpm
 	$(CXX) $(CXXFLAGS) -c $< 
 
 clean:
-	rm -f *.o minimal
+	rm -f *.o minimal minimalWithoutTable
