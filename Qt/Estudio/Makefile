@@ -1,11 +1,13 @@
-CXXFLAGS = -I $(QTDIR)/include 
-LDFLAGS  = -L $(QTDIR)/lib -lqt 
+QTDIR=/usr/include/qt5/QtWidgets
+QTLIB=/usr/
+
+CXXFLAGS = -I $(QTDIR) -I $(QTDIR)/.. -I $(QTDIR)/../QtGui
+LDFLAGS  = -L $(QTLIB)/lib -lqt 
 
 all: t8 hello
 
 t8: main.o cannon.o lcdrange.o
 	g++ -o $@ main.o cannon.o lcdrange.o $(LDFLAGS)
 
-
-hello: hello.cpp
+Hello: Hello.o
 	g++ -o $@ $< $(LDFLAGS)
