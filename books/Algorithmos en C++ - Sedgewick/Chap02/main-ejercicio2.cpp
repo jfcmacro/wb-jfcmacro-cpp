@@ -12,9 +12,12 @@ main() {
 			  ' ' <<
 			  y <<
 			  ' ' <<
-			  mcd(x,y) <<
-			  std::endl;
-
+			  mcd(x,y,true, [](int a, int b) -> void {
+			    std::cout << "a: " << a
+				      << "b: " << b
+				      << std::endl;
+			    return;
+			  });
   return EXIT_SUCCESS;
 }
 			 

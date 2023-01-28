@@ -1,5 +1,5 @@
 #pragma once
+#include <functional>
 
 int mcd(int u, int v);
-template <typename F>
-int mcd(int u, int v, bool mod, F fun);
+int mcd(int u, int v, bool mod, std::function<void(int,int)> func);
