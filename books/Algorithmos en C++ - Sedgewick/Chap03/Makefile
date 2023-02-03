@@ -16,4 +16,4 @@ node.o: node.cpp node.h
 
 clean:
 	rm -f *.o *.*~ *~
-	rm eratostenes
+	rm ${EXEC}

@@ -25,6 +25,7 @@ main(int argc, char* argv[]) {
     std::cout << head->nxt << " ";
     head->nxt = aux->nxt;
     delete aux;
+    aux = head->nxt;
   }
   std::cout << head->key << std::endl;
 }
