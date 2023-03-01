@@ -184,4 +184,3 @@ diffDirAction(fs::path srcDir,
 		  dDir);
   }
 }
-
