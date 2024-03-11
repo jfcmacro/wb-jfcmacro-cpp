@@ -10,7 +10,7 @@ main(int argc, char *argv[]) {
     std::cerr << "Usage: " << argv[0] << " <message> " << std::endl;
     ::exit(EXIT_FAILURE);
   }
-  
+
   const char *message = argv[1];
   ::git_libgit2_init();
   ::git_repository *repo = nullptr;
@@ -160,7 +160,7 @@ main(int argc, char *argv[]) {
                          "UTF-8",
                          message,
                          tree) < GIT_OK) {
-    std::cerr << "Could amend last commit" << std::endl;
+    std::cerr << "Couldn't amend last commit" << std::endl;
     ::git_libgit2_shutdown();
     ::exit(EXIT_FAILURE);
   }
