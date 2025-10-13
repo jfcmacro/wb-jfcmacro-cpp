@@ -2,12 +2,13 @@
 #include <iostream>
 #include <unistd.h>
 
-using namespace std;
+// using namespace std;
 
 struct Data {
-  string test;
-  string value;
+  std::string test;
+  std::string value;
 };
+
 int
 main(int argc, char *argv[]) {
 
@@ -26,9 +27,14 @@ main(int argc, char *argv[]) {
     }
   }
  
-  cout << "data test: " << data.test
-       << " data value: " << data.value
-       << endl;
+  std::cout << "data test: " << data.test
+	    << " data value: " << data.value
+	    << std::endl;
+
+  std::string desktop {::getenv("XDG_CURRENT_DESKTOP")};
+  std::cout << "desktop: " << desktop << std::endl;
+
+  std::cout << "${desktop}==GNOME}=" << (desktop == "GNOME") << std::endl;
 
   return 0;
 }

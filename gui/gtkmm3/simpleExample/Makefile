@@ -2,7 +2,7 @@
 
 all: simple
 
-CXXFLAGS=`pkg-config gtkmm-3.0 --cflags` -std=c++11
+CXXFLAGS=`pkg-config gtkmm-3.0 --cflags` -std=c++17
 LDFLAGS=`pkg-config gtkmm-3.0 --libs`
 
 simple: base.o 
