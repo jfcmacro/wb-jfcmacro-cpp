@@ -1,0 +1,10 @@
+user:
+  name: John Doe
+  age: 30
+numbers:
+  - 10
+  - 20
+  - 30
+items:
+  - Apple
+  - Banana
